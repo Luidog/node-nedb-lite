@@ -6110,11 +6110,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
     'use strict';
 
-    exports.__esModule = true;
-
-    (function () {
-        'use strict';
-
         var LibraryMethods = ['clear', 'getItem', 'iterate', 'key', 'keys', 'length', 'removeItem', 'setItem'];
 
         var DefaultConfig = {
@@ -6306,11 +6301,7 @@ return /******/ (function(modules) { // webpackBootstrap
             return LocalForage;
         })();
 
-        var localForage = new LocalForage();
-
-        exports['default'] = localForage;
-    }).call(typeof window !== 'undefined' ? window : self);
-    module.exports = exports['default'];
+        var localForage = module.exports = new LocalForage();
 
 /***/ },
 /* 1 */
@@ -6319,19 +6310,6 @@ return /******/ (function(modules) { // webpackBootstrap
     // Some code originally from async_storage.js in
     // [Gaia](https://github.com/mozilla-b2g/gaia).
     'use strict';
-
-    exports.__esModule = true;
-    (function () {
-        'use strict';
-
-        var globalObject = this;
-        // Initialize IndexedDB; fall back to vendor-prefixed versions if needed.
-        var indexedDB = indexedDB || this.indexedDB || this.webkitIndexedDB || this.mozIndexedDB || this.OIndexedDB || this.msIndexedDB;
-
-        // If IndexedDB isn't available, we get outta here!
-        if (!indexedDB) {
-            return;
-        }
 
         var DETECT_BLOB_SUPPORT_STORE = 'local-forage-detect-blob-support';
         var supportsBlobs;
@@ -6349,7 +6327,6 @@ return /******/ (function(modules) { // webpackBootstrap
                 if (e.name !== 'TypeError') {
                     throw e;
                 }
-                var BlobBuilder = globalObject.BlobBuilder || globalObject.MSBlobBuilder || globalObject.MozBlobBuilder || globalObject.WebKitBlobBuilder;
                 var builder = new BlobBuilder();
                 for (var i = 0; i < parts.length; i += 1) {
                     builder.append(parts[i]);
@@ -6604,7 +6581,7 @@ return /******/ (function(modules) { // webpackBootstrap
                             }
                         } catch (ex) {
                             if (ex.name === 'ConstraintError') {
-                                globalObject.console.warn('The database "' + dbInfo.name + '"' + ' has been upgraded from version ' + e.oldVersion + ' to version ' + e.newVersion + ', but the storage "' + dbInfo.storeName + '" already exists.');
+                                console.warn('The database "' + dbInfo.name + '"' + ' has been upgraded from version ' + e.oldVersion + ' to version ' + e.newVersion + ', but the storage "' + dbInfo.storeName + '" already exists.');
                             } else {
                                 throw ex;
                             }
@@ -6635,7 +6612,7 @@ return /******/ (function(modules) { // webpackBootstrap
                 // If the version is not the default one
                 // then warn for impossible downgrade.
                 if (dbInfo.version !== defaultVersion) {
-                    globalObject.console.warn('The database "' + dbInfo.name + '"' + ' can\'t be downgraded from version ' + dbInfo.db.version + ' to version ' + dbInfo.version + '.');
+                    console.warn('The database "' + dbInfo.name + '"' + ' can\'t be downgraded from version ' + dbInfo.db.version + ' to version ' + dbInfo.version + '.');
                 }
                 // Align the versions to prevent errors.
                 dbInfo.version = dbInfo.db.version;
@@ -6663,7 +6640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
             // Cast the key to a string, as that's all we can set as a key.
             if (typeof key !== 'string') {
-                globalObject.console.warn(key + ' used as a key, but it is not a string.');
+                console.warn(key + ' used as a key, but it is not a string.');
                 key = String(key);
             }
 
@@ -6742,7 +6719,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
             // Cast the key to a string, as that's all we can set as a key.
             if (typeof key !== 'string') {
-                globalObject.console.warn(key + ' used as a key, but it is not a string.');
+                console.warn(key + ' used as a key, but it is not a string.');
                 key = String(key);
             }
 
@@ -6798,7 +6775,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
             // Cast the key to a string, as that's all we can set as a key.
             if (typeof key !== 'string') {
-                globalObject.console.warn(key + ' used as a key, but it is not a string.');
+                console.warn(key + ' used as a key, but it is not a string.');
                 key = String(key);
             }
 
@@ -6991,9 +6968,7 @@ return /******/ (function(modules) { // webpackBootstrap
             keys: keys
         };
 
-        exports['default'] = asyncStorage;
-    }).call(typeof window !== 'undefined' ? window : self);
-    module.exports = exports['default'];
+    module.exports = asyncStorage;
 /***/ }
 /******/ ])
 });
