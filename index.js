@@ -6255,55 +6255,7 @@ return /******/ (function(modules) { // webpackBootstrap
     // [Gaia](https://github.com/mozilla-b2g/gaia).
     'use strict';
 
-        var DETECT_BLOB_SUPPORT_STORE = 'local-forage-detect-blob-support';
-        var supportsBlobs;
         var dbContexts;
-
-        // Abstracts constructing a Blob object, so it also works in older
-        // browsers that don't support the native Blob constructor. (i.e.
-        // old QtWebKit versions, at least).
-        function _createBlob(parts, properties) {
-            parts = parts || [];
-            properties = properties || {};
-            try {
-                return new Blob(parts, properties);
-            } catch (e) {
-                if (e.name !== 'TypeError') {
-                    throw e;
-                }
-                var builder = new BlobBuilder();
-                for (var i = 0; i < parts.length; i += 1) {
-                    builder.append(parts[i]);
-                }
-                return builder.getBlob(properties.type);
-            }
-        }
-
-        // Fetch a blob using ajax. This reveals bugs in Chrome < 43.
-        // For details on all this junk:
-        // https://github.com/nolanlawson/state-of-binary-data-in-the-browser#readme
-        function _blobAjax(url) {
-            return new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url);
-                xhr.withCredentials = true;
-                xhr.responseType = 'arraybuffer';
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState !== 4) {
-                        return;
-                    }
-                    if (xhr.status === 200) {
-                        return resolve({
-                            response: xhr.response,
-                            type: xhr.getResponseHeader('Content-Type')
-                        });
-                    }
-                    reject({ status: xhr.status, response: xhr.response });
-                };
-                xhr.send();
-            });
-        }
 
         // Open the IndexedDB database (automatically creates one if one didn't
         // previously exist), using any options set in the config.
@@ -6421,10 +6373,6 @@ return /******/ (function(modules) { // webpackBootstrap
                         var db = openreq.result;
                         try {
                             db.createObjectStore(dbInfo.storeName);
-                            if (e.oldVersion <= 1) {
-                                // Added when support for blob shims was added
-                                db.createObjectStore(DETECT_BLOB_SUPPORT_STORE);
-                            }
                         } catch (ex) {
                             if (ex.name === 'ConstraintError') {
                                 console.warn('The database "' + dbInfo.name + '"' + ' has been upgraded from version ' + e.oldVersion + ' to version ' + e.newVersion + ', but the storage "' + dbInfo.storeName + '" already exists.');
