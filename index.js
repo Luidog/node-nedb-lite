@@ -6100,7 +6100,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
         var DefaultConfig = {
             description: '',
-            driver: ['asyncStorage'],
             name: 'localforage',
             // Default DB size is _JUST UNDER_ 5MB, as it's the highest size
             // we can use without a prompt.
@@ -6148,7 +6147,7 @@ return /******/ (function(modules) { // webpackBootstrap
                 return this._driver || null;
             };
 
-            localForage.getDriver = function getDriver(driverName, callback, errorCallback) {
+            localForage.getDriver = function getDriver() {
                 var getDriverPromise = (function () {
                     return new Promise(function (resolve, reject) {
                         resolve(__webpack_require__(1));
@@ -6174,14 +6173,40 @@ return /******/ (function(modules) { // webpackBootstrap
                 return promise;
             };
 
-            localForage.setDriver = function setDriver(drivers, callback, errorCallback) {
-                var self = this;
+            localForage._extend = function _extend(libraryMethodsAndProperties) {
+                extend(this, libraryMethodsAndProperties);
+            };
 
-                if (!Array.isArray(drivers)) {
-                    drivers = [drivers];
+            localForage._wrapLibraryMethodsWithReady = function _wrapLibraryMethodsWithReady() {
+                // Add a stub for each driver API method that delays the call to the
+                // corresponding driver method until localForage is ready. These stubs
+                // will be replaced by the driver methods as soon as the driver is
+                // loaded, so there is no performance impact.
+                for (var i = 0; i < LibraryMethods.length; i++) {
+                    callWhenReady(this, LibraryMethods[i]);
                 }
+            };
 
-                var supportedDrivers = ['asyncStorage'];
+
+            localForage._defaultConfig = extend({}, DefaultConfig);
+            localForage._config = {
+                description: '',
+                name: 'NeDB',
+                size: 4980736,
+                storeName: 'nedbdata',
+                version: 1
+            };
+            localForage._driverSet = null;
+            localForage._initDriver = null;
+            localForage._ready = false;
+            localForage._dbInfo = null;
+
+            localForage._wrapLibraryMethodsWithReady();
+
+
+
+            localForage.setDriver = function setDriver(callback, errorCallback) {
+                var self = this;
 
                 function setDriverToConfig() {
                     self._config.driver = self.driver();
@@ -6189,32 +6214,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
                 function initDriver(supportedDrivers) {
                     return function () {
-                        var currentDriverIndex = 0;
-
-                        function driverPromiseLoop() {
-                            while (currentDriverIndex < supportedDrivers.length) {
-                                var driverName = supportedDrivers[currentDriverIndex];
-                                currentDriverIndex++;
-
                                 self._dbInfo = null;
                                 self._ready = null;
 
-                                return self.getDriver(driverName).then(function (driver) {
+                                return self.getDriver().then(function (driver) {
                                     self._extend(driver);
                                     setDriverToConfig();
 
                                     self._ready = self._initStorage(self._config);
                                     return self._ready;
-                                })['catch'](driverPromiseLoop);
-                            }
-
-                            setDriverToConfig();
-                            var error = new Error('No available storage method found.');
-                            self._driverSet = Promise.reject(error);
-                            return self._driverSet;
-                        }
-
-                        return driverPromiseLoop();
+                                });
                     };
                 }
 
@@ -6230,7 +6239,7 @@ return /******/ (function(modules) { // webpackBootstrap
                     self._dbInfo = null;
                     self._ready = null;
 
-                    return self.getDriver(driverName).then(function (driver) {
+                    return self.getDriver().then(function (driver) {
                         self._driver = driver._driver;
                         setDriverToConfig();
                         self._wrapLibraryMethodsWithReady();
@@ -6247,39 +6256,7 @@ return /******/ (function(modules) { // webpackBootstrap
                 return this._driverSet;
             };
 
-            localForage._extend = function _extend(libraryMethodsAndProperties) {
-                extend(this, libraryMethodsAndProperties);
-            };
-
-            localForage._wrapLibraryMethodsWithReady = function _wrapLibraryMethodsWithReady() {
-                // Add a stub for each driver API method that delays the call to the
-                // corresponding driver method until localForage is ready. These stubs
-                // will be replaced by the driver methods as soon as the driver is
-                // loaded, so there is no performance impact.
-                for (var i = 0; i < LibraryMethods.length; i++) {
-                    callWhenReady(this, LibraryMethods[i]);
-                }
-            };
-
-
-            localForage.INDEXEDDB = 'asyncStorage';
-
-            localForage._defaultConfig = extend({}, DefaultConfig);
-            localForage._config = {
-                description: '',
-                driver: 'asyncStorage',
-                name: 'NeDB',
-                size: 4980736,
-                storeName: 'nedbdata',
-                version: 1
-            };
-            localForage._driverSet = null;
-            localForage._initDriver = null;
-            localForage._ready = false;
-            localForage._dbInfo = null;
-
-            localForage._wrapLibraryMethodsWithReady();
-            localForage.setDriver(localForage._config.driver);
+            localForage.setDriver();
 
 /***/ },
 /* 1 */
