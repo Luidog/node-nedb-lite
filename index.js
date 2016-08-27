@@ -133,18 +133,6 @@ storage.mkdirp = mkdirp;
 
 
 /**
- * Explicit name ...
- */
-storage.ensureFileDoesntExist = function (file, callback) {
-  storage.exists(file, function (exists) {
-    if (!exists) { return callback(null); }
-
-    storage.unlink(file, function (err) { return callback(err); });
-  });
-};
-
-
-/**
  * Flush data in OS buffer to storage if corresponding option is set
  * @param {String} options.filename
  * @param {Boolean} options.isDir Optional, defaults to false
@@ -1338,8 +1326,6 @@ var customUtils = require('./customUtils')
  * @param {String} options.filename Optional, datastore will be in-memory only if not provided
  * @param {Boolean} options.timestampData Optional, defaults to false. If set to true, createdAt and updatedAt will be created and populated automatically (if not specified by user)
  * @param {Boolean} options.inMemoryOnly Optional, defaults to false
- * @param {String} options.nodeWebkitAppName Optional, specify the name of your NW app if you want options.filename to be relative to the directory where
- *                                            Node Webkit stores application data such as cookies and local storage (the best place to store data in my opinion)
  * @param {Boolean} options.autoload Optional, defaults to false
  * @param {Function} options.onload Optional, if autoload is used this will be called after the load database with the error object as parameter. If you don't pass it the error will be thrown
  * @param {Function} options.afterSerialization/options.beforeDeserialization Optional, serialization hooks
@@ -1376,7 +1362,7 @@ function Datastore (options) {
   this.compareStrings = options.compareStrings;
 
   // Persistence handling
-  this.persistence = new Persistence({ db: this, nodeWebkitAppName: options.nodeWebkitAppName
+  this.persistence = new Persistence({ db: this
                                       , afterSerialization: options.afterSerialization
                                       , beforeDeserialization: options.beforeDeserialization
                                       , corruptAlertThreshold: options.corruptAlertThreshold
@@ -3260,8 +3246,6 @@ var storage = local.storage = local.storage || require('./storage')
 /**
  * Create a new Persistence object for database options.db
  * @param {Datastore} options.db
- * @param {Boolean} options.nodeWebkitAppName Optional, specify the name of your NW app if you want options.filename to be relative to the directory where
- *                                            Node Webkit stores application data such as cookies and local storage (the best place to store data in my opinion)
  */
 function Persistence (options) {
   var i, j, randomString;
@@ -3292,18 +3276,6 @@ function Persistence (options) {
       }
     }
   }
-
-  // For NW apps, store data in the same directory where NW stores application data
-  if (this.filename && options.nodeWebkitAppName) {
-    console.log("==================================================================");
-    console.log("WARNING: The nodeWebkitAppName option is deprecated");
-    console.log("To get the path to the directory where Node Webkit stores the data");
-    console.log("for your app, use the internal nw.gui module like this");
-    console.log("require('nw.gui').App.dataPath");
-    console.log("See https://github.com/rogerwang/node-webkit/issues/500");
-    console.log("==================================================================");
-    this.filename = Persistence.getNWAppFilename(options.nodeWebkitAppName, this.filename);
-  }
 };
 
 
@@ -3317,41 +3289,6 @@ Persistence.ensureDirectoryExists = function (dir, cb) {
 
   storage.mkdirp(dir, function (err) { return callback(err); });
 };
-
-
-
-
-/**
- * Return the path the datafile if the given filename is relative to the directory where Node Webkit stores
- * data for this application. Probably the best place to store data
- */
-Persistence.getNWAppFilename = function (appName, relativeFilename) {
-  var home;
-
-  switch (process.platform) {
-    case 'win32':
-    case 'win64':
-      home = process.env.LOCALAPPDATA || process.env.APPDATA;
-      if (!home) { throw new Error("Couldn't find the base application data folder"); }
-      home = path.join(home, appName);
-      break;
-    case 'darwin':
-      home = process.env.HOME;
-      if (!home) { throw new Error("Couldn't find the base application data directory"); }
-      home = path.join(home, 'Library', 'Application Support', appName);
-      break;
-    case 'linux':
-      home = process.env.HOME;
-      if (!home) { throw new Error("Couldn't find the base application data directory"); }
-      home = path.join(home, '.config', appName);
-      break;
-    default:
-      throw new Error("Can't use the Node Webkit relative path for platform " + process.platform);
-      break;
-  }
-
-  return path.join(home, 'nedb-data', relativeFilename);
-}
 
 
 /**
