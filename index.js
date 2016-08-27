@@ -6143,10 +6143,6 @@ return /******/ (function(modules) { // webpackBootstrap
             // The actual localForage object that we expose as a module or via a
             // global. It's extended by pulling in one of our other libraries.
 
-            localForage.driver = function driver() {
-                return this._driver || null;
-            };
-
             localForage.getDriver = function getDriver() {
                 var getDriverPromise = (function () {
                     return new Promise(function (resolve, reject) {
@@ -6241,7 +6237,6 @@ return /******/ (function(modules) { // webpackBootstrap
                     self._ready = null;
 
                     return self.getDriver().then(function (driver) {
-                        self._driver = driver._driver;
                         setDriverToConfig();
                         self._wrapLibraryMethodsWithReady();
                         self._initDriver = initDriver();
@@ -6912,7 +6907,6 @@ return /******/ (function(modules) { // webpackBootstrap
         }
 
         var asyncStorage = {
-            _driver: 'asyncStorage',
             _initStorage: _initStorage,
             iterate: iterate,
             getItem: getItem,
