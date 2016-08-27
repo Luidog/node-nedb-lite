@@ -6117,10 +6117,6 @@ return /******/ (function(modules) { // webpackBootstrap
     (function () {
         'use strict';
 
-        var DriverType = {
-            INDEXEDDB: 'asyncStorage'
-        };
-
         var LibraryMethods = ['clear', 'getItem', 'iterate', 'key', 'keys', 'length', 'removeItem', 'setItem'];
 
         var DefaultConfig = {
@@ -6146,7 +6142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
             var result = {};
 
-            result[DriverType.INDEXEDDB] = !!(function () {
+            result.asyncStorage = !!(function () {
                 // We mimic PouchDB here; just UA test for Safari (which, as of
                 // iOS 8/Yosemite, doesn't properly support IndexedDB).
                 // IndexedDB support is broken and different from Blink's.
@@ -6207,21 +6203,11 @@ return /******/ (function(modules) { // webpackBootstrap
             return arguments[0];
         }
 
-        function isLibraryDriver(driverName) {
-            for (var driver in DriverType) {
-                if (DriverType.hasOwnProperty(driver) && DriverType[driver] === driverName) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         var LocalForage = (function () {
             function LocalForage(options) {
                 _classCallCheck(this, LocalForage);
 
-                this.INDEXEDDB = DriverType.INDEXEDDB;
+                this.INDEXEDDB = 'asyncStorage';
 
                 this._defaultConfig = extend({}, DefaultConfig);
                 this._config = {
@@ -6249,36 +6235,14 @@ return /******/ (function(modules) { // webpackBootstrap
             };
 
             LocalForage.prototype.getDriver = function getDriver(driverName, callback, errorCallback) {
-                var self = this;
                 var getDriverPromise = (function () {
-                    if (isLibraryDriver(driverName)) {
-                        switch (driverName) {
-                            case self.INDEXEDDB:
-                                return new Promise(function (resolve, reject) {
-                                    resolve(__webpack_require__(1));
-                                });
-                        }
-                    } else if (CustomDrivers[driverName]) {
-                        return Promise.resolve(CustomDrivers[driverName]);
-                    }
-
-                    return Promise.reject(new Error('Driver not found.'));
+                    return new Promise(function (resolve, reject) {
+                        resolve(__webpack_require__(1));
+                    });
                 })();
 
                 getDriverPromise.then(callback, errorCallback);
                 return getDriverPromise;
-            };
-
-            LocalForage.prototype.getSerializer = function getSerializer(callback) {
-                var serializerPromise = new Promise(function (resolve, reject) {
-                    resolve(__webpack_require__(3));
-                });
-                if (callback && typeof callback === 'function') {
-                    serializerPromise.then(function (result) {
-                        callback(result);
-                    });
-                }
-                return serializerPromise;
             };
 
             LocalForage.prototype.ready = function ready(callback) {
@@ -6396,10 +6360,6 @@ return /******/ (function(modules) { // webpackBootstrap
                 for (var i = 0; i < LibraryMethods.length; i++) {
                     callWhenReady(this, LibraryMethods[i]);
                 }
-            };
-
-            LocalForage.prototype.createInstance = function createInstance(options) {
-                return new LocalForage(options);
             };
 
             return LocalForage;
