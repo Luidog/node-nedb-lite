@@ -5474,7 +5474,7 @@ define("promise/all",
       /*jshint validthis:true */
       var Promise = this;
 
-      if (!isArray(promises)) {
+      if (!Array.isArray(promises)) {
         throw new TypeError('You must pass an array to all.');
       }
 
@@ -5926,7 +5926,7 @@ define("promise/race",
       /*jshint validthis:true */
       var Promise = this;
 
-      if (!isArray(promises)) {
+      if (!Array.isArray(promises)) {
         throw new TypeError('You must pass an array to race.');
       }
       return new Promise(function(resolve, reject) {
@@ -6028,10 +6028,6 @@ define("promise/utils",
       return typeof x === "function";
     }
 
-    function isArray(x) {
-      return Object.prototype.toString.call(x) === "[object Array]";
-    }
-
     // Date.now is not available in browsers < IE9
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now#Compatibility
     var now = Date.now || function() { return new Date().getTime(); };
@@ -6129,7 +6125,7 @@ return /******/ (function(modules) { // webpackBootstrap
                 if (arg) {
                     for (var key in arg) {
                         if (arg.hasOwnProperty(key)) {
-                            if (isArray(arg[key])) {
+                            if (Array.isArray(arg[key])) {
                                 arguments[0][key] = arg[key].slice();
                             } else {
                                 arguments[0][key] = arg[key];
@@ -6181,7 +6177,7 @@ return /******/ (function(modules) { // webpackBootstrap
             localForage.setDriver = function setDriver(drivers, callback, errorCallback) {
                 var self = this;
 
-                if (!isArray(drivers)) {
+                if (!Array.isArray(drivers)) {
                     drivers = [drivers];
                 }
 
