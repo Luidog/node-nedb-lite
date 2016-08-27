@@ -173,7 +173,7 @@ storage.flushToStorage = function (options, callback) {
  * @param {Function} cb Optional callback, signature: err
  */
 storage.crashSafeWriteFile = function (filename, data, cb) {
-    var callback = cb || function () {}
+    var callback = cb
         , tempFilename = filename + '~';
 
     async.waterfall([
@@ -1426,7 +1426,7 @@ Datastore.prototype.resetIndexes = function (newData) {
  */
 Datastore.prototype.ensureIndex = function (options, cb) {
   var err
-    , callback = cb || function () {};
+    , callback = cb;
 
   options = options || {};
 
@@ -1461,7 +1461,7 @@ Datastore.prototype.ensureIndex = function (options, cb) {
  * @param {Function} cb Optional callback, signature: err
  */
 Datastore.prototype.removeIndex = function (fieldName, cb) {
-  var callback = cb || function () {};
+  var callback = cb;
 
   delete this.indexes[fieldName];
 
@@ -1645,7 +1645,7 @@ Datastore.prototype.getCandidates = function (query, dontExpireStaleDocs, callba
  * @api private Use Datastore.insert which has the same signature
  */
 Datastore.prototype._insert = function (newDoc, cb) {
-  var callback = cb || function () {}
+  var callback = cb
     , preparedDoc
     ;
 
@@ -1870,7 +1870,7 @@ Datastore.prototype._update = function (query, updateQuery, options, cb) {
     ;
 
   if (typeof options === 'function') { cb = options; options = {}; }
-  callback = cb || function () {};
+  callback = cb;
   multi = options.multi !== undefined ? options.multi : false;
   upsert = options.upsert !== undefined ? options.upsert : false;
 
@@ -1978,7 +1978,7 @@ Datastore.prototype._remove = function (query, options, cb) {
     ;
 
   if (typeof options === 'function') { cb = options; options = {}; }
-  callback = cb || function () {};
+  callback = cb;
   multi = options.multi !== undefined ? options.multi : false;
 
   this.getCandidates(query, true, function (err, candidates) {
@@ -3280,7 +3280,7 @@ function Persistence (options) {
  * cb is optional, signature: err
  */
 Persistence.ensureDirectoryExists = function (dir, cb) {
-  var callback = cb || function () {}
+  var callback = cb
     ;
 
   storage.mkdirp(dir, function (err) { return callback(err); });
@@ -3294,7 +3294,7 @@ Persistence.ensureDirectoryExists = function (dir, cb) {
  * @param {Function} cb Optional callback, signature: err
  */
 Persistence.prototype.persistCachedDatabase = function (cb) {
-  var callback = cb || function () {}
+  var callback = cb
     , toPersist = ''
     , self = this
     ;
@@ -3361,7 +3361,7 @@ Persistence.prototype.stopAutocompaction = function () {
 Persistence.prototype.persistNewState = function (newDocs, cb) {
   var self = this
     , toPersist = ''
-    , callback = cb || function () {}
+    , callback = cb
     ;
 
   // In-memory only datastore
@@ -3437,7 +3437,7 @@ Persistence.prototype.treatRawData = function (rawData) {
  * @param {Function} cb Optional callback, signature: err
  */
 Persistence.prototype.loadDatabase = function (cb) {
-  var callback = cb || function () {}
+  var callback = cb
     , self = this
     ;
 
