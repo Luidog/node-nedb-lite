@@ -592,62 +592,8 @@ exports.format = function(f) {
   return str;
 };
 
-},{}],4:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-}
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-},{}],5:[function(require,module,exports){
+},{}],
+5:[function(require,module,exports){
 /**
  * Manage access to data, be it to find, update or remove it
  */
@@ -1634,7 +1580,7 @@ Datastore.prototype.remove = function () {
 module.exports = Datastore;
 
 },{"./cursor":5,"./customUtils":6,"./executor":8,"./indexes":9,"./model":10,"./persistence":11,"async":13,"underscore":19,"util":3}],8:[function(require,module,exports){
-var process=require("__browserify_process");/**
+/**
  * Responsible for sequentially executing actions on the database
  */
 
@@ -1660,7 +1606,7 @@ function Executor () {
         if (typeof setImmediate === 'function') {
            setImmediate(cb);
         } else {
-          process.nextTick(cb);
+          setTimeout(cb);
         }
         lastArg.apply(null, arguments);
       };
@@ -1713,7 +1659,7 @@ Executor.prototype.processBuffer = function () {
 // Interface
 module.exports = Executor;
 
-},{"__browserify_process":4,"async":13}],9:[function(require,module,exports){
+},{"async":13}],9:[function(require,module,exports){
 var BinarySearchTree = require('binary-search-tree').AVLTree
   , model = require('./model')
   , _ = require('underscore')
@@ -2847,7 +2793,7 @@ module.exports.areThingsEqual = areThingsEqual;
 module.exports.compareThings = compareThings;
 
 },{"underscore":19,"util":3}],11:[function(require,module,exports){
-var process=require("__browserify_process");/**
+/**
  * Handle every persistence-related task
  * The interface Datastore expects to be implemented is
  * * Persistence.loadDatabase(callback) and callback has signature err
@@ -3111,7 +3057,7 @@ Persistence.prototype.loadDatabase = function (cb) {
 // Interface
 module.exports = Persistence;
 
-},{"./customUtils":6,"./indexes":9,"./model":10,"./storage":12,"__browserify_process":4,"async":13}],12:[function(require,module,exports){
+},{"./customUtils":6,"./indexes":9,"./model":10,"./storage":12,"async":13}],12:[function(require,module,exports){
 /**
  * Way data is stored for this database
  * For a Node.js/Node Webkit database it's the file system
@@ -3203,7 +3149,7 @@ module.exports.ensureDatafileIntegrity = ensureDatafileIntegrity;
 
 
 },{"localforage":18}],13:[function(require,module,exports){
-var process=require("__browserify_process");/*global setImmediate: false, setTimeout: false, console: false */
+/*global setImmediate: false, setTimeout: false, console: false */
 (function () {
 
     var async = {};
@@ -3276,35 +3222,6 @@ var process=require("__browserify_process");/*global setImmediate: false, setTim
     };
 
     //// exported async module functions ////
-
-    //// nextTick implementation with browser-compatible fallback ////
-    if (typeof process === 'undefined' || !(process.nextTick)) {
-        if (typeof setImmediate === 'function') {
-            async.nextTick = function (fn) {
-                // not a direct alias for IE10 compatibility
-                setImmediate(fn);
-            };
-            async.setImmediate = async.nextTick;
-        }
-        else {
-            async.nextTick = function (fn) {
-                setTimeout(fn, 0);
-            };
-            async.setImmediate = async.nextTick;
-        }
-    }
-    else {
-        async.nextTick = process.nextTick;
-        if (typeof setImmediate !== 'undefined') {
-            async.setImmediate = function (fn) {
-              // not a direct alias for IE10 compatibility
-              setImmediate(fn);
-            };
-        }
-        else {
-            async.setImmediate = async.nextTick;
-        }
-    }
 
     async.each = function (arr, iterator, callback) {
         callback = callback || function () {};
@@ -3651,7 +3568,7 @@ var process=require("__browserify_process");/*global setImmediate: false, setTim
                 }
                 else {
                     results[k] = args;
-                    async.setImmediate(taskComplete);
+                    setTimeout(taskComplete);
                 }
             };
             var requires = task.slice(0, Math.abs(task.length - 1)) || [];
@@ -3699,7 +3616,7 @@ var process=require("__browserify_process");/*global setImmediate: false, setTim
                     else {
                         args.push(callback);
                     }
-                    async.setImmediate(function () {
+                    setTimeout(function () {
                         iterator.apply(null, args);
                     });
                 }
@@ -3898,7 +3815,7 @@ var process=require("__browserify_process");/*global setImmediate: false, setTim
               if (q.saturated && q.tasks.length === concurrency) {
                   q.saturated();
               }
-              async.setImmediate(q.process);
+              setTimeout(q.process);
           });
         }
 
@@ -3969,7 +3886,7 @@ var process=require("__browserify_process");/*global setImmediate: false, setTim
                         cargo.saturated();
                     }
                 });
-                async.setImmediate(cargo.process);
+                setTimeout(cargo.process);
             },
             process: function process() {
                 if (working) return;
@@ -4136,7 +4053,7 @@ var process=require("__browserify_process");/*global setImmediate: false, setTim
 
 }());
 
-},{"__browserify_process":4}],14:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports.BinarySearchTree = require('./lib/bst');
 module.exports.AVLTree = require('./lib/avltree');
 
@@ -5354,7 +5271,7 @@ define("promise/asap",
     // node
     function useNextTick() {
       return function() {
-        process.nextTick(flush);
+        setTimeout(flush);
       };
     }
 
@@ -6587,7 +6504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-},{"__browserify_process":4}],19:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 //     Underscore.js 1.4.4
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
