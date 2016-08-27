@@ -6147,14 +6147,14 @@ return /******/ (function(modules) { // webpackBootstrap
                 return this._driver || null;
             };
 
-            localForage.getDriver = function getDriver(driverName, callback, errorCallback) {
+            localForage.getDriver = function getDriver() {
                 var getDriverPromise = (function () {
                     return new Promise(function (resolve, reject) {
                         resolve(__webpack_require__(1));
                     });
                 })();
 
-                getDriverPromise.then(callback, errorCallback);
+                getDriverPromise.then();
                 return getDriverPromise;
             };
 
@@ -6214,12 +6214,12 @@ return /******/ (function(modules) { // webpackBootstrap
                     self._config.driver = self.driver();
                 }
 
-                function initDriver(supportedDrivers) {
+                function initDriver() {
                     return function () {
                                 self._dbInfo = null;
                                 self._ready = null;
 
-                                return self.getDriver('asyncStorage').then(function (driver) {
+                                return self.getDriver().then(function (driver) {
                                     self._extend(driver);
                                     setDriverToConfig();
 
@@ -6237,15 +6237,14 @@ return /******/ (function(modules) { // webpackBootstrap
                 }) : Promise.resolve();
 
                 this._driverSet = oldDriverSetDone.then(function () {
-                    var driverName = supportedDrivers[0];
                     self._dbInfo = null;
                     self._ready = null;
 
-                    return self.getDriver(driverName).then(function (driver) {
+                    return self.getDriver().then(function (driver) {
                         self._driver = driver._driver;
                         setDriverToConfig();
                         self._wrapLibraryMethodsWithReady();
-                        self._initDriver = initDriver(supportedDrivers);
+                        self._initDriver = initDriver();
                     });
                 })['catch'](function () {
                     setDriverToConfig();
