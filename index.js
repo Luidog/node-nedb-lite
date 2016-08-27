@@ -117,11 +117,11 @@
  */
 
 var fs = require('fs')
-  , mkdirp = require('mkdirp')
-  , async = require('async')
-  , path = require('path')
-  , storage = {}
-  ;
+    , mkdirp = require('mkdirp')
+    , async = require('async')
+    , path = require('path')
+    , storage = {}
+    ;
 
 storage.exists = fs.exists;
 storage.rename = fs.rename;
@@ -139,30 +139,30 @@ storage.mkdirp = mkdirp;
  * If options is a string, it is assumed that the flush of the file (not dir) called options was requested
  */
 storage.flushToStorage = function (options, callback) {
-  var filename, flags;
-  if (typeof options === 'string') {
-    filename = options;
-    flags = 'r+';
-  } else {
-    filename = options.filename;
-    flags = options.isDir ? 'r' : 'r+';
-  }
+    var filename, flags;
+    if (typeof options === 'string') {
+        filename = options;
+        flags = 'r+';
+    } else {
+        filename = options.filename;
+        flags = options.isDir ? 'r' : 'r+';
+    }
 
-  fs.open(filename, flags, function (err, fd) {
-    if (err) { return callback(err); }
-    fs.fsync(fd, function (errFS) {
-      fs.close(fd, function (errC) {
-        if (errFS || errC) {
-          var e = new Error('Failed to flush to storage');
-          e.errorOnFsync = errFS;
-          e.errorOnClose = errC;
-          return callback(e);
-        } else {
-          return callback(null);
-        }
-      });
+    fs.open(filename, flags, function (err, fd) {
+        if (err) { return callback(err); }
+        fs.fsync(fd, function (errFS) {
+            fs.close(fd, function (errC) {
+                if (errFS || errC) {
+                    var e = new Error('Failed to flush to storage');
+                    e.errorOnFsync = errFS;
+                    e.errorOnClose = errC;
+                    return callback(e);
+                } else {
+                    return callback(null);
+                }
+            });
+        });
     });
-  });
 };
 
 
@@ -173,29 +173,29 @@ storage.flushToStorage = function (options, callback) {
  * @param {Function} cb Optional callback, signature: err
  */
 storage.crashSafeWriteFile = function (filename, data, cb) {
-  var callback = cb || function () {}
-    , tempFilename = filename + '~';
+    var callback = cb || function () {}
+        , tempFilename = filename + '~';
 
-  async.waterfall([
-    async.apply(storage.flushToStorage, { filename: path.dirname(filename), isDir: true })
-  , function (cb) {
-      storage.exists(filename, function (exists) {
-        if (exists) {
-          storage.flushToStorage(filename, function (err) { return cb(err); });
-        } else {
-          return cb();
+    async.waterfall([
+        async.apply(storage.flushToStorage, { filename: path.dirname(filename), isDir: true })
+    , function (cb) {
+            storage.exists(filename, function (exists) {
+                if (exists) {
+                    storage.flushToStorage(filename, function (err) { return cb(err); });
+                } else {
+                    return cb();
+                }
+            });
         }
-      });
-    }
-  , function (cb) {
-      storage.writeFile(tempFilename, data, function (err) { return cb(err); });
-    }
-  , async.apply(storage.flushToStorage, tempFilename)
-  , function (cb) {
-      storage.rename(tempFilename, filename, function (err) { return cb(err); });
-    }
-  , async.apply(storage.flushToStorage, { filename: path.dirname(filename), isDir: true })
-  ], function (err) { return callback(err); })
+    , function (cb) {
+            storage.writeFile(tempFilename, data, function (err) { return cb(err); });
+        }
+    , async.apply(storage.flushToStorage, tempFilename)
+    , function (cb) {
+            storage.rename(tempFilename, filename, function (err) { return cb(err); });
+        }
+    , async.apply(storage.flushToStorage, { filename: path.dirname(filename), isDir: true })
+    ], function (err) { return callback(err); })
 };
 
 
@@ -205,22 +205,22 @@ storage.crashSafeWriteFile = function (filename, data, cb) {
  * @param {Function} callback signature: err
  */
 storage.ensureDatafileIntegrity = function (filename, callback) {
-  var tempFilename = filename + '~';
+    var tempFilename = filename + '~';
 
-  storage.exists(filename, function (filenameExists) {
-    // Write was successful
-    if (filenameExists) { return callback(null); }
+    storage.exists(filename, function (filenameExists) {
+        // Write was successful
+        if (filenameExists) { return callback(null); }
 
-    storage.exists(tempFilename, function (oldFilenameExists) {
-      // New database
-      if (!oldFilenameExists) {
-        return storage.writeFile(filename, '', 'utf8', function (err) { callback(err); });
-      }
+        storage.exists(tempFilename, function (oldFilenameExists) {
+            // New database
+            if (!oldFilenameExists) {
+                return storage.writeFile(filename, '', 'utf8', function (err) { callback(err); });
+            }
 
-      // Write failed, use old version
-      storage.rename(tempFilename, filename, function (err) { return callback(err); });
+            // Write failed, use old version
+            storage.rename(tempFilename, filename, function (err) { return callback(err); });
+        });
     });
-  });
 };
 
 
@@ -8624,19 +8624,6 @@ return /******/ (function(modules) { // webpackBootstrap
       computed < result.computed && (result = {value : value, computed : computed});
     });
     return result.value;
-  };
-
-  // Shuffle an array.
-  _.shuffle = function(obj) {
-    var rand;
-    var index = 0;
-    var shuffled = [];
-    each(obj, function(value) {
-      rand = _.random(index++);
-      shuffled[index - 1] = shuffled[rand];
-      shuffled[rand] = value;
-    });
-    return shuffled;
   };
 
   // An internal function to generate lookup iterators.
