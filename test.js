@@ -69,6 +69,15 @@
 
     // run shared js-env code - function
     (function () {
+        local.crudOptionsSetDefault = function (options, defaults) {
+        /*
+         * this function will set default-values for options
+         */
+            options = local.utility2.objectSetDefault(options || {}, defaults);
+            options.table = local.dbTableDict.TestCrud;
+            return options;
+        };
+
         local.testCase_assertXxx_default = function (options, onError) {
         /*
          * this function will test assertXxx's default handling-behavior
@@ -138,8 +147,9 @@
             }, local.utility2.onErrorDefault);
             options.data = local.dbExport();
             // validate data
-            local.utility2.assertJsonEqual(options.data, '"testCase_dbExport_default"\n' +
-                '{"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}');
+            local.utility2.assert(options.data.indexOf('"testCase_dbExport_default"\n' +
+                '{"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}'
+                ) >= 0);
             onError();
         };
 
@@ -149,7 +159,7 @@
          */
             // jslint-hack
             local.utility2.nop(options);
-            local.dbImport('"undefined"\n{"id":0}', onError);
+            local.dbImport('"testCase_dbImport_default"\n{"id":0}', onError);
         };
 
         local.testCase_dbTableCreate_default = function (options, onError) {
@@ -193,6 +203,81 @@
             local.dbTableDrop(options.table, onError);
             // test undefined-table handling-behavior
             local.dbTableDrop(options.table, local.utility2.onErrorDefault);
+        };
+
+        local.testCase_dbTableFindOneById_default = function (options, onError) {
+        /*
+         * this function will test dbTableFindOneById's default handling-behavior
+         */
+            var modeNext, onNext;
+            modeNext = 0;
+            onNext = function (error, data) {
+                local.utility2.tryCatchOnError(function () {
+                    // validate no error occurred
+                    local.utility2.assert(!error, error);
+                    modeNext += 1;
+                    switch (modeNext) {
+                    case 1:
+                        options = local.crudOptionsSetDefault(options, {
+                            id: '00_test_dbTableFindOneById'
+                        });
+                        options.table.findOne({ id: options.id }, onNext);
+                        break;
+                    case 2:
+                        // validate data
+                        local.utility2.assertJsonEqual(data.id, options.id);
+                        onNext();
+                        break;
+                    default:
+                        onError(error, data);
+                    }
+                }, onError);
+            };
+            onNext();
+        };
+
+        //!! local.testCase_NedbPrototypeInsert_default = function (options, onError) {
+        //!! /*
+         //!! * this function will test NedbPrototypeInsert's default handling-behavior
+         //!! */
+            //!! onError();
+        //!! };
+
+        local.testCase_dbTableRemoveOneById_default = function (options, onError) {
+        /*
+         * this function will test dbTableRemoveOneById's default handling-behavior
+         */
+            var modeNext, onNext;
+            modeNext = 0;
+            onNext = function (error, data) {
+                local.utility2.tryCatchOnError(function () {
+                    // validate no error occurred
+                    local.utility2.assert(!error, error);
+                    modeNext += 1;
+                    switch (modeNext) {
+                    case 1:
+                        options = local.crudOptionsSetDefault(options, {
+                            id: '00_test_dbTableRemoveOneById'
+                        });
+                        local.testCase_dbTableFindOneById_default(options, onNext);
+                        break;
+                    case 2:
+                        options.table.remove({ id: options.id }, onNext);
+                        break;
+                    case 3:
+                        options.table.findOne({ id: options.id }, onNext);
+                        break;
+                    case 4:
+                        // validate data was removed
+                        local.utility2.assertJsonEqual(data, null);
+                        onNext();
+                        break;
+                    default:
+                        onError(error, data);
+                    }
+                }, onError);
+            };
+            onNext();
         };
 
         local.testCase_jsonStringifyOrdered_default = function (options, onError) {
@@ -440,6 +525,28 @@
         };
         break;
     }
+
+
+
+    // run shared js-env code - post-init
+    (function () {
+        // init dbSeedList
+        local.utility2.dbSeedList = local.utility2.dbSeedList.concat([{
+            dbRowList: [{
+                id: '00_test_dbTableFindOneById'
+            }, {
+                id: '00_test_dbTableRemoveOneById'
+            }],
+            name: 'TestCrud'
+        }]);
+        // init serverLocal
+        local.utility2.serverLocalUrlTest = function (url) {
+            url = local.utility2.urlParse(url).pathname;
+            return local.modeJs === 'browser' &&
+                url.indexOf('/api/v0/swagger.json') < 0 &&
+                (/\/api\/v0\/|\/test\./).test(url);
+        };
+    }());
     switch (local.modeJs) {
 
 
