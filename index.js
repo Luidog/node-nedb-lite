@@ -4188,32 +4188,6 @@ var process=require("__browserify_process");/*global setImmediate: false, setTim
         return cargo;
     };
 
-    var _console_fn = function (name) {
-        return function (fn) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            fn.apply(null, args.concat([function (err) {
-                var args = Array.prototype.slice.call(arguments, 1);
-                if (typeof console !== 'undefined') {
-                    if (err) {
-                        if (console.error) {
-                            console.error(err);
-                        }
-                    }
-                    else if (console[name]) {
-                        _each(args, function (x) {
-                            console[name](x);
-                        });
-                    }
-                }
-            }]));
-        };
-    };
-    async.log = _console_fn('log');
-    async.dir = _console_fn('dir');
-    /*async.info = _console_fn('info');
-    async.warn = _console_fn('warn');
-    async.error = _console_fn('error');*/
-
     async.memoize = function (fn, hasher) {
         var memo = {};
         var queues = {};
@@ -6143,10 +6117,6 @@ return /******/ (function(modules) { // webpackBootstrap
     (function () {
         'use strict';
 
-        // Custom drivers are stored here when `defineDriver()` is called.
-        // They are shared across all instances of localForage.
-        var CustomDrivers = {};
-
         var DriverType = {
             INDEXEDDB: 'asyncStorage'
         };
@@ -6273,59 +6243,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
             // The actual localForage object that we expose as a module or via a
             // global. It's extended by pulling in one of our other libraries.
-
-            // Used to define a custom driver, shared across all instances of
-            // localForage.
-
-            LocalForage.prototype.defineDriver = function defineDriver(driverObject, callback, errorCallback) {
-                var promise = new Promise(function (resolve, reject) {
-                    try {
-                        var driverName = driverObject._driver;
-                        var complianceError = new Error('Custom driver not compliant; see ' + 'https://mozilla.github.io/localForage/#definedriver');
-                        var namingError = new Error('Custom driver name already in use: ' + driverObject._driver);
-
-                        // A driver name should be defined and not overlap with the
-                        // library-defined, default drivers.
-                        if (!driverObject._driver) {
-                            reject(complianceError);
-                            return;
-                        }
-                        if (isLibraryDriver(driverObject._driver)) {
-                            reject(namingError);
-                            return;
-                        }
-
-                        var customDriverMethods = LibraryMethods.concat('_initStorage');
-                        for (var i = 0; i < customDriverMethods.length; i++) {
-                            var customDriverMethod = customDriverMethods[i];
-                            if (!customDriverMethod || !driverObject[customDriverMethod] || typeof driverObject[customDriverMethod] !== 'function') {
-                                reject(complianceError);
-                                return;
-                            }
-                        }
-
-                        var supportPromise = Promise.resolve(true);
-                        if ('_support' in driverObject) {
-                            if (driverObject._support && typeof driverObject._support === 'function') {
-                                supportPromise = driverObject._support();
-                            } else {
-                                supportPromise = Promise.resolve(!!driverObject._support);
-                            }
-                        }
-
-                        supportPromise.then(function (supportResult) {
-                            driverSupport[driverName] = supportResult;
-                            CustomDrivers[driverName] = driverObject;
-                            resolve();
-                        }, reject);
-                    } catch (e) {
-                        reject(e);
-                    }
-                });
-
-                promise.then(callback, errorCallback);
-                return promise;
-            };
 
             LocalForage.prototype.driver = function driver() {
                 return this._driver || null;
