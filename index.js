@@ -102,7 +102,6 @@
 
 
 
-    /* istanbul ignore next */
     // init lib nedb.storage
     (function () {
         if (local.modeJs === 'node') {
@@ -251,7 +250,6 @@ module.exports = storage;
 
 
 
-/* istanbul ignore next */
 // init lib nedb
 /* jslint-ignore-begin */
 // https://github.com/louischatriot/nedb/blob/cadf4ef434e517e47c4e9ca1db5b89e892ff5981/browser-version/out/nedb.js
