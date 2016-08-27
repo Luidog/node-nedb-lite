@@ -106,6 +106,7 @@
                     onError(error);
                 };
             default:
+                console.error('require', key);
                 return local.require2(key);
             }
         };
@@ -5103,7 +5104,7 @@ function defaultCheckValueEquality (a, b) {
 module.exports.defaultCheckValueEquality = defaultCheckValueEquality;
 
 },{}],18:[function(require,module,exports){
-var process=require("__browserify_process"),global=self;/*!
+var global=self;/*!
     localForage -- Offline Storage, Improved
     Version 1.3.0
     https://mozilla.github.io/localForage
