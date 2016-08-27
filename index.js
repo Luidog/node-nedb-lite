@@ -6206,10 +6206,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
                 var supportedDrivers = ['asyncStorage'];
 
-                function setDriverToConfig() {
-                    self._config.driver = self.driver();
-                }
-
                 function initDriver() {
                     return function () {
                                 self._dbInfo = null;
@@ -6217,7 +6213,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
                                 return self.getDriver().then(function (driver) {
                                     self._extend(driver);
-                                    setDriverToConfig();
 
                                     self._ready = self._initStorage(self._config);
                                     return self._ready;
@@ -6237,12 +6232,10 @@ return /******/ (function(modules) { // webpackBootstrap
                     self._ready = null;
 
                     return self.getDriver().then(function (driver) {
-                        setDriverToConfig();
                         self._wrapLibraryMethodsWithReady();
                         self._initDriver = initDriver();
                     });
                 })['catch'](function () {
-                    setDriverToConfig();
                     var error = new Error('No available storage method found.');
                     self._driverSet = Promise.reject(error);
                     return self._driverSet;
@@ -6286,21 +6279,6 @@ return /******/ (function(modules) { // webpackBootstrap
             }
         }
 
-        // Transform a binary string to an array buffer, because otherwise
-        // weird stuff happens when you try to work with the binary string directly.
-        // It is known.
-        // From http://stackoverflow.com/questions/14967647/ (continues on next line)
-        // encode-decode-image-with-base64-breaks-image (2013-04-21)
-        function _binStringToArrayBuffer(bin) {
-            var length = bin.length;
-            var buf = new ArrayBuffer(length);
-            var arr = new Uint8Array(buf);
-            for (var i = 0; i < length; i++) {
-                arr[i] = bin.charCodeAt(i);
-            }
-            return buf;
-        }
-
         // Fetch a blob using ajax. This reveals bugs in Chrome < 43.
         // For details on all this junk:
         // https://github.com/nolanlawson/state-of-binary-data-in-the-browser#readme
@@ -6325,89 +6303,6 @@ return /******/ (function(modules) { // webpackBootstrap
                 };
                 xhr.send();
             });
-        }
-
-        //
-        // Detect blob support. Chrome didn't support it until version 38.
-        // In version 37 they had a broken version where PNGs (and possibly
-        // other binary types) aren't stored correctly, because when you fetch
-        // them, the content type is always null.
-        //
-        // Furthermore, they have some outstanding bugs where blobs occasionally
-        // are read by FileReader as null, or by ajax as 404s.
-        //
-        // Sadly we use the 404 bug to detect the FileReader bug, so if they
-        // get fixed independently and released in different versions of Chrome,
-        // then the bug could come back. So it's worthwhile to watch these issues:
-        // 404 bug: https://code.google.com/p/chromium/issues/detail?id=447916
-        // FileReader bug: https://code.google.com/p/chromium/issues/detail?id=447836
-        //
-        function _checkBlobSupportWithoutCaching(idb) {
-            return new Promise(function (resolve, reject) {
-                var blob = _createBlob([''], { type: 'image/png' });
-                var txn = idb.transaction([DETECT_BLOB_SUPPORT_STORE], 'readwrite');
-                txn.objectStore(DETECT_BLOB_SUPPORT_STORE).put(blob, 'key');
-                txn.oncomplete = function () {
-                    // have to do it in a separate transaction, else the correct
-                    // content type is always returned
-                    var blobTxn = idb.transaction([DETECT_BLOB_SUPPORT_STORE], 'readwrite');
-                    var getBlobReq = blobTxn.objectStore(DETECT_BLOB_SUPPORT_STORE).get('key');
-                    getBlobReq.onerror = reject;
-                    getBlobReq.onsuccess = function (e) {
-
-                        var storedBlob = e.target.result;
-                        var url = URL.createObjectURL(storedBlob);
-
-                        _blobAjax(url).then(function (res) {
-                            resolve(!!(res && res.type === 'image/png'));
-                        }, function () {
-                            resolve(false);
-                        }).then(function () {
-                            URL.revokeObjectURL(url);
-                        });
-                    };
-                };
-            })['catch'](function () {
-                return false; // error, so assume unsupported
-            });
-        }
-
-        function _checkBlobSupport(idb) {
-            if (typeof supportsBlobs === 'boolean') {
-                return Promise.resolve(supportsBlobs);
-            }
-            return _checkBlobSupportWithoutCaching(idb).then(function (value) {
-                supportsBlobs = value;
-                return supportsBlobs;
-            });
-        }
-
-        // encode a blob for indexeddb engines that don't support blobs
-        function _encodeBlob(blob) {
-            return new Promise(function (resolve, reject) {
-                var reader = new FileReader();
-                reader.onerror = reject;
-                reader.onloadend = function (e) {
-                    var base64 = btoa(e.target.result || '');
-                    resolve({
-                        __local_forage_encoded_blob: true,
-                        data: base64,
-                        type: blob.type
-                    });
-                };
-                reader.readAsBinaryString(blob);
-            });
-        }
-
-        // decode an encoded blob
-        function _decodeBlob(encodedBlob) {
-            var arrayBuff = _binStringToArrayBuffer(atob(encodedBlob.data));
-            return _createBlob([arrayBuff], { type: encodedBlob.type });
-        }
-
-        // is this one of our fancy encoded blobs?
-        function _isEncodedBlob(value) {
-            return value && value.__local_forage_encoded_blob;
         }
 
         // Open the IndexedDB database (automatically creates one if one didn't
@@ -6606,9 +6501,6 @@ return /******/ (function(modules) { // webpackBootstrap
                         if (value === undefined) {
                             value = null;
                         }
-                        if (_isEncodedBlob(value)) {
-                            value = _decodeBlob(value);
-                        }
                         resolve(value);
                     };
 
@@ -6639,9 +6531,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
                         if (cursor) {
                             var value = cursor.value;
-                            if (_isEncodedBlob(value)) {
-                                value = _decodeBlob(value);
-                            }
                             var result = iterator(value, cursor.key, iterationNumber++);
 
                             if (result !== void 0) {
@@ -6678,11 +6567,8 @@ return /******/ (function(modules) { // webpackBootstrap
                 var dbInfo;
                 self.ready().then(function () {
                     dbInfo = self._dbInfo;
-                    return _checkBlobSupport(dbInfo.db);
+                    return Promise.resolve(true);
                 }).then(function (blobSupport) {
-                    if (!blobSupport && value instanceof Blob) {
-                        return _encodeBlob(value);
-                    }
                     return value;
                 }).then(function (value) {
                     var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
