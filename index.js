@@ -6147,7 +6147,7 @@ return /******/ (function(modules) { // webpackBootstrap
                 return this._driver || null;
             };
 
-            localForage.getDriver = function getDriver() {
+            localForage.getDriver = function getDriver(driverName, callback, errorCallback) {
                 var getDriverPromise = (function () {
                     return new Promise(function (resolve, reject) {
                         resolve(__webpack_require__(1));
@@ -6208,6 +6208,8 @@ return /******/ (function(modules) { // webpackBootstrap
             localForage.setDriver = function setDriver(callback, errorCallback) {
                 var self = this;
 
+                var supportedDrivers = ['asyncStorage'];
+
                 function setDriverToConfig() {
                     self._config.driver = self.driver();
                 }
@@ -6217,7 +6219,7 @@ return /******/ (function(modules) { // webpackBootstrap
                                 self._dbInfo = null;
                                 self._ready = null;
 
-                                return self.getDriver().then(function (driver) {
+                                return self.getDriver('asyncStorage').then(function (driver) {
                                     self._extend(driver);
                                     setDriverToConfig();
 
@@ -6239,7 +6241,7 @@ return /******/ (function(modules) { // webpackBootstrap
                     self._dbInfo = null;
                     self._ready = null;
 
-                    return self.getDriver().then(function (driver) {
+                    return self.getDriver(driverName).then(function (driver) {
                         self._driver = driver._driver;
                         setDriverToConfig();
                         self._wrapLibraryMethodsWithReady();
