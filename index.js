@@ -1551,18 +1551,16 @@
              * @param {Object} options Optional options
              *                 options.multi If true, can update multiple documents (defaults to false)
              *                 options.upsert If true, document is inserted if the query doesn't match anything
-             *                 options.returnUpdatedDocs Defaults to false, if true return as third argument the array of updated matched documents (even if no change actually took place)
              * @param {Function} cb Optional callback, signature: (error, numAffected, affectedDocuments, upsert)
              *                      If update was an upsert, upsert flag is set to true
              *                      affectedDocuments can be one of the following:
              *                        * For an upsert, the upserted document
-             *                        * For an update with returnUpdatedDocs option false, null
-             *                        * For an update with returnUpdatedDocs true and multi false, the updated document
-             *                        * For an update with returnUpdatedDocs true and multi true, the array of updated documents
+             *                        * For an update with multi false, the updated document
+             *                        * For an update with multi true, the array of updated documents
              *
              * WARNING: The API was changed between v1.7.4 and v1.8, for consistency and readability reasons. Prior and including to v1.7.4,
              *          the callback signature was (error, numAffected, updated) where updated was the updated document in case of an upsert
-             *          or the array of updated documents for an update if the returnUpdatedDocs option was true. That meant that the type of
+             *          or the array of updated documents for an update. That meant that the type of
              *          affectedDocuments in a non multi update depended on whether there was an upsert or not, leaving only two ways for the
              *          user to check whether an upsert had occured: checking the type of affectedDocuments or running another find query on
              *          the whole dataset to check its size. Both options being ugly, the breaking change was necessary.
@@ -1581,7 +1579,6 @@
                 multi = options.multi !== undefined ? options.multi : false;
                 upsert = options.upsert !== undefined ? options.upsert : false;
 
-                var options;
                 options = {};
                 local.onNext(options, function (error) {
                     switch (options.modeNext) {
@@ -1670,18 +1667,14 @@
                                 if (error) {
                                     return callback(error);
                                 }
-                                if (!options.returnUpdatedDocs) {
-                                    return callback(null, numReplaced);
-                                } else {
-                                    var updatedDocsDC = [];
-                                    updatedDocs.forEach(function (doc) {
-                                        updatedDocsDC.push(model.deepCopy(doc));
-                                    });
-                                    if (!multi) {
-                                        updatedDocsDC = updatedDocsDC[0];
-                                    }
-                                    return callback(null, numReplaced, updatedDocsDC);
+                                var updatedDocsDC = [];
+                                updatedDocs.forEach(function (doc) {
+                                    updatedDocsDC.push(model.deepCopy(doc));
+                                });
+                                if (!multi) {
+                                    updatedDocsDC = updatedDocsDC[0];
                                 }
+                                return callback(null, numReplaced, updatedDocsDC);
                             });
                         });
                     }

@@ -23,6 +23,7 @@ this package will run a standalone, browser-compatible version of the nedb v1.8.
 - none
 
 #### change since 3e821f9c
+- row-update always returns updated row
 - add function idIntegerCreate, idStringCreate
 - add eval button to demo
 - remove customUtils dependency
