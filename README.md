@@ -19,17 +19,12 @@ this package will run a standalone, browser-compatible version of the nedb v1.8.
 
 # documentation
 #### todo
+- npm publish 2016.9.2
 - none
 
-#### change since c6fd675c
-- npm publish 2016.9.1
-- make db always persistent
-- removed support for native-datetime (automatically converted to iso-string)
-- tables automatically includes createdAt and updatedAt fields
-- remove async dependency
-- remove localForage dependency
-- remove underscore dependency
-- remove util dependency
+#### change since 3e821f9c
+- add eval button to demo
+- remove customUtils dependency
 - none
 
 #### this package requires
@@ -140,10 +135,6 @@ instruction
             : module.isRollup
             ? module
             : require('nedb-lite').local;
-        // init global
-        local.global = local.modeJs === 'browser'
-            ? window
-            : global;
         // export local
         local.global.local = local;
     }());
@@ -217,15 +208,13 @@ instruction
             }
         };
         // init event-handling
-        ['change', 'click', 'keyup'].forEach(function (event) {
+        ['change', 'click'].forEach(function (event) {
             Array.prototype.slice.call(
                 document.querySelectorAll('.on' + event)
             ).forEach(function (element) {
                 element.addEventListener(event, local.testRun);
             });
         });
-        // run tests
-        local.testRun();
         break;
 
 
@@ -301,11 +290,6 @@ utility2-comment -->\n\
 <!-- utility2-comment\n\
         </a>\n\
 utility2-comment -->\n\
-<!-- utility2-comment\n\
-        {{#if envDict.NODE_ENV}}\n\
-        (NODE_ENV={{envDict.NODE_ENV}})\n\
-        {{/if envDict.NODE_ENV}}\n\
-utility2-comment -->\n\
     </h1>\n\
     <h3>{{envDict.npm_package_description}}</h3>\n\
 <!-- utility2-comment\n\
@@ -325,7 +309,7 @@ utility2-comment -->\n\
             target="_blank"\n\
         >eval</a>\n\
     </label>\n\
-<textarea class="onkeyup" id="inputTextarea1">\n\
+<textarea id="inputTextarea1">\n\
 window.table1 = window.Nedb.dbTableCreate({ name: "table1" });\n\
 table1.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log();\n\
@@ -338,6 +322,7 @@ table2.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log(table2.export());\n\
 });\n\
 </textarea>\n\
+    <button class="onclick" id="nedbEvalButton1">eval script</button><br>\n\
     <label>stderr and stdout</label>\n\
     <textarea id="outputTextarea1" readonly></textarea>\n\
 <!-- utility2-comment\n\
@@ -454,7 +439,7 @@ export npm_config_mode_auto_restart=1 && \
 utility2 shRun shIstanbulCover test.js",
         "test": "export PORT=$(utility2 shServerPortRandom) && utility2 test test.js"
     },
-    "version": "2016.9.1"
+    "version": "2016.9.2"
 }
 ```
 

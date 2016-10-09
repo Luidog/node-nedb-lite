@@ -63,6 +63,7 @@
         local.utility2.dbTableCreate = local.dbTableCreate;
         local.utility2.dbTableDrop = local.dbTableDrop;
         local.utility2.jsonStringifyOrdered = local.jsonStringifyOrdered;
+        local.utility2.onNext = local.onNext;
     }());
 
 
@@ -75,7 +76,8 @@
          */
             options = local.utility2.objectSetDefault(options, defaults);
             options.table = local.dbTableDict.TestCrud;
-            return options;
+            // shallow-copy options
+            return local.utility2.objectSetDefault({}, options);
         };
 
         local.testCase_assertXxx_default = function (options, onError) {
@@ -134,6 +136,18 @@
             onError();
         };
 
+        local.testCase_consoleLog_default = function (options, onError) {
+        /*
+         * this function will test consoleLog's default handling-behavior
+         */
+            options = {};
+            options.data = null;
+            console.log(options.data);
+            options.data = '\n';
+            console.log(options.data);
+            onError();
+        };
+
         local.testCase_dbExport_default = function (options, onError) {
         /*
          * this function will test dbExport's default handling-behavior
@@ -179,20 +193,6 @@
             onError();
         };
 
-        local.testCase_dbTableCreate_error = function (options, onError) {
-        /*
-         * this function will test dbTableCreate's error handling-behavior
-         */
-            options = {};
-            options.error = local.utility2.errorDefault;
-            options.name = 'testCase_dbTableCreate_error';
-            options.table = local.dbTableCreate(options, function (error) {
-                // validate error occurred
-                local.utility2.assert(error, error);
-                onError();
-            });
-        };
-
         local.testCase_dbTableDrop_default = function (options, onError) {
         /*
          * this function will test dbTableDrop's default handling-behavior
@@ -209,13 +209,12 @@
         /*
          * this function will test dbTableFindOneById's default handling-behavior
          */
-            options = {};
+            options = local.crudOptionsSetDefault(options, {
+                id: '00_test_dbTableFindOneById'
+            });
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    options = local.crudOptionsSetDefault(options, {
-                        id: '00_test_dbTableFindOneById'
-                    });
                     options.table.findOne({ id: options.id }, options.onNext);
                     break;
                 case 2:
@@ -235,13 +234,12 @@
         /*
          * this function will test dbTableRemoveOneById's default handling-behavior
          */
-            options = {};
+            options = local.crudOptionsSetDefault(options, {
+                id: '00_test_dbTableRemoveOneById'
+            });
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    options = local.crudOptionsSetDefault(options, {
-                        id: '00_test_dbTableRemoveOneById'
-                    });
                     local.testCase_dbTableFindOneById_default(options, options.onNext);
                     break;
                 case 2:
@@ -292,6 +290,25 @@
                 { aa: 1, bb: null, ee: [ 1, null, null ], ff: { gg: 1, hh: 2 } }
             );
             onError();
+        };
+
+        local.testCase_onNext_error = function (options, onError) {
+        /*
+         * this function will test onNext's error handling-behavior
+         */
+
+            options = {};
+            local.utility2.onNext(options, function () {
+                throw local.utility2.errorDefault;
+            });
+            options.modeNext = 0;
+            local.utility2.tryCatchOnError(function () {
+                options.onNext();
+            }, function (error) {
+                // validate error occurred
+                local.utility2.assert(error, error);
+                onError();
+            });
         };
     }());
     switch (local.modeJs) {
@@ -387,10 +404,6 @@
                         Nedb: {
                             exampleList: [],
                             exports: local.Nedb
-                        },
-                        'Nedb.customUtils': {
-                            exampleList: [],
-                            exports: local.Nedb.customUtils
                         },
                         'Nedb.model': {
                             exampleList: [],

@@ -284,6 +284,38 @@
             return;
         };
 
+        local.onNext = function (options, onError) {
+        /*
+         * this function will wrap onError inside the recursive function options.onNext,
+         * and append the current stack to any error
+         */
+            var stack;
+            stack = new Error().stack.replace((/(.*?)\n.*?$/m), '$1');
+            options.onNext = function (error, data, meta) {
+                try {
+                    if (error) {
+                        // append the current stack to error.stack
+                        error.stack += '\n' + stack;
+                        options.modeNext = Infinity;
+                    } else {
+                        // increment modeNext
+                        options.modeNext += 1;
+                    }
+                    onError(error, data, meta);
+                } catch (errorCaught) {
+                    // throw errorCaught to break infinite recursion-loop
+                    if (options.errorCaught) {
+                        throw options.errorCaught;
+                    }
+                    options.errorCaught = errorCaught;
+                    // append the current stack to errorCaught.stack
+                    errorCaught.stack = errorCaught.stack + '\n' + stack;
+                    options.onNext(errorCaught, data, meta);
+                }
+            };
+            return options;
+        };
+
         local.prototype.export = function () {
         /*
          * this function will export the table as serialized-text
@@ -309,14 +341,14 @@
         };
 
         local.prototype.load = function (options, onError) {
-            var data, modeNext, onNext, self;
+            var self;
             self = this;
-            modeNext = 0;
-            onNext = function (error) {
-                modeNext = error
-                    ? Infinity
-                    : modeNext + 1;
-                switch (modeNext) {
+            options = {
+                persistenceData: options.persistenceData,
+                reset: options.reset
+            };
+            local.onNext(options, function (error, data) {
+                switch (options.modeNext) {
                 case 1:
                     onError = onError || function (error) {
                         // validate no error occurred
@@ -327,27 +359,28 @@
                         data = 'undefined';
                     }
                     if (!data) {
-                        onNext();
+                        options.onNext();
                         return;
                     }
                     self.isLoaded = null;
                     data += '\n';
                     data = data.slice(data.indexOf('\n') + 1);
-                    local.storeSetItem(self.name, data, onNext);
+                    local.storeSetItem(self.name, data, options.onNext);
                     break;
                 case 2:
                     if (self.isLoaded) {
-                        onNext();
+                        options.onNext();
                         return;
                     }
                     self.isLoaded = true;
-                    self.loadDatabase(onNext);
+                    self.loadDatabase(options.onNext);
                     break;
                 default:
                     onError(error, self);
                 }
-            };
-            onNext(options.error);
+            });
+            options.modeNext = 0;
+            options.onNext();
             return self;
         };
 
@@ -477,30 +510,27 @@
         };
 
         local.storeInit = function () {
-            var modeNext, onNext, request;
-            if (!local.global.indexedDB) {
-                return;
-            }
-            modeNext = 0;
-            onNext = function (error) {
+            var options, request;
+            options = {};
+            local.onNext(options, function (error) {
                 local.store = local.global.nedbStore;
-                // validate no error occurred
-                local.assert(local.store || !error, error);
-                modeNext += 1;
-                switch (modeNext) {
+                switch (options.modeNext) {
                 // init indexedDB
                 case 1:
+                    if (!local.global.indexedDB) {
+                        return;
+                    }
                     if (local.store) {
-                        onNext();
+                        options.onNext();
                         return;
                     }
                     request = local.global.indexedDB.open('NeDB');
                     request.onerror = function () {
-                        onNext(request.error);
+                        options.onNext(request.error);
                     };
                     request.onsuccess = function () {
                         local.global.nedbStore = request.result;
-                        onNext();
+                        options.onNext();
                     };
                     request.onupgradeneeded = function () {
                         if (!request.result.objectStoreNames.contains('nedbdata')) {
@@ -514,9 +544,12 @@
                         local.storePromiseList.shift()();
                     }
                     break;
+                default:
+                    throw error;
                 }
-            };
-            onNext();
+            });
+            options.modeNext = 0;
+            options.onNext();
         };
 
         local.storeKeys = function (onError) {
@@ -750,13 +783,13 @@
 
 
 
+            function Cursor(db, query, execFn) {
             /**
              * Create a new cursor for this collection
              * @param {Datastore} db - The datastore this cursor is bound to
              * @param {Query} query - The query this cursor will operate on
              * @param {Function} execFn - Handler to be executed after cursor has found the results and before the callback passed to find/findOne/update/remove
              */
-            function Cursor(db, query, execFn) {
                 this.db = db;
                 this.query = query || {};
                 if (execFn) {
@@ -765,49 +798,49 @@
             }
 
 
+            Cursor.prototype.limit = function (limit) {
             /**
              * Set a limit to the number of results
              */
-            Cursor.prototype.limit = function (limit) {
                 this._limit = limit;
                 return this;
             };
 
 
+            Cursor.prototype.skip = function (skip) {
             /**
              * Skip a the number of results
              */
-            Cursor.prototype.skip = function (skip) {
                 this._skip = skip;
                 return this;
             };
 
 
+            Cursor.prototype.sort = function (sortQuery) {
             /**
              * Sort results of the query
              * @param {SortQuery} sortQuery - SortQuery is { field: order }, field can use the dot-notation, order is 1 for ascending and -1 for descending
              */
-            Cursor.prototype.sort = function (sortQuery) {
                 this._sort = sortQuery;
                 return this;
             };
 
 
+            Cursor.prototype.projection = function (projection) {
             /**
              * Add the use of a projection
              * @param {Object} projection - MongoDB-style projection. {} means take all fields. Then it's { key1: 1, key2: 1 } to take only key1 and key2
              *                              { key1: 0, key2: 0 } to omit only key1 and key2. Except _id, you can't mix takes and omits
              */
-            Cursor.prototype.projection = function (projection) {
                 this._projection = projection;
                 return this;
             };
 
 
+            Cursor.prototype.project = function (candidates) {
             /**
              * Apply the projection
              */
-            Cursor.prototype.project = function (candidates) {
                 var res = [],
                     self = this,
                     keepId, action, keys;
@@ -864,6 +897,7 @@
             };
 
 
+            Cursor.prototype._exec = function (_callback) {
             /**
              * Get all matching elements
              * Will return pointers to matched elements (shallow copies), returning full copies is the role of find or findOne
@@ -871,7 +905,6 @@
              *
              * @param {Function} callback - Signature: error, results
              */
-            Cursor.prototype._exec = function (_callback) {
                 var res = [],
                     added = 0,
                     skipped = 0,
@@ -975,91 +1008,8 @@
         }, {
             "./model": 10
         }],
-        6: [function (require, module, exports) {
-            /**
-             * Specific customUtils for the browser, where we don't have access to the Crypto and Buffer modules
-             */
-
-            /**
-             * Taken from the crypto-browserify module
-             * https://github.com/dominictarr/crypto-browserify
-             * NOTE: Math.random() does not guarantee "cryptographic quality" but we actually don't need it
-             */
-            function randomBytes(size) {
-                var bytes = new Array(size);
-                var r;
-
-                for (var i = 0, r; i < size; i++) {
-                    if ((i & 0x03) == 0) r = Math.random() * 0x100000000;
-                    bytes[i] = r >>> ((i & 0x03) << 3) & 0xff;
-                }
-
-                return bytes;
-            }
-
-
-            /**
-             * Taken from the base64-js module
-             * https://github.com/beatgammit/base64-js/
-             */
-            function byteArrayToBase64(uint8) {
-                var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
-                    extraBytes = uint8.length % 3 // if we have 1 byte left, pad 2 bytes
-                    ,
-                    output = '',
-                    temp, length, i;
-
-                function tripletToBase64(num) {
-                    return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F];
-                };
-
-                // go through the array every three bytes, we'll deal with trailing stuff later
-                for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
-                    temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2]);
-                    output += tripletToBase64(temp);
-                }
-
-                // pad the end with zeros, but make sure to not forget the extra bytes
-                switch (extraBytes) {
-                    case 1:
-                        temp = uint8[uint8.length - 1];
-                        output += lookup[temp >> 2];
-                        output += lookup[(temp << 4) & 0x3F];
-                        output += '==';
-                        break;
-                    case 2:
-                        temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1]);
-                        output += lookup[temp >> 10];
-                        output += lookup[(temp >> 4) & 0x3F];
-                        output += lookup[(temp << 2) & 0x3F];
-                        output += '=';
-                        break;
-                }
-
-                return output;
-            }
-
-
-            /**
-             * Return a random alphanumerical string of length len
-             * There is a very small probability (less than 1/1,000,000) for the length to be less than len
-             * (il the base64 conversion yields too many pluses and slashes) but
-             * that's not an issue here
-             * The probability of a collision is extremely small (need 3*10^12 documents to have one chance in a million of a collision)
-             * See http://en.wikipedia.org/wiki/Birthday_problem
-             */
-            function uid(len) {
-                return byteArrayToBase64(randomBytes(Math.ceil(Math.max(8, len * 2)))).replace(/[+\/]/g, '').slice(0, len);
-            }
-
-
-
-            module.exports.uid = uid;
-
-        }, {}],
         7: [function (require, module, exports) {
             var Datastore,
-                customUtils = require('./customUtils'),
                 model = require('./model'),
                 Executor = local.Executor = require('./executor'),
                 Index = local.Index = require('./indexes'),
@@ -1069,10 +1019,10 @@
 
             Datastore = local;
 
+            Datastore.prototype.loadDatabase = function () {
             /**
              * Load the database from the datafile, and trigger the execution of buffered commands if any
              */
-            Datastore.prototype.loadDatabase = function () {
                 this.executor.push({
                     this: this.persistence,
                     fn: this.persistence.loadDatabase,
@@ -1081,18 +1031,18 @@
             };
 
 
+            Datastore.prototype.getAllData = function () {
             /**
              * Get an array of all the data in the database
              */
-            Datastore.prototype.getAllData = function () {
                 return this.indexes._id.getAll();
             };
 
 
+            Datastore.prototype.resetIndexes = function (newData) {
             /**
              * Reset all currently defined indexes
              */
-            Datastore.prototype.resetIndexes = function (newData) {
                 var self = this;
 
                 Object.keys(this.indexes).forEach(function (i) {
@@ -1146,12 +1096,12 @@
             };
 
 
+            Datastore.prototype.removeIndex = function (fieldName, cb) {
             /**
              * Remove an index
              * @param {String} fieldName
              * @param {Function} cb Optional callback, signature: error
              */
-            Datastore.prototype.removeIndex = function (fieldName, cb) {
                 var callback = cb;
 
                 delete this.indexes[fieldName];
@@ -1167,10 +1117,10 @@
             };
 
 
+            Datastore.prototype.addToIndexes = function (doc) {
             /**
              * Add one or several document(s) to all indexes
              */
-            Datastore.prototype.addToIndexes = function (doc) {
                 var i, failingIndex, error, keys = Object.keys(this.indexes);
 
                 for (i = 0; i < keys.length; i += 1) {
@@ -1194,10 +1144,10 @@
             };
 
 
+            Datastore.prototype.removeFromIndexes = function (doc) {
             /**
              * Remove one or several document(s) from all indexes
              */
-            Datastore.prototype.removeFromIndexes = function (doc) {
                 var self = this;
 
                 Object.keys(this.indexes).forEach(function (i) {
@@ -1206,12 +1156,12 @@
             };
 
 
+            Datastore.prototype.updateIndexes = function (oldDoc, newDoc) {
             /**
              * Update one or several documents in all indexes
              * To update multiple documents, oldDoc must be an array of { oldDoc, newDoc } pairs
              * If one update violates a constraint, all changes are rolled back
              */
-            Datastore.prototype.updateIndexes = function (oldDoc, newDoc) {
                 var i, failingIndex, error, keys = Object.keys(this.indexes);
 
                 for (i = 0; i < keys.length; i += 1) {
@@ -1353,13 +1303,13 @@
             };
 
 
+            Datastore.prototype._insert = function (newDoc, cb) {
             /**
              * Insert a new document
              * @param {Function} cb Optional callback, signature: error, insertedDoc
              *
              * @api private Use Datastore.insert which has the same signature
              */
-            Datastore.prototype._insert = function (newDoc, cb) {
                 var callback = cb,
                     preparedDoc;
 
@@ -1378,11 +1328,11 @@
                 });
             };
 
+            Datastore.prototype.createNewId = function () {
             /**
              * Create a new _id that's not already in use
              */
-            Datastore.prototype.createNewId = function () {
-                var tentativeId = customUtils.uid(16);
+                var tentativeId = (Date.now().toString(36) + Math.random().toString(36).slice(2)).slice(0, 16);
                 // Try as many times as needed to get an unused _id. As explained in customUtils, the probability of this ever happening is extremely small, so this is O(1)
                 if (this.indexes._id.getMatching(tentativeId).length > 0) {
                     tentativeId = this.createNewId();
@@ -1390,12 +1340,12 @@
                 return tentativeId;
             };
 
+            Datastore.prototype.prepareDocumentForInsertion = function (newDoc) {
             /**
              * Prepare a document (or array of documents) to be inserted in a database
              * Meaning adds _id and timestamps if necessary on a copy of newDoc to avoid any side effect on user input
              * @api private
              */
-            Datastore.prototype.prepareDocumentForInsertion = function (newDoc) {
                 var preparedDoc, self = this;
 
                 if (Array.isArray(newDoc)) {
@@ -1421,11 +1371,11 @@
                 return preparedDoc;
             };
 
+            Datastore.prototype._insertInCache = function (preparedDoc) {
             /**
              * If newDoc is an array of documents, this will insert all documents in the cache
              * @api private
              */
-            Datastore.prototype._insertInCache = function (preparedDoc) {
                 if (Array.isArray(preparedDoc)) {
                     this._insertMultipleDocsInCache(preparedDoc);
                 } else {
@@ -1433,12 +1383,12 @@
                 }
             };
 
+            Datastore.prototype._insertMultipleDocsInCache = function (preparedDocs) {
             /**
              * If one insertion fails (e.g. because of a unique constraint), roll back all previous
              * inserts and throws the error
              * @api private
              */
-            Datastore.prototype._insertMultipleDocsInCache = function (preparedDocs) {
                 var i, failingI, error;
 
                 for (i = 0; i < preparedDocs.length; i += 1) {
@@ -1469,11 +1419,11 @@
             };
 
 
+            Datastore.prototype.count = function (query, callback) {
             /**
              * Count all documents matching the query
              * @param {Object} query MongoDB-style query
              */
-            Datastore.prototype.count = function (query, callback) {
                 var cursor = new Cursor(this, query, function (error, docs, callback) {
                     if (error) {
                         return callback(error);
@@ -1489,13 +1439,13 @@
             };
 
 
+            Datastore.prototype.find = function (query, projection, callback) {
             /**
              * Find all documents matching the query
              * If no callback is passed, we return the cursor so that user can limit, skip and finally exec
              * @param {Object} query MongoDB-style query
              * @param {Object} projection MongoDB-style projection
              */
-            Datastore.prototype.find = function (query, projection, callback) {
                 switch (arguments.length) {
                     case 1:
                         projection = {};
@@ -1532,12 +1482,12 @@
             };
 
 
+            Datastore.prototype.findOne = function (query, projection, callback) {
             /**
              * Find one document matching the query
              * @param {Object} query MongoDB-style query
              * @param {Object} projection MongoDB-style projection
              */
-            Datastore.prototype.findOne = function (query, projection, callback) {
                 switch (arguments.length) {
                     case 1:
                         projection = {};
@@ -1571,6 +1521,7 @@
             };
 
 
+            Datastore.prototype._update = function (query, updateQuery, options, cb) {
             /**
              * Update all docs matching query
              * @param {Object} query
@@ -1596,7 +1547,6 @@
              *
              * @api private Use Datastore.update which has the same signature
              */
-            Datastore.prototype._update = function (query, updateQuery, options, cb) {
                 var callback, self = this,
                     numReplaced = 0,
                     multi, upsert, i;
@@ -1729,6 +1679,7 @@
             };
 
 
+            Datastore.prototype._remove = function (query, options, cb) {
             /**
              * Remove all docs matching the query
              * For now very naive implementation (similar to update)
@@ -1739,7 +1690,6 @@
              *
              * @api private Use Datastore.remove which has the same signature
              */
-            Datastore.prototype._remove = function (query, options, cb) {
                 var callback, self = this,
                     numRemoved = 0,
                     removedDocs = [],
@@ -1795,18 +1745,17 @@
 
         }, {
             "./cursor": 5,
-            "./customUtils": 6,
             "./executor": 8,
             "./indexes": 9,
             "./model": 10,
             "./persistence": 11
         }],
         8: [function (require, module, exports) {
+
+            function Executor() {
             /**
              * Responsible for sequentially executing actions on the database
              */
-
-            function Executor() {
                 this.buffer = [];
                 this.ready = false;
 
@@ -1849,6 +1798,7 @@
             }
 
 
+            Executor.prototype.push = function (task, forceQueuing) {
             /**
              * If executor is ready, queue task (and process it immediately if executor was idle)
              * If not, buffer task for later processing
@@ -1859,7 +1809,6 @@
              *                                                                 and the last argument cannot be false/undefined/null
              * @param {Boolean} forceQueuing Optional (defaults to false) force executor to queue task even if it is not ready
              */
-            Executor.prototype.push = function (task, forceQueuing) {
                 if (this.ready || forceQueuing) {
                     this.queue.push(task);
                 } else {
@@ -1877,10 +1826,10 @@
             var BinarySearchTree = require('./lib/avltree'),
                 model = require('./model');
 
+            function projectForUnique(elt) {
             /**
              * Type-aware projection
              */
-            function projectForUnique(elt) {
                 if (elt === null) {
                     return '$null';
                 }
@@ -1901,6 +1850,7 @@
             }
 
 
+            function Index(options) {
             /**
              * Create a new index
              * All methods on an index guarantee that either the whole operation was successful and the index changed
@@ -1909,7 +1859,6 @@
              * @param {Boolean} options.unique Optional, enforce a unique constraint (default: false)
              * @param {Boolean} options.sparse Optional, allow a sparse index (we can have documents for which fieldName is undefined) (default: false)
              */
-            function Index(options) {
                 this.fieldName = options.fieldName;
                 this.unique = options.unique || false;
                 this.sparse = options.sparse || false;
@@ -1920,12 +1869,12 @@
             }
 
 
+            Index.prototype.reset = function (newData) {
             /**
              * Reset an index
              * @param {Document or Array of documents} newData Optional, data to initialize the index with
              *                                                 If an error is thrown during insertion, the index is not modified
              */
-            Index.prototype.reset = function (newData) {
                 this.tree = new BinarySearchTree(this.treeOptions);
 
                 if (newData) {
@@ -1934,12 +1883,12 @@
             };
 
 
+            Index.prototype.insert = function (doc) {
             /**
              * Insert a new document in the index
              * If an array is passed, we insert all its elements (if one insertion fails the index is not modified)
              * O(log(n))
              */
-            Index.prototype.insert = function (doc) {
                 var key, self = this,
                     keys, i, failingI, error;
 
@@ -1982,13 +1931,13 @@
             };
 
 
+            Index.prototype.insertMultipleDocs = function (docs) {
             /**
              * Insert an array of documents in the index
              * If a constraint is violated, the changes should be rolled back and an error thrown
              *
              * @API private
              */
-            Index.prototype.insertMultipleDocs = function (docs) {
                 var i, error, failingI;
 
                 for (i = 0; i < docs.length; i += 1) {
@@ -2011,13 +1960,13 @@
             };
 
 
+            Index.prototype.remove = function (doc) {
             /**
              * Remove a document from the index
              * If an array is passed, we remove all its elements
              * The remove operation is safe with regards to the 'unique' constraint
              * O(log(n))
              */
-            Index.prototype.remove = function (doc) {
                 var key, self = this;
 
                 if (Array.isArray(doc)) {
@@ -2043,12 +1992,12 @@
             };
 
 
+            Index.prototype.update = function (oldDoc, newDoc) {
             /**
              * Update a document in the index
              * If a constraint is violated, changes are rolled back and an error thrown
              * Naive implementation, still in O(log(n))
              */
-            Index.prototype.update = function (oldDoc, newDoc) {
                 if (Array.isArray(oldDoc)) {
                     this.updateMultipleDocs(oldDoc);
                     return;
@@ -2065,6 +2014,7 @@
             };
 
 
+            Index.prototype.updateMultipleDocs = function (pairs) {
             /**
              * Update multiple documents in the index
              * If a constraint is violated, the changes need to be rolled back
@@ -2073,7 +2023,6 @@
              *
              * @API private
              */
-            Index.prototype.updateMultipleDocs = function (pairs) {
                 var i, failingI, error;
 
                 for (i = 0; i < pairs.length; i += 1) {
@@ -2105,10 +2054,10 @@
             };
 
 
+            Index.prototype.revertUpdate = function (oldDoc, newDoc) {
             /**
              * Revert an update
              */
-            Index.prototype.revertUpdate = function (oldDoc, newDoc) {
                 var revert = [];
 
                 if (!Array.isArray(oldDoc)) {
@@ -2125,12 +2074,12 @@
             };
 
 
+            Index.prototype.getMatching = function (value) {
             /**
              * Get all documents in index whose key match value (if it is a Thing) or one of the elements of value (if it is an array of Things)
              * @param {Thing} value Value to match the key against
              * @return {Array of documents}
              */
-            Index.prototype.getMatching = function (value) {
                 var self = this;
 
                 if (!Array.isArray(value)) {
@@ -2154,22 +2103,22 @@
             };
 
 
+            Index.prototype.getBetweenBounds = function (query) {
             /**
              * Get all documents in index whose key is between bounds are they are defined by query
              * Documents are sorted by key
              * @param {Query} query
              * @return {Array of documents}
              */
-            Index.prototype.getBetweenBounds = function (query) {
                 return this.tree.betweenBounds(query);
             };
 
 
+            Index.prototype.getAll = function () {
             /**
              * Get all elements in the index
              * @return {Array of documents}
              */
-            Index.prototype.getAll = function () {
                 var res = [];
 
                 this.tree.executeOnEveryNode(function (node) {
@@ -2208,6 +2157,7 @@
                 arrayComparisonFunctions = {};
 
 
+            function checkKey(k, v) {
             /**
              * Check a key, throw an error if the key is non valid
              * @param {String} k key
@@ -2216,7 +2166,6 @@
              * Its serialized-then-deserialized version it will transformed into a Date object
              * But you really need to want it to trigger such behaviour, even when warned not to use '$' at the beginning of the field names...
              */
-            function checkKey(k, v) {
                 if (typeof k === 'number') {
                     k = k.toString();
                 }
@@ -2231,11 +2180,11 @@
             }
 
 
+            function checkObject(obj) {
             /**
              * Check a DB object and throw an error if it's not valid
              * Works by applying the above checkKey function to all fields recursively
              */
-            function checkObject(obj) {
                 if (Array.isArray(obj)) {
                     obj.forEach(function(o) {
                         checkObject(o);
@@ -2251,6 +2200,7 @@
             }
 
 
+            function serialize(obj) {
             /**
              * Serialize an object to be persisted to a one-line string
              * For serialization/deserialization, we use the native JSON parser and not eval or Function
@@ -2259,7 +2209,6 @@
              * Accepted primitive types: Number, String, Boolean, Date, null
              * Accepted secondary types: Objects, Arrays
              */
-            function serialize(obj) {
                 var res;
 
                 res = JSON.stringify(obj, function(k, v) {
@@ -2287,11 +2236,11 @@
             }
 
 
+            function deserialize(rawData) {
             /**
              * From a one-line representation of an object generate by the serialize function
              * Return the object itself
              */
-            function deserialize(rawData) {
                 return JSON.parse(rawData, function(k, v) {
                     if (k === '$$date') {
                         return new Date(v).toISOString();
@@ -2308,12 +2257,12 @@
             }
 
 
+            function deepCopy(obj, strictKeys) {
             /**
              * Deep copy a DB object
              * The optional strictKeys flag (defaulting to false) indicates whether to copy everything or only fields
              * where the keys are valid, i.e. don't begin with $ and don't contain a .
              */
-            function deepCopy(obj, strictKeys) {
                 var res;
 
                 if (typeof obj === 'boolean' ||
@@ -2346,11 +2295,11 @@
             }
 
 
+            function isPrimitiveType(obj) {
             /**
              * Tells if an object is a primitive type or a 'real' object
              * Arrays are considered primitive
              */
-            function isPrimitiveType(obj) {
                 return (typeof obj === 'boolean' ||
                     typeof obj === 'number' ||
                     typeof obj === 'string' ||
@@ -2374,29 +2323,29 @@
              * @param {Model} value
              */
 
+            lastStepModifierFunctions.$set = function(obj, field, value) {
             /**
              * Set a field to a new value
              */
-            lastStepModifierFunctions.$set = function(obj, field, value) {
                 obj[field] = value;
             };
 
 
+            lastStepModifierFunctions.$unset = function(obj, field, value) {
             /**
              * Unset a field
              */
-            lastStepModifierFunctions.$unset = function(obj, field, value) {
                 delete obj[field];
             };
 
 
+            lastStepModifierFunctions.$push = function(obj, field, value) {
             /**
              * Push an element to the end of an array field
              * Optional modifier $each instead of value to push several values
              * Optional modifier $slice to slice the resulting array, see https://docs.mongodb.org/manual/reference/operator/update/slice/
              * Différeence with MongoDB: if $slice is specified and not $each, we act as if value is an empty array
              */
-            lastStepModifierFunctions.$push = function(obj, field, value) {
                 // Create the array if it doesn't exist
                 if (!obj.hasOwnProperty(field)) {
                     obj[field] = [];
@@ -2445,12 +2394,12 @@
             };
 
 
+            lastStepModifierFunctions.$addToSet = function(obj, field, value) {
             /**
              * Add an element to an array field only if it is not already in it
              * No modification if the element is already in the array
              * Note that it doesn't check whether the original array contains duplicates
              */
-            lastStepModifierFunctions.$addToSet = function(obj, field, value) {
                 var addToSet = true;
 
                 // Create the array if it doesn't exist
@@ -2486,10 +2435,10 @@
             };
 
 
+            lastStepModifierFunctions.$pop = function(obj, field, value) {
             /**
              * Remove the first or last element of an array
              */
-            lastStepModifierFunctions.$pop = function(obj, field, value) {
                 if (!Array.isArray(obj[field])) {
                     throw new Error("Can't $pop an element from non-array values");
                 }
@@ -2508,10 +2457,10 @@
             };
 
 
+            lastStepModifierFunctions.$pull = function(obj, field, value) {
             /**
              * Removes all instances of a value from an existing array
              */
-            lastStepModifierFunctions.$pull = function(obj, field, value) {
                 var arr, i;
 
                 if (!Array.isArray(obj[field])) {
@@ -2527,10 +2476,10 @@
             };
 
 
+            lastStepModifierFunctions.$inc = function(obj, field, value) {
             /**
              * Increment a numeric field's value
              */
-            lastStepModifierFunctions.$inc = function(obj, field, value) {
                 if (typeof value !== 'number') {
                     throw new Error(value + " must be a number");
                 }
@@ -2546,10 +2495,10 @@
                 }
             };
 
+            lastStepModifierFunctions.$max = function(obj, field, value) {
             /**
              * Updates the value of the field, only if specified field is greater than the current value of the field
              */
-            lastStepModifierFunctions.$max = function(obj, field, value) {
                 if (typeof obj[field] === 'undefined') {
                     obj[field] = value;
                 } else if (value > obj[field]) {
@@ -2557,10 +2506,10 @@
                 }
             };
 
+            lastStepModifierFunctions.$min = function(obj, field, value) {
             /**
              * Updates the value of the field, only if specified field is smaller than the current value of the field
              */
-            lastStepModifierFunctions.$min = function(obj, field, value) {
                 if (typeof obj[field] === 'undefined') {
                     obj[field] = value;
                 } else if (value < obj[field]) {
@@ -2593,10 +2542,10 @@
             });
 
 
+            function modify(obj, updateQuery) {
             /**
              * Modify a DB object according to an update query
              */
-            function modify(obj, updateQuery) {
                 var keys = Object.keys(updateQuery),
                     firstChars = keys.map(function(item) {
                         return item[0];
@@ -2656,12 +2605,12 @@
             // Finding documents
             // ==============================================================
 
+            function getDotValue(obj, field) {
             /**
              * Get a value from object with dot notation
              * @param {Object} obj
              * @param {String} field
              */
-            function getDotValue(obj, field) {
                 var fieldParts = typeof field === 'string' ? field.split('.') : field,
                     i, objs;
 
@@ -2696,13 +2645,13 @@
             }
 
 
+            function areThingsEqual(a, b) {
             /**
              * Check whether 'things' are equal
              * Things are defined as any native types (string, number, boolean, null, date) and objects
              * In the case of object, we check deep equality
              * Returns true if they are, false otherwise
              */
-            function areThingsEqual(a, b) {
                 var aKeys, bKeys, i;
 
                 // Strings, booleans, numbers, null
@@ -2746,10 +2695,10 @@
             }
 
 
+            function areComparable(a, b) {
             /**
              * Check that two values are comparable
              */
-            function areComparable(a, b) {
                 if (typeof a !== 'string' && typeof a !== 'number' && !local.isDate(a) &&
                     typeof b !== 'string' && typeof b !== 'number' && !local.isDate(b)) {
                     return false;
@@ -2763,12 +2712,12 @@
             }
 
 
+            comparisonFunctions.$lt = function(a, b) {
             /**
              * Arithmetic and comparison operators
              * @param {Native value} a Value in the object
              * @param {Native value} b Value in the query
              */
-            comparisonFunctions.$lt = function(a, b) {
                 return areComparable(a, b) && a < b;
             };
 
@@ -2870,12 +2819,12 @@
             arrayComparisonFunctions.$elemMatch = true;
 
 
+            logicalOperators.$or = function(obj, query) {
             /**
              * Match any of the subqueries
              * @param {Model} obj
              * @param {Array of Queries} query
              */
-            logicalOperators.$or = function(obj, query) {
                 var i;
 
                 if (!Array.isArray(query)) {
@@ -2892,12 +2841,12 @@
             };
 
 
+            logicalOperators.$and = function(obj, query) {
             /**
              * Match all of the subqueries
              * @param {Model} obj
              * @param {Array of Queries} query
              */
-            logicalOperators.$and = function(obj, query) {
                 var i;
 
                 if (!Array.isArray(query)) {
@@ -2914,22 +2863,22 @@
             };
 
 
+            logicalOperators.$not = function(obj, query) {
             /**
              * Inverted match of the query
              * @param {Model} obj
              * @param {Query} query
              */
-            logicalOperators.$not = function(obj, query) {
                 return !match(obj, query);
             };
 
 
+            logicalOperators.$where = function(obj, fn) {
             /**
              * Use a function to match
              * @param {Model} obj
              * @param {Query} query
              */
-            logicalOperators.$where = function(obj, fn) {
                 var result;
 
                 if (typeof fn !== 'function') {
@@ -2945,12 +2894,12 @@
             };
 
 
+            function match(obj, query) {
             /**
              * Tell if a given document matches a query
              * @param {Object} obj Document to check
              * @param {Object} query
              */
-            function match(obj, query) {
                 var queryKeys, queryKey, queryValue, i;
 
                 // Primitive query against a primitive type
@@ -2986,11 +2935,11 @@
             };
 
 
+            function matchQueryPart(obj, queryKey, queryValue, treatObjAsValue) {
             /**
              * Match an object against a specific { key: value } part of a query
              * if the treatObjAsValue flag is set, don't try to match every part separately, but the array as a whole
              */
-            function matchQueryPart(obj, queryKey, queryValue, treatObjAsValue) {
                 var objValue = getDotValue(obj, queryKey),
                     i, keys, firstChars, dollarFirstChars;
 
@@ -3088,28 +3037,27 @@
              */
 
             var model = require('./model'),
-                customUtils = require('./customUtils'),
                 Index = require('./indexes');
 
 
+            function Persistence(options) {
             /**
              * Create a new Persistence object for database options.db
              * @param {Datastore} options.db
              */
-            function Persistence(options) {
                 var i, j, randomString;
 
                 this.db = options.db;
             };
 
 
+            Persistence.prototype.persistCachedDatabase = function(cb) {
             /**
              * Persist cached database
              * This serves as a compaction function since the cache always contains only the number of documents in the collection
              * while the data file is append-only so it may grow larger
              * @param {Function} cb Optional callback, signature: error
              */
-            Persistence.prototype.persistCachedDatabase = function(cb) {
                 var callback = cb,
                     toPersist = '',
                     self = this;
@@ -3138,10 +3086,10 @@
             };
 
 
+            Persistence.prototype.compactDatafile = function() {
             /**
              * Queue a rewrite of the datafile
              */
-            Persistence.prototype.compactDatafile = function() {
                 this.db.executor.push({
                     this: this,
                     fn: this.persistCachedDatabase,
@@ -3175,11 +3123,11 @@
             };
 
 
+            Persistence.prototype.treatRawData = function(rawData) {
             /**
              * From a database's raw data, return the corresponding
              * machine understandable collection
              */
-            Persistence.prototype.treatRawData = function(rawData) {
                 var data = rawData.split('\n'),
                     dataById = {},
                     tdata = [],
@@ -3221,6 +3169,7 @@
             };
 
 
+            Persistence.prototype.loadDatabase = function(cb) {
             /**
              * Load the database
              * 1) Create all indexes
@@ -3231,7 +3180,6 @@
              * This operation is very quick at startup for a big collection (60ms for ~10k docs)
              * @param {Function} cb Optional callback, signature: error
              */
-            Persistence.prototype.loadDatabase = function(cb) {
                 var callback = cb,
                     self = this;
 
@@ -3293,7 +3241,6 @@
             module.exports = Persistence;
 
         }, {
-            "./customUtils": 6,
             "./indexes": 9,
             "./model": 10
         }],
@@ -3304,17 +3251,18 @@
             var BinarySearchTree = require('./bst');
 
 
+            function AVLTree(options) {
             /**
              * Constructor
              * We can't use a direct pointer to the root node (as in the simple binary search tree)
              * as the root will change during tree rotations
              * @param {Boolean}  options.unique Whether to enforce a 'unique' constraint on the key or not
              */
-            function AVLTree(options) {
                 this.tree = new _AVLTree(options);
             }
 
 
+            function _AVLTree(options) {
             /**
              * Constructor of the internal AVLTree
              * @param {Object} options Optional
@@ -3322,7 +3270,6 @@
              * @param {Key}      options.key Initialize this BST's key with key
              * @param {Value}    options.value Initialize this BST's data with [value]
              */
-            function _AVLTree(options) {
                 options = options || {};
 
                 this.left = null;
@@ -3348,11 +3295,11 @@
             AVLTree._AVLTree = _AVLTree;
 
 
+            _AVLTree.prototype.checkHeightCorrect = function() {
             /**
              * Check the recorded height is correct for every node
              * Throws if one height doesn't match
              */
-            _AVLTree.prototype.checkHeightCorrect = function() {
                 var leftH, rightH;
 
                 if (!this.hasOwnProperty('key')) {
@@ -3384,20 +3331,20 @@
             };
 
 
+            _AVLTree.prototype.balanceFactor = function() {
             /**
              * Return the balance factor
              */
-            _AVLTree.prototype.balanceFactor = function() {
                 var leftH = this.left ? this.left.height : 0,
                     rightH = this.right ? this.right.height : 0;
                 return leftH - rightH;
             };
 
 
+            _AVLTree.prototype.checkBalanceFactors = function() {
             /**
              * Check that the balance factors are all between -1 and 1
              */
-            _AVLTree.prototype.checkBalanceFactors = function() {
                 if (Math.abs(this.balanceFactor()) > 1) {
                     throw new Error('Tree is unbalanced at node ' + this.key);
                 }
@@ -3411,11 +3358,11 @@
             };
 
 
+            _AVLTree.prototype.checkIsAVLT = function() {
             /**
              * When checking if the BST conditions are met, also check that the heights are correct
              * and the tree is balanced
              */
-            _AVLTree.prototype.checkIsAVLT = function() {
                 _AVLTree.super_.prototype.checkIsBST.call(this);
                 this.checkHeightCorrect();
                 this.checkBalanceFactors();
@@ -3425,12 +3372,12 @@
             };
 
 
+            _AVLTree.prototype.rightRotation = function() {
             /**
              * Perform a right rotation of the tree if possible
              * and return the root of the resulting tree
              * The resulting tree's nodes' heights are also updated
              */
-            _AVLTree.prototype.rightRotation = function() {
                 var q = this,
                     p = this.left,
                     b, ah, bh, ch;
@@ -3470,12 +3417,12 @@
             };
 
 
+            _AVLTree.prototype.leftRotation = function() {
             /**
              * Perform a left rotation of the tree if possible
              * and return the root of the resulting tree
              * The resulting tree's nodes' heights are also updated
              */
-            _AVLTree.prototype.leftRotation = function() {
                 var p = this,
                     q = this.right,
                     b, ah, bh, ch;
@@ -3515,11 +3462,11 @@
             };
 
 
+            _AVLTree.prototype.rightTooSmall = function() {
             /**
              * Modify the tree if its right subtree is too small compared to the left
              * Return the new root if any
              */
-            _AVLTree.prototype.rightTooSmall = function() {
                 if (this.balanceFactor() <= 1) {
                     return this;
                 } // Right is not too small, don't change
@@ -3532,11 +3479,11 @@
             };
 
 
+            _AVLTree.prototype.leftTooSmall = function() {
             /**
              * Modify the tree if its left subtree is too small compared to the right
              * Return the new root if any
              */
-            _AVLTree.prototype.leftTooSmall = function() {
                 if (this.balanceFactor() >= -1) {
                     return this;
                 } // Left is not too small, don't change
@@ -3549,13 +3496,13 @@
             };
 
 
+            _AVLTree.prototype.rebalanceAlongPath = function(path) {
             /**
              * Rebalance the tree along the given path. The path is given reversed (as he was calculated
              * in the insert and delete functions).
              * Returns the new root of the tree
              * Of course, the first element of the path must be the root of the tree
              */
-            _AVLTree.prototype.rebalanceAlongPath = function(path) {
                 var newRoot = this,
                     rotated, i;
 
@@ -3587,11 +3534,11 @@
             };
 
 
+            _AVLTree.prototype.insert = function(key, value) {
             /**
              * Insert a key, value pair in the tree while maintaining the AVL tree height constraint
              * Return a pointer to the root node, which may have changed
              */
-            _AVLTree.prototype.insert = function(key, value) {
                 var insertPath = [],
                     currentNode = this;
 
@@ -3657,12 +3604,12 @@
             };
 
 
+            _AVLTree.prototype.delete = function(key, value) {
             /**
              * Delete a key or just a value and return the new root of the tree
              * @param {Key} key
              * @param {Value} value Optional. If not set, the whole key is deleted. If set, only this value is deleted
              */
-            _AVLTree.prototype.delete = function(key, value) {
                 var newData = [],
                     replaceWith, self = this,
                     currentNode = this,
@@ -3798,10 +3745,10 @@
             };
 
 
+            ['getNumberOfKeys', 'search', 'betweenBounds', 'prettyPrint', 'executeOnEveryNode'].forEach(function(fn) {
             /**
              * Other functions we want to use on an AVLTree as if it were the internal _AVLTree
              */
-            ['getNumberOfKeys', 'search', 'betweenBounds', 'prettyPrint', 'executeOnEveryNode'].forEach(function(fn) {
                 AVLTree.prototype[fn] = function() {
                     return this.tree[fn].apply(this.tree, arguments);
                 };
@@ -3819,6 +3766,7 @@
              * Simple binary search tree
              */
 
+            function BinarySearchTree(options) {
             /**
              * Constructor
              * @param {Object} options Optional
@@ -3826,7 +3774,6 @@
              * @param {Key}      options.key Initialize this BST's key with key
              * @param {Value}    options.value Initialize this BST's data with [value]
              */
-            function BinarySearchTree(options) {
                 options = options || {};
 
                 this.left = null;
@@ -3846,10 +3793,10 @@
             // ================================
 
 
+            BinarySearchTree.prototype.getMaxKeyDescendant = function() {
             /**
              * Get the descendant with max key
              */
-            BinarySearchTree.prototype.getMaxKeyDescendant = function() {
                 if (this.right) {
                     return this.right.getMaxKeyDescendant();
                 } else {
@@ -3858,18 +3805,18 @@
             };
 
 
+            BinarySearchTree.prototype.getMaxKey = function() {
             /**
              * Get the maximum key
              */
-            BinarySearchTree.prototype.getMaxKey = function() {
                 return this.getMaxKeyDescendant().key;
             };
 
 
+            BinarySearchTree.prototype.getMinKeyDescendant = function() {
             /**
              * Get the descendant with min key
              */
-            BinarySearchTree.prototype.getMinKeyDescendant = function() {
                 if (this.left) {
                     return this.left.getMinKeyDescendant()
                 } else {
@@ -3878,19 +3825,19 @@
             };
 
 
+            BinarySearchTree.prototype.getMinKey = function() {
             /**
              * Get the minimum key
              */
-            BinarySearchTree.prototype.getMinKey = function() {
                 return this.getMinKeyDescendant().key;
             };
 
 
+            BinarySearchTree.prototype.checkAllNodesFullfillCondition = function(test) {
             /**
              * Check that all nodes (incl. leaves) fullfil condition given by fn
              * test is a function passed every (key, data) and which throws if the condition is not met
              */
-            BinarySearchTree.prototype.checkAllNodesFullfillCondition = function(test) {
                 if (!this.hasOwnProperty('key')) {
                     return;
                 }
@@ -3905,11 +3852,11 @@
             };
 
 
+            BinarySearchTree.prototype.checkNodeOrdering = function() {
             /**
              * Check that the core BST properties on node ordering are verified
              * Throw if they aren't
              */
-            BinarySearchTree.prototype.checkNodeOrdering = function() {
                 var self = this;
 
                 if (!this.hasOwnProperty('key')) {
@@ -3936,10 +3883,10 @@
             };
 
 
+            BinarySearchTree.prototype.checkInternalPointers = function() {
             /**
              * Check that all pointers are coherent in this tree
              */
-            BinarySearchTree.prototype.checkInternalPointers = function() {
                 if (this.left) {
                     if (this.left.parent !== this) {
                         throw new Error('Parent pointer broken for key ' + this.key);
@@ -3956,10 +3903,10 @@
             };
 
 
+            BinarySearchTree.prototype.checkIsBST = function() {
             /**
              * Check that a tree is a BST as defined here (node ordering and pointer references)
              */
-            BinarySearchTree.prototype.checkIsBST = function() {
                 this.checkNodeOrdering();
                 this.checkInternalPointers();
                 if (this.parent) {
@@ -3968,10 +3915,10 @@
             };
 
 
+            BinarySearchTree.prototype.getNumberOfKeys = function() {
             /**
              * Get number of keys inserted
              */
-            BinarySearchTree.prototype.getNumberOfKeys = function() {
                 var res;
 
                 if (!this.hasOwnProperty('key')) {
@@ -3995,12 +3942,12 @@
             // Methods used to actually work on the tree
             // ============================================
 
+            BinarySearchTree.prototype.createSimilar = function(options) {
             /**
              * Create a BST similar (i.e. same options except for key and value) to the current one
              * Use the same constructor (i.e. BinarySearchTree, AVLTree etc)
              * @param {Object} options see constructor
              */
-            BinarySearchTree.prototype.createSimilar = function(options) {
                 options = options || {};
                 options.unique = this.unique;
 
@@ -4008,10 +3955,10 @@
             };
 
 
+            BinarySearchTree.prototype.createLeftChild = function(options) {
             /**
              * Create the left child of this BST and return it
              */
-            BinarySearchTree.prototype.createLeftChild = function(options) {
                 var leftChild = this.createSimilar(options);
                 leftChild.parent = this;
                 this.left = leftChild;
@@ -4020,10 +3967,10 @@
             };
 
 
+            BinarySearchTree.prototype.createRightChild = function(options) {
             /**
              * Create the right child of this BST and return it
              */
-            BinarySearchTree.prototype.createRightChild = function(options) {
                 var rightChild = this.createSimilar(options);
                 rightChild.parent = this;
                 this.right = rightChild;
@@ -4032,10 +3979,10 @@
             };
 
 
+            BinarySearchTree.prototype.insert = function(key, value) {
             /**
              * Insert a new element
              */
-            BinarySearchTree.prototype.insert = function(key, value) {
                 // Empty tree, insert as root
                 if (!this.hasOwnProperty('key')) {
                     this.key = key;
@@ -4080,10 +4027,10 @@
             };
 
 
+            BinarySearchTree.prototype.search = function(key) {
             /**
              * Search for all data corresponding to a key
              */
-            BinarySearchTree.prototype.search = function(key) {
                 if (!this.hasOwnProperty('key')) {
                     return [];
                 }
@@ -4108,10 +4055,10 @@
             };
 
 
+            BinarySearchTree.prototype.getLowerBoundMatcher = function(query) {
             /**
              * Return a function that tells whether a given key matches a lower bound
              */
-            BinarySearchTree.prototype.getLowerBoundMatcher = function(query) {
                 var self = this;
 
                 // No lower bound
@@ -4151,10 +4098,10 @@
             };
 
 
+            BinarySearchTree.prototype.getUpperBoundMatcher = function(query) {
             /**
              * Return a function that tells whether a given key matches an upper bound
              */
-            BinarySearchTree.prototype.getUpperBoundMatcher = function(query) {
                 var self = this;
 
                 // No lower bound
@@ -4204,13 +4151,13 @@
             }
 
 
+            BinarySearchTree.prototype.betweenBounds = function(query, lbm, ubm) {
             /**
              * Get all data for a key between bounds
              * Return it in key order
              * @param {Object} query Mongo-style query where keys are $lt, $lte, $gt or $gte (other keys are not considered)
              * @param {Functions} lbm/ubm matching functions calculated at the first recursive step
              */
-            BinarySearchTree.prototype.betweenBounds = function(query, lbm, ubm) {
                 var res = [];
 
                 if (!this.hasOwnProperty('key')) {
@@ -4234,11 +4181,11 @@
             };
 
 
+            BinarySearchTree.prototype.deleteIfLeaf = function() {
             /**
              * Delete the current node if it is a leaf
              * Return true if it was deleted
              */
-            BinarySearchTree.prototype.deleteIfLeaf = function() {
                 if (this.left || this.right) {
                     return false;
                 }
@@ -4260,11 +4207,11 @@
             };
 
 
+            BinarySearchTree.prototype.deleteIfOnlyOneChild = function() {
             /**
              * Delete the current node if it has only one child
              * Return true if it was deleted
              */
-            BinarySearchTree.prototype.deleteIfOnlyOneChild = function() {
                 var child;
 
                 if (this.left && !this.right) {
@@ -4309,12 +4256,12 @@
             };
 
 
+            BinarySearchTree.prototype.delete = function(key, value) {
             /**
              * Delete a key or just a value
              * @param {Key} key
              * @param {Value} value Optional. If not set, the whole key is deleted. If set, only this value is deleted
              */
-            BinarySearchTree.prototype.delete = function(key, value) {
                 var newData = [],
                     replaceWith, self = this;
 
@@ -4400,11 +4347,11 @@
             };
 
 
+            BinarySearchTree.prototype.executeOnEveryNode = function(fn) {
             /**
              * Execute a function on every node of the tree, in key order
              * @param {Function} fn Signature: node. Most useful will probably be node.key and node.data
              */
-            BinarySearchTree.prototype.executeOnEveryNode = function(fn) {
                 if (this.left) {
                     this.left.executeOnEveryNode(fn);
                 }
@@ -4415,11 +4362,11 @@
             };
 
 
+            BinarySearchTree.prototype.prettyPrint = function(printData, spacing) {
             /**
              * Pretty print a tree
              * @param {Boolean} printData To print the nodes' data along with the key
              */
-            BinarySearchTree.prototype.prettyPrint = function(printData, spacing) {
                 spacing = spacing || '';
 
                 console.log(spacing + "* " + this.key);
