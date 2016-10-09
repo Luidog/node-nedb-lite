@@ -673,9 +673,6 @@
                 }
             });
         };
-        local.isDate = function (obj) {
-            return Object.prototype.toString.call(obj) === '[object Date]';
-        };
         local.isRegExp = function (obj) {
             return Object.prototype.toString.call(obj) === '[object RegExp]';
         };
@@ -1238,7 +1235,7 @@
                         // For a basic match
                         usableQueryKeys = [];
                         Object.keys(query).forEach(function (k) {
-                            if (typeof query[k] === 'string' || typeof query[k] === 'number' || typeof query[k] === 'boolean' || local.isDate(query[k]) || query[k] === null) {
+                            if (typeof query[k] === 'string' || typeof query[k] === 'number' || typeof query[k] === 'boolean' || query[k] === null) {
                                 usableQueryKeys.push(k);
                             }
                         });
@@ -1292,7 +1289,7 @@
                         docs.forEach(function (doc) {
                             var valid = true;
                             ttlIndexesFieldNames.forEach(function (i) {
-                                if (doc[i] !== undefined && local.isDate(doc[i]) && Date.now() > doc[i].getTime() + self.ttlIndexes[i] * 1000) {
+                                if (doc[i] !== undefined && Date.now() > new Date(doc[i]).getTime() + self.ttlIndexes[i] * 1000) {
                                     valid = false;
                                 }
                             });
@@ -1555,8 +1552,7 @@
              *                      If update was an upsert, upsert flag is set to true
              *                      affectedDocuments can be one of the following:
              *                        * For an upsert, the upserted document
-             *                        * For an update with multi false, the updated document
-             *                        * For an update with multi true, the array of updated documents
+             *                        * For an update, the array of updated documents
              *
              * WARNING: The API was changed between v1.7.4 and v1.8, for consistency and readability reasons. Prior and including to v1.7.4,
              *          the callback signature was (error, numAffected, updated) where updated was the updated document in case of an upsert
@@ -1671,9 +1667,6 @@
                                 updatedDocs.forEach(function (doc) {
                                     updatedDocsDC.push(model.deepCopy(doc));
                                 });
-                                if (!multi) {
-                                    updatedDocsDC = updatedDocsDC[0];
-                                }
                                 return callback(null, numReplaced, updatedDocsDC);
                             });
                         });
@@ -2281,8 +2274,7 @@
                 if (typeof obj === 'boolean' ||
                     typeof obj === 'number' ||
                     typeof obj === 'string' ||
-                    obj === null ||
-                    (local.isDate(obj))) {
+                    obj === null) {
                     return obj;
                 }
 
@@ -2317,7 +2309,6 @@
                     typeof obj === 'number' ||
                     typeof obj === 'string' ||
                     obj === null ||
-                    local.isDate(obj) ||
                     Array.isArray(obj));
             }
 
@@ -2673,11 +2664,6 @@
                     return a === b;
                 }
 
-                // Dates
-                if (local.isDate(a) || local.isDate(b)) {
-                    return local.isDate(a) && local.isDate(b) && a.getTime() === b.getTime();
-                }
-
                 // Arrays (no match since arrays are used as a $in)
                 // undefined (no match since they mean field doesn't exist and can't be serialized)
                 if ((!(Array.isArray(a) && Array.isArray(b)) && (Array.isArray(a) || Array.isArray(b))) || a === undefined || b === undefined) {
@@ -2712,8 +2698,8 @@
             /**
              * Check that two values are comparable
              */
-                if (typeof a !== 'string' && typeof a !== 'number' && !local.isDate(a) &&
-                    typeof b !== 'string' && typeof b !== 'number' && !local.isDate(b)) {
+                if (typeof a !== 'string' && typeof a !== 'number' &&
+                    typeof b !== 'string' && typeof b !== 'number') {
                     return false;
                 }
 
