@@ -261,6 +261,30 @@
             options.onNext();
         };
 
+        local.testCase_idIntegerCreate_default = function (options, onError) {
+        /*
+         * this function will test idIntegerCreate's default handling-behavior
+         */
+            options = {};
+            options.data = local.idIntegerCreate();
+            local.utility2.assert(options.data >= Date.now() * 0x700);
+            local.utility2.assert(options.data <= Date.now() * 0x900);
+            options.data = local.idIntegerCreate();
+            local.utility2.assert(options.data >= Date.now() * 0x700);
+            local.utility2.assert(options.data <= Date.now() * 0x900);
+            onError();
+        };
+
+        local.testCase_idStringCreate_default = function (options, onError) {
+        /*
+         * this function will test idStringCreate's default handling-behavior
+         */
+            options = {};
+            options.data = local.idStringCreate();
+            local.utility2.assertJsonEqual(options.data.length, 16);
+            onError();
+        };
+
         local.testCase_jsonStringifyOrdered_default = function (options, onError) {
         /*
          * this function will test jsonStringifyOrdered's default handling-behavior

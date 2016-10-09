@@ -225,6 +225,27 @@
             return local.fsDirInitialized;
         };
 
+        local.idIntegerCreate = function () {
+        /*
+         * this function will return a semi-unique (until 2109), time-based, 53-bit integer,
+         * that can be used as an id
+         */
+            var id;
+            id = Date.now() * 0x800;
+            local.idIntegerMin = id <= local.idIntegerMin
+                ? local.idIntegerMin + 1
+                : id;
+            return local.idIntegerMin;
+        };
+
+        local.idStringCreate = function () {
+        /*
+         * this function will return a semi-unique, time-based, 16-character string
+         * that can be used as an id
+         */
+            return (Date.now().toString(36) + Math.random().toString(36).slice(2)).slice(0, 16);
+        };
+
         local.jsonStringifyOrdered = function (element, replacer, space) {
         /*
          * this function will JSON.stringify the element,
@@ -1208,13 +1229,10 @@
                 }
 
 
-                var modeNext, onNext;
-                modeNext = 0;
-                onNext = function (error, docs) {
-                    modeNext = error
-                        ? Infinity
-                        : modeNext + 1;
-                    switch (modeNext) {
+                var options;
+                options = {};
+                local.onNext(options, function (error, docs) {
+                    switch (options.modeNext) {
                     // STEP 1: get candidates list by checking indexes from most to least frequent usecase
                     case 1:
                         // For a basic match
@@ -1228,7 +1246,7 @@
                             return self.indexes.hasOwnProperty(element);
                         });
                         if (usableQueryKeys.length > 0) {
-                            return onNext(null, self.indexes[usableQueryKeys[0]].getMatching(query[usableQueryKeys[0]]));
+                            return options.onNext(null, self.indexes[usableQueryKeys[0]].getMatching(query[usableQueryKeys[0]]));
                         }
 
                         // For a $in match
@@ -1242,7 +1260,7 @@
                             return self.indexes.hasOwnProperty(element);
                         });
                         if (usableQueryKeys.length > 0) {
-                            return onNext(null, self.indexes[usableQueryKeys[0]].getMatching(query[usableQueryKeys[0]].$in));
+                            return options.onNext(null, self.indexes[usableQueryKeys[0]].getMatching(query[usableQueryKeys[0]].$in));
                         }
 
                         // For a comparison match
@@ -1256,11 +1274,11 @@
                             return self.indexes.hasOwnProperty(element);
                         });
                         if (usableQueryKeys.length > 0) {
-                            return onNext(null, self.indexes[usableQueryKeys[0]].getBetweenBounds(query[usableQueryKeys[0]]));
+                            return options.onNext(null, self.indexes[usableQueryKeys[0]].getBetweenBounds(query[usableQueryKeys[0]]));
                         }
 
                         // By default, return all the DB data
-                        return onNext(null, self.getAllData());
+                        return options.onNext(null, self.getAllData());
                     // STEP 2: remove all expired documents
                     default:
                         if (dontExpireStaleDocs) {
@@ -1298,8 +1316,9 @@
                             return callback(null, validDocs);
                         });
                     }
-                };
-                onNext();
+                });
+                options.modeNext = 0;
+                options.onNext();
             };
 
 
@@ -1332,12 +1351,15 @@
             /**
              * Create a new _id that's not already in use
              */
-                var tentativeId = (Date.now().toString(36) + Math.random().toString(36).slice(2)).slice(0, 16);
-                // Try as many times as needed to get an unused _id. As explained in customUtils, the probability of this ever happening is extremely small, so this is O(1)
-                if (this.indexes._id.getMatching(tentativeId).length > 0) {
-                    tentativeId = this.createNewId();
+                var id;
+                // Try as many times as needed to get an unused _id.
+                // the probability of this ever happening is extremely small, so this is O(1)
+                while (true) {
+                    id = local.idStringCreate();
+                    if (!this.indexes._id.getMatching(id).length) {
+                        return id;
+                    }
                 }
-                return tentativeId;
             };
 
             Datastore.prototype.prepareDocumentForInsertion = function (newDoc) {
@@ -1559,17 +1581,14 @@
                 multi = options.multi !== undefined ? options.multi : false;
                 upsert = options.upsert !== undefined ? options.upsert : false;
 
-                var modeNext, onNext;
-                modeNext = 0;
-                onNext = function (error) {
-                    modeNext = error
-                        ? Infinity
-                        : modeNext + 1;
-                    switch (modeNext) {
+                var options;
+                options = {};
+                local.onNext(options, function (error) {
+                    switch (options.modeNext) {
                     case 1:
                         // If upsert option is set, check whether we need to insert the doc
                         if (!upsert) {
-                            return onNext();
+                            return options.onNext();
                         }
 
                         // Need to use an internal function not tied to the executor to avoid deadlock
@@ -1579,7 +1598,7 @@
                                 return callback(error);
                             }
                             if (docs.length === 1) {
-                                return onNext();
+                                return options.onNext();
                             } else {
                                 var toBeInserted;
 
@@ -1666,8 +1685,9 @@
                             });
                         });
                     }
-                };
-                onNext();
+                });
+                options.modeNext = 0;
+                options.onNext();
             };
 
             Datastore.prototype.update = function () {
@@ -3185,19 +3205,16 @@
 
                 self.db.resetIndexes();
 
-                var dir, modeNext, onNext;
-                modeNext = 0;
-                onNext = function (error) {
-                    modeNext = error
-                        ? Infinity
-                        : modeNext + 1;
-                    switch (modeNext) {
+                var dir, options;
+                options = {};
+                local.onNext(options, function (error) {
+                    switch (options.modeNext) {
                     case 1:
                         local.storeGetItem(self.db.name, function(error, rawData) {
                             try {
                                 var treatedData = self.treatRawData(rawData || '');
                             } catch (e) {
-                                return onNext(e);
+                                return options.onNext(e);
                             }
 
                             // Recreate all indexes in the datafile
@@ -3210,10 +3227,10 @@
                                 self.db.resetIndexes(treatedData.data);
                             } catch (e) {
                                 self.db.resetIndexes(); // Rollback any index which didn't fail
-                                return onNext(e);
+                                return options.onNext(e);
                             }
 
-                            self.db.persistence.persistCachedDatabase(onNext);
+                            self.db.persistence.persistCachedDatabase(options.onNext);
                         });
                         break;
                     default:
@@ -3232,8 +3249,9 @@
 
                         return callback();
                     }
-                };
-                onNext();
+                });
+                options.modeNext = 0;
+                options.onNext();
             };
 
 
