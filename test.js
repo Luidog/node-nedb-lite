@@ -17,7 +17,7 @@
     // run shared js-env code - pre-init
     (function () {
         // init Error.stackTraceLimit
-        Error.stackTraceLimit = Infinity;
+        Error.stackTraceLimit = 16;
         // init local
         local = {};
         // init modeJs
@@ -215,7 +215,9 @@
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    options.table.findOne({ id: options.id }, options.onNext);
+                    local.dbTableFindOne(options.table, {
+                        query: { id: options.id }
+                    }, options.onNext);
                     break;
                 case 2:
                     // validate data
@@ -246,7 +248,9 @@
                     options.table.remove({ id: options.id }, options.onNext);
                     break;
                 case 3:
-                    options.table.findOne({ id: options.id }, options.onNext);
+                    local.dbTableFindOne(options.table, {
+                        query: { id: options.id }
+                    }, options.onNext);
                     break;
                 case 4:
                     // validate data was removed
@@ -334,6 +338,15 @@
                 onError();
             });
         };
+
+        //!! local.testCase_queryCompare_default = function (options, onError) {
+        //!! /*
+         //!! * this function will test queryCompare's default handling-behavior
+         //!! */
+            //!! local.utility2.assertJsonEqual(local.queryCompare('$elemMatch'), false);
+            //!! local.utility2.assertJsonEqual(local.queryCompare('$elemMatch'), false);
+            //!! onError();
+        //!! };
     }());
     switch (local.modeJs) {
 
@@ -429,17 +442,13 @@
                             exampleList: [],
                             exports: local.Nedb
                         },
-                        'Nedb.model': {
+                        'Nedb.Persistence': {
                             exampleList: [],
-                            exports: local.Nedb.model
+                            exports: local.Nedb.Persistence
                         },
-                        'Nedb.persistence': {
+                        'Nedb.Persistence.prototype': {
                             exampleList: [],
-                            exports: local.Nedb.persistence
-                        },
-                        'Nedb.persistence.prototype': {
-                            exampleList: [],
-                            exports: local.Nedb.persistence.prototype
+                            exports: local.Nedb.Persistence.prototype
                         },
                         'Nedb.prototype': {
                             exampleList: [],

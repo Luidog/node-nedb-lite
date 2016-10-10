@@ -20,14 +20,15 @@ this package will run a standalone, browser-compatible version of the nedb v1.8.
 # documentation
 #### todo
 - npm publish 2016.9.2
+- add function dbTableLock
 - none
 
 #### change since 3e821f9c
+- jslint entire code
 - remove support for datetime (use ISO datetime string instead)
 - row-update always returns updated row
 - add function idIntegerCreate, idStringCreate
 - add eval button to demo
-- remove customUtils dependency
 - none
 
 #### this package requires
@@ -316,13 +317,13 @@ utility2-comment -->\n\
 window.table1 = window.Nedb.dbTableCreate({ name: "table1" });\n\
 table1.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log();\n\
-    console.log(table1.export());\n\
+    console.log(window.Nedb.dbTableExport(table1));\n\
 });\n\
 \n\
 window.table2 = window.Nedb.dbTableCreate({ name: "table2" });\n\
 table2.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log();\n\
-    console.log(table2.export());\n\
+    console.log(window.Nedb.dbTableExport(table2));\n\
 });\n\
 </textarea>\n\
     <button class="onclick" id="nedbEvalButton1">eval script</button><br>\n\
