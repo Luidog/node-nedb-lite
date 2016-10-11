@@ -25,7 +25,8 @@ this package will run a standalone, browser-compatible version of the nedb v1.8.
 
 #### change since 3e821f9c
 - jslint entire code
-- remove support for datetime (use ISO datetime string instead)
+- insert will auto-create missing non-sparse unique-keys
+- add isInteger parameter to indexes
 - row-update always returns updated row
 - add function idIntegerCreate, idStringCreate
 - add eval button to demo
@@ -37,9 +38,9 @@ this package will run a standalone, browser-compatible version of the nedb v1.8.
 #### additional info
 - nedb derived from https://github.com/louischatriot/nedb/blob/cadf4ef434e517e47c4e9ca1db5b89e892ff5981/browser-version/out/nedb.js
 
-#### differences from original nedb @ https://github.com/louischatriot/nedb
-- shared js-env - removed options afterSerialization, beforeSerialization, corruptAlertThreshold, inMemoryOnly
-- shared js-env - removed support for native-datetime (automatically converted to iso-string)
+#### major differences from original nedb @ https://github.com/louischatriot/nedb
+- shared js-env - replaced classes and methods with static functions (e.g. table1.find -> dbTableFind)
+- shared js-env - removed support for javascript-datetime (use ISO-datetime-string instead)
 - shared js-env - removed support for promises (callbacks only)
 - shared js-env - tables always have the timestamp-fields createdAt and updatedAt
 - browser js-env - removed support for persistence in localStorage and web-sql (persistence requires indexedDB)

@@ -7,20 +7,21 @@
  * browser example:
  *     <script src="assets.nedb-lite.js"></script>
  *     <script>
- *     var table = new window.Nedb({ name: 'table1' });
- *     table.insert({ field1: 'hello', field2: 'world'}, console.log.bind(console));
+ *     var table1 = window.Nedb.dbTableCreate({ name: "table1" });
+ *     table1.insert({ field1: 'hello', field2: 'world'}, console.log.bind(console));
  *     </script>
  *
  * node example:
  *     var Nedb = require('./assets.nedb-lite.js');
- *     var table = new Nedb({ name: 'table1' });
- *     table.insert({ field1: 'hello', field2: 'world'}, console.log.bind(console));
+ *     var table1 = window.Nedb.dbTableCreate({ name: "table1" });
+ *     table1.insert({ field1: 'hello', field2: 'world'}, console.log.bind(console));
  */
 
 
 
 /* istanbul instrument in package nedb-lite */
 /*jslint
+    bitwise: true,
     browser: true,
     maxerr: 8,
     maxlen: 196,
@@ -44,27 +45,37 @@
          * @param {String} options.name
          * with the error object as parameter. If you don't pass it the error will be thrown
          */
+            var self;
+            self = this;
             // validate name
             if (!(options && options.name && typeof options.name === 'string')) {
                 throw new Error('Nedb - missing name param, e.g. new Nedb({ name: "table1" })');
             }
-            this.name = options.name;
-            local.dbTableDrop(this, local.nop);
-            local.dbTableDict[this.name] = this;
+            self.name = options.name;
+            local.dbTableDrop(self, local.nop);
+            local.dbTableDict[self.name] = self;
             // Persistence handling
-            this.persistence = new local.Persistence({ db: this });
-            // This new executor is ready if we don't use persistence
-            // If we do, it will only be ready once loadDatabase is called
-            this.executor = new local.Executor();
+            self.persistence = new local.Persistence({ db: self });
             // Indexed by field name, dot notation can be used
             // _id is always indexed and since _ids are generated randomly the underlying
             // binary is always well-balanced
-            this.indexes = {
+            self.indexes = {
                 _id: new local.Index({ fieldName: '_id', unique: true }),
                 createdAt: new local.Index({ fieldName: 'createdAt' }),
                 updatedAt: new local.Index({ fieldName: 'updatedAt' })
             };
-            this.ttlIndexes = {};
+            self.ttlIndexes = {};
+            // init deferList
+            self.deferList = [];
+            // init lock
+            self.lock = local.onParallel(function (error) {
+                // validate no error occurred
+                local.assert(!error, error);
+                // run deferred actions
+                while (self.deferList.length) {
+                    self.deferList.shift()();
+                }
+            });
         };
         local.Nedb = local.local = local;
         // init modeJs
@@ -112,7 +123,7 @@
 
         local.dbExport = function () {
         /*
-         * this function will export the database as a serialized tableList
+         * this function will export the database as a serialized dbTableList
          */
             var data;
             data = '';
@@ -122,19 +133,19 @@
             return data.slice(0, -2);
         };
 
-        local.dbImport = function (tableList, onError) {
+        local.dbImport = function (dbTableList, onError) {
         /*
-         * this function will import the serialized tableList
+         * this function will import the serialized dbTableList
          */
             var onParallel;
             onParallel = local.onParallel(onError);
             onParallel.counter = 0;
             onParallel.counter += 1;
-            tableList.trim().split('\n\n').forEach(function (table) {
+            dbTableList.trim().split('\n\n').forEach(function (dbTable) {
                 onParallel.counter += 1;
                 local.dbTableCreate({
-                    persistenceData: table,
-                    name: JSON.parse((/.*/).exec(table)[0])
+                    persistenceData: dbTable,
+                    name: JSON.parse((/.*/).exec(dbTable)[0])
                 }, onParallel);
             });
             onParallel();
@@ -148,7 +159,7 @@
             onParallel = local.onParallel(onError);
             onParallel.counter = 0;
             onParallel.counter += 1;
-            // drop all tables
+            // drop all dbTable's
             Object.keys(local.dbTableDict).forEach(function (key) {
                 onParallel.counter += 1;
                 local.dbTableDrop({ name: key }, onParallel);
@@ -158,28 +169,35 @@
             onParallel();
         };
 
-        local.dbTableExport = function (dbTable) {
+        local.dbTableCount = function (dbTable, options, onError) {
         /*
-         * this function will export the dbTable with the given dbTable.name
+         * this function will count the number of dbRow's in dbTable with the given options
          */
-            var data, self;
-            self = local.dbTableDict[dbTable.name];
-            data = '';
-            data += JSON.stringify(String(dbTable.name)) + '\n';
-            self.getAllData().forEach(function (dbRow) {
-                data += JSON.stringify(dbRow) + '\n';
-            });
-            Object.keys(self.indexes).forEach(function (fieldName) {
-                if (fieldName === '_id') {
-                    return;
+            var result, self;
+            options = local.objectSetDefault(options, { query: {} });
+            options = local.objectSetDefault({}, options);
+            local.onNext(options, function (error, data) {
+                data = data || [];
+                switch (options.modeNext) {
+                case 1:
+                    result = 0;
+                    self = local.dbTableDict[dbTable.name];
+                    self.getCandidates(options.query, options.onNext);
+                    break;
+                case 2:
+                    data.forEach(function (dbRow) {
+                        if (local.queryMatch(dbRow, options.query)) {
+                            result += 1;
+                        }
+                    });
+                    options.onNext();
+                    break;
+                default:
+                    onError(error, result);
                 }
-                data += JSON.stringify({ $$indexCreated: {
-                    fieldName: fieldName,
-                    unique: self.indexes[fieldName].unique,
-                    sparse: self.indexes[fieldName].sparse
-                } }) + '\n';
             });
-            return data.slice(0, -1);
+            options.modeNext = 0;
+            options.onNext();
         };
 
         local.dbTableCreate = function (dbTable, onError) {
@@ -215,11 +233,20 @@
                     break;
                 case 2:
                     if (self.isLoaded) {
+                        dbTable.modeNext += 2;
                         dbTable.onNext();
                         return;
                     }
                     self.isLoaded = true;
-                    self.loadDatabase(dbTable.onNext);
+                    self.lock.counter += 1;
+                    local.storageDefer({ action: 'onError' }, dbTable.onNext);
+                    break;
+                case 3:
+                    self.persistence.loadDatabase(dbTable.onNext);
+                    break;
+                case 4:
+                    self.lock();
+                    dbTable.onNext();
                     break;
                 default:
                     onError(error, self);
@@ -230,11 +257,24 @@
             return self;
         };
 
+        local.dbTableDefer = function (dbTable, task) {
+        /**
+         * this function will defer the task until dbTable is not locked
+         */
+            var self;
+            self = local.dbTableDict[dbTable.name];
+            if (self.lock.counter) {
+                self.deferList.push(task);
+                return;
+            }
+            task();
+        };
+
         local.dbTableDict = {};
 
         local.dbTableDrop = function (dbTable, onError) {
         /*
-         * this function will drop the table with the given dbTable.name
+         * this function will drop the dbTable with the given dbTable.name
          */
             var self;
             self = local.dbTableDict[dbTable.name];
@@ -243,6 +283,7 @@
                 return;
             }
             delete local.dbTableDict[dbTable.name];
+            self.indexes = {};
             self.persistence = self.prototype = self;
             self.persistCachedDatabase = self.persistNewState = function () {
                 var ii;
@@ -257,9 +298,33 @@
             local.storageRemoveItem(self.name, onError);
         };
 
+        local.dbTableExport = function (dbTable) {
+        /*
+         * this function will export dbTable with the given dbTable.name
+         */
+            var data, self;
+            self = local.dbTableDict[dbTable.name];
+            data = '';
+            data += JSON.stringify(String(dbTable.name)) + '\n';
+            self.getAllData().forEach(function (dbRow) {
+                data += JSON.stringify(dbRow) + '\n';
+            });
+            Object.keys(self.indexes).forEach(function (fieldName) {
+                if (fieldName === '_id') {
+                    return;
+                }
+                data += JSON.stringify({ $$indexCreated: {
+                    fieldName: fieldName,
+                    unique: self.indexes[fieldName].unique,
+                    sparse: self.indexes[fieldName].sparse
+                } }) + '\n';
+            });
+            return data.slice(0, -1);
+        };
+
         local.dbTableFind = function (dbTable, options, onError) {
         /**
-         * this function will find all dbRow's in the dbTable with the given options
+         * this function will find all dbRow's in dbTable with the given options
          */
             var limit, projection, result, self, skip, sort, tmp;
             options = local.objectSetDefault(options, {
@@ -271,16 +336,14 @@
             });
             options = local.objectSetDefault({}, options);
             local.onNext(options, function (error, data) {
+                data = data || [];
                 switch (options.modeNext) {
                 case 1:
                     result = [];
                     self = local.dbTableDict[dbTable.name];
-                    self.executor.push({ fn: options.onNext }, true);
-                    break;
-                case 2:
                     self.getCandidates(options.query, options.onNext);
                     break;
-                case 3:
+                case 2:
                     sort = Object.keys(options.sort).map(function (key) {
                         return {
                             key: key,
@@ -309,7 +372,7 @@
                         return;
                     }
                     // sort
-                    result = data || [];
+                    result = data;
                     result = result.filter(function (dbRow) {
                         return local.queryMatch(dbRow, options.query);
                     });
@@ -367,14 +430,12 @@
 
         local.dbTableFindOne = function (dbTable, options, onError) {
         /**
-         * this function will find a dbRow in the dbTable with the given options
+         * this function will find one dbRow in dbTable with the given options
          */
             local.dbTableFind(dbTable, {
                 limit: 1,
                 projection: options.projection,
-                query: options.query,
-                skip: options.skip,
-                sort: options.sort
+                query: options.query
             }, function (error, data) {
                 onError(error, data[0] || null);
             });
@@ -382,7 +443,7 @@
 
         local.fsDir = function () {
         /*
-         * this function will return the persistence-dir
+         * this function will init and return the persistence-dir
          */
             if (local.fsDirInitialized) {
                 return local.fsDirInitialized;
@@ -393,27 +454,6 @@
                 stdio: ['ignore', 1, 2]
             });
             return local.fsDirInitialized;
-        };
-
-        local.idIntegerCreate = function () {
-        /*
-         * this function will return a semi-unique (until 2109), time-based, 53-bit integer,
-         * that can be used as an id
-         */
-            var id;
-            id = Date.now() * 0x800;
-            local.idIntegerMin = id <= local.idIntegerMin
-                ? local.idIntegerMin + 1
-                : id;
-            return local.idIntegerMin;
-        };
-
-        local.idStringCreate = function () {
-        /*
-         * this function will return a semi-unique, time-based, 16-character string
-         * that can be used as an id
-         */
-            return (Date.now().toString(36) + Math.random().toString(36).slice(2)).slice(0, 16);
         };
 
         local.jsonCopy = function (arg) {
@@ -498,6 +538,17 @@
             return arg;
         };
 
+        local.onErrorDefault = function (error) {
+        /*
+         * this function will print error.stack or error.message to stderr
+         */
+            // if error is defined, then print error.stack
+            if (error && !local.global.__coverage__) {
+                console.error('\nonErrorDefault - error\n' +
+                    error.message + '\n' + error.stack + '\n');
+            }
+        };
+
         local.onNext = function (options, onError) {
         /*
          * this function will wrap onError inside the recursive function options.onNext,
@@ -556,45 +607,47 @@
         /*
          * this function will query-compare aa vs bb
          */
-            switch (operator) {
-            case '$elemMatch':
-                // If match for array element, return true
-                return (Array.isArray(aa)
-                    ? aa
-                    : []).some(function (element) {
-                    return local.queryMatch(element, bb);
-                });
-            case '$exists':
-                // This will be true for all values of bb except false, null, undefined and 0
-                // That's strange behaviour (we should only use true/false)
-                // but that's the way Mongo does it...
-                return (aa === undefined || aa === null
-                    ? !bb
-                    : !!bb);
-            case '$gt':
-                return local.sortCompare(aa, bb) > 0;
-            case '$gte':
-                return local.sortCompare(aa, bb) >= 0;
-            case '$in':
-                return Array.isArray(bb) && bb.some(function (cc) {
-                    return local.sortCompare(aa, cc) === 0;
-                });
-            case '$lt':
-                return local.sortCompare(aa, bb) < 0;
-            case '$lte':
-                return local.sortCompare(aa, bb) <= 0;
-            case '$ne':
-                return local.sortCompare(aa, bb) !== 0;
-            case '$nin':
-                return Array.isArray(bb) && bb.every(function (cc) {
-                    return local.sortCompare(aa, cc) !== 0;
-                });
-            case '$regex':
-                return local.isRegexp(bb) && bb.test(aa);
-            case '$size':
-                return (Array.isArray(aa) && aa.length === bb);
-            default:
-                throw new Error('Unknown comparison function ' + operator);
+            try {
+                switch (operator) {
+                case '$elemMatch':
+                    // If match for array element, return true
+                    return (Array.isArray(aa)
+                        ? aa
+                        : []).some(function (element) {
+                        return local.queryMatch(element, bb);
+                    });
+                case '$eq':
+                    return local.sortCompare(aa, bb) === 0;
+                case '$exists':
+                    return !((!aa) ^ (!bb));
+                case '$gt':
+                    return local.sortCompare(aa, bb) > 0;
+                case '$gte':
+                    return local.sortCompare(aa, bb) >= 0;
+                case '$in':
+                    return Array.isArray(bb) && bb.some(function (cc) {
+                        return local.sortCompare(aa, cc) === 0;
+                    });
+                case '$lt':
+                    return local.sortCompare(aa, bb) < 0;
+                case '$lte':
+                    return local.sortCompare(aa, bb) <= 0;
+                case '$ne':
+                    return local.sortCompare(aa, bb) !== 0;
+                case '$nin':
+                    return Array.isArray(bb) && bb.every(function (cc) {
+                        return local.sortCompare(aa, cc) !== 0;
+                    });
+                case '$regex':
+                    return bb.test(aa);
+                case '$size':
+                    return (Array.isArray(aa) && aa.length === bb);
+                default:
+                    return false;
+                }
+            } catch (errorCaught) {
+                local.onErrorDefault(errorCaught);
+                return false;
             }
         };
 
@@ -652,6 +705,9 @@
         };
 
         local.storageClear = function (onError) {
+        /*
+         * this function will clear the storage
+         */
             local.storageDefer({ action: 'clear' }, onError);
         };
 
@@ -677,10 +733,10 @@
                 );
             };
             switch (options.action) {
-            case 'apply':
-                onError.apply(options.this, options.arguments);
-                return;
             case 'clear':
+            case 'onError':
+                onError();
+                return;
             case 'removeItem':
             case 'setItem':
                 objectStore = local.storage
@@ -729,6 +785,9 @@
         local.storageDeferList = [];
 
         local.storageGetItem = function (key, onError) {
+        /*
+         * this function will get the item with the given key from storage
+         */
             local.assert(typeof key === 'string');
             local.storageDefer({ action: 'getItem', key: key }, onError);
         };
@@ -779,48 +838,37 @@
         };
 
         local.storageKeys = function (onError) {
+        /*
+         * this function will get all the keys in storage
+         */
             local.storageDefer({ action: 'keys' }, onError);
         };
 
         local.storageLength = function (onError) {
+        /*
+         * this function will get the number of items in storage
+         */
             local.storageDefer({ action: 'length' }, onError);
         };
 
         local.storageRemoveItem = function (key, onError) {
+        /*
+         * this function will remove the item with the given key from storage
+         */
             local.assert(typeof key === 'string');
             local.storageDefer({ action: 'removeItem', key: key }, onError);
         };
 
         local.storageSetItem = function (key, value, onError) {
+        /*
+         * this function will set the item with the given key and value to storage
+         */
             local.assert(typeof key === 'string');
             local.assert(typeof value === 'string');
             local.storageDefer({ action: 'setItem', key: key, value: value }, onError);
         };
 
         // legacy
-        local.asyncEachSeries = function (arr, iterator, onError) {
-            var completed, iterate;
-            if (!arr.length) {
-                return onError();
-            }
-            completed = 0;
-            iterate = function () {
-                iterator(arr[completed], function (error) {
-                    if (error) {
-                        onError(error);
-                        onError = local.nop;
-                    } else {
-                        completed += 1;
-                        if (completed >= arr.length) {
-                            onError();
-                        } else {
-                            iterate();
-                        }
-                    }
-                });
-            };
-            iterate();
-        };
         local.isRegExp = function (obj) {
             return Object.prototype.toString.call(obj) === '[object RegExp]';
         };
@@ -846,13 +894,21 @@
     // run node js-env code - function
     case 'node':
         local.storageClear = function (onError) {
+        /*
+         * this function will clear the storage
+         */
             local.child_process.spawn('sh', ['-c', 'rm ' + local.fsDir() + '/*'], {
                 stdio: ['ignore', 1, 2]
-            }).once('exit', onError);
+            }).once('exit', function () {
+                onError();
+            });
         };
 
         local.storageGetItem = function (key, onError) {
-            local.assert(typeof key === 'string');
+        /*
+         * this function will get the item with the given key from storage
+         */
+            local.assert(typeof key === 'string', key);
             local.fs.readFile(
                 local.fsDir() + '/' + encodeURIComponent(key),
                 'utf8',
@@ -865,19 +921,28 @@
         };
 
         local.storageKeys = function (onError) {
+        /*
+         * this function will get all the keys in storage
+         */
             local.fs.readdir(local.fsDir(), function (error, data) {
                 onError(error, data && data.map(decodeURIComponent));
             });
         };
 
         local.storageLength = function (onError) {
+        /*
+         * this function will get the number of items in storage
+         */
             local.fs.readdir(local.fsDir(), function (error, data) {
                 onError(error, data && data.length);
             });
         };
 
         local.storageRemoveItem = function (key, onError) {
-            local.assert(typeof key === 'string');
+        /*
+         * this function will remove the item with the given key from storage
+         */
+            local.assert(typeof key === 'string', key);
             local.fs.unlink(local.fsDir() + '/' + encodeURIComponent(key), function (error) {
                 // jslint-hack
                 local.nop(error);
@@ -886,9 +951,12 @@
         };
 
         local.storageSetItem = function (key, value, onError) {
+        /*
+         * this function will set the item with the given key and value to storage
+         */
             var tmp;
-            local.assert(typeof key === 'string');
-            local.assert(typeof value === 'string');
+            local.assert(typeof key === 'string', key);
+            local.assert(typeof value === 'string', value);
             tmp = local.os.tmpdir() + '/' + Date.now() + Math.random();
             // save to tmp
             local.fs.writeFile(tmp, value, function (error) {
@@ -906,29 +974,6 @@
 // init lib nedb
 // https://github.com/louischatriot/nedb/blob/cadf4ef434e517e47c4e9ca1db5b89e892ff5981/browser-version/out/nedb.js
     (function () {
-        local.Executor = function () {
-        /**
-         * Responsible for sequentially executing actions on the database
-         */
-            return;
-        };
-        local.Executor.prototype.push = function (task) {
-        /**
-         * If executor is ready, queue task (and process it immediately if executor was idle)
-         * If not, buffer task for later processing
-         * @param {Object} task
-         *                 task.this - Object to use as this
-         *                 task.fn - Function to execute
-         *                 task.arguments - Array of arguments, IMPORTANT: only the last argument may be a function (the callback)
-         *                                                                 and the last argument cannot be false/undefined/null
-         * @param {Boolean} forceQueuing Optional (defaults to false) force executor to queue task even if it is not ready
-         */
-            local.storageDefer({
-                action: 'apply',
-                arguments: task.arguments,
-                this: task.this
-            }, task.fn);
-        };
         var modifierFunctions = {},
             lastStepModifierFunctions = {},
             logicalOperators = {};
@@ -1019,13 +1064,13 @@
                 Array.isArray(obj));
         }
         // ==============================================================
-        // Updating dbRows
+        // Updating dbRow's
         // ==============================================================
 
         /**
          * The signature of modifier functions is as follows
          * Their structure is always the same: recursively follow the dot notation while creating
-         * the nested dbRows if needed, then apply the 'last step modifier'
+         * the nested dbRow's if needed, then apply the 'last step modifier'
          * @param {Object} obj The model to modify
          * @param {String} field Can contain dots, in that case that means we will set a subfield recursively
          * @param {Model} value
@@ -1292,7 +1337,7 @@
             return newDoc;
         }
         // ==============================================================
-        // Finding dbRows
+        // Finding dbRow's
         // ==============================================================
 
         local.queryGetDotValue = function (obj, field) {
@@ -1592,46 +1637,6 @@
             return this.right
                 ? this.right.getMaxKeyDescendant()
                 : this;
-        };
-        local.AvlTree.prototype.getMaxKey = function () {
-        /**
-         * Get the maximum key
-         */
-            return this.getMaxKeyDescendant().key;
-        };
-        local.AvlTree.prototype.getMinKeyDescendant = function () {
-        /**
-         * Get the descendant with min key
-         */
-            return this.left
-                ? this.left.getMinKeyDescendant()
-                : this;
-        };
-        local.AvlTree.prototype.getMinKey = function () {
-        /**
-         * Get the minimum key
-         */
-            return this.getMinKeyDescendant().key;
-        };
-        local.AvlTree.prototype.getNumberOfKeys = function () {
-        /**
-         * Get number of keys inserted
-         */
-            var res;
-
-            if (!this.hasOwnProperty('key')) {
-                return 0;
-            }
-
-            res = 1;
-            if (this.left) {
-                res += this.left.getNumberOfKeys();
-            }
-            if (this.right) {
-                res += this.right.getNumberOfKeys();
-            }
-
-            return res;
         };
         // ============================================
         // Methods used to actually work on the tree
@@ -2019,33 +2024,6 @@
                 this.right.executeOnEveryNode(fn);
             }
         };
-        local.AvlTree.prototype.prettyPrint = function (printData, spacing) {
-        /**
-         * Pretty print a tree
-         * @param {Boolean} printData To print the nodes' data along with the key
-         */
-            spacing = spacing || '';
-
-            console.log(spacing + '* ' + this.key);
-            if (printData) {
-                console.log(spacing + '* ' + this.data);
-            }
-
-            if (!this.left && !this.right) {
-                return;
-            }
-
-            if (this.left) {
-                this.left.prettyPrint(printData, spacing + '  ');
-            } else {
-                console.log(spacing + '  *');
-            }
-            if (this.right) {
-                this.right.prettyPrint(printData, spacing + '  ');
-            } else {
-                console.log(spacing + '  *');
-            }
-        };
         local.AvlTree.prototype.balanceFactor = function () {
         /**
          * Return the balance factor
@@ -2408,9 +2386,11 @@
          * or the operation was unsuccessful and an error is thrown while the index is unchanged
          * @param {String} options.fieldName On which field should the index apply (can use dot notation to index on sub fields)
          * @param {Boolean} options.unique Optional, enforce a unique constraint (default: false)
-         * @param {Boolean} options.sparse Optional, allow a sparse index (we can have dbRows for which fieldName is undefined) (default: false)
+         * @param {Boolean} options.sparse Optional, allow a sparse index (we can have dbRow's for which fieldName is undefined) (default: false)
          */
             this.fieldName = options.fieldName;
+            this.isInteger = options.isInteger;
+
             this.unique = options.unique || false;
             this.sparse = options.sparse || false;
 
@@ -2421,7 +2401,7 @@
         local.Index.prototype.reset = function (newData) {
         /**
          * Reset an index
-         * @param {dbRow or Array of dbRows} newData Optional, data to initialize the index with
+         * @param {dbRow or Array of dbRow's} newData Optional, data to initialize the index with
          *                                                 If an error is thrown during insertion, the index is not modified
          */
             this.tree = new local.AvlTree(this.treeOptions);
@@ -2435,29 +2415,44 @@
          * If an array is passed, we insert all its elements (if one insertion fails the index is not modified)
          * O(log(n))
          */
-            var key, keys, ii, failingI, error;
+            var key, keys, ii, failingI, error, self = this;
 
             if (Array.isArray(dbRow)) {
-                this.insertMultipleDocs(dbRow);
+                self.insertMultipleDocs(dbRow);
                 return;
             }
 
-            key = local.queryGetDotValue(dbRow, this.fieldName);
+            key = local.queryGetDotValue(dbRow, self.fieldName);
 
-            // We don't index dbRows that don't contain the field if the index is sparse
-            if (key === undefined && this.sparse) {
+            // We don't index dbRow's that don't contain the field if the index is sparse
+            if (key === undefined && self.sparse) {
                 return;
+            }
+
+            // auto-create keyUnique
+            if (self.unique && !(key === 0 || key) && self.fieldName.indexOf('.') < 0) {
+                while (true) {
+                    key = self.isInteger
+                        ? Math.floor(Math.random() * 0x20000000000000)
+                        : ('a' +
+                            Math.random().toString(36).slice(2) +
+                            Math.random().toString(36).slice(2)).slice(0, 16);
+                    if (!self.getMatching(key).length) {
+                        break;
+                    }
+                }
+                dbRow[self.fieldName] = key;
             }
 
             if (!Array.isArray(key)) {
-                this.tree = this.tree.insert(key, dbRow);
+                self.tree = self.tree.insert(key, dbRow);
             } else {
                 // If an insert fails due to a unique constraint, roll back all inserts before it
                 keys = local.listUnique(key).map(projectForUnique);
 
                 for (ii = 0; ii < keys.length; ii += 1) {
                     try {
-                        this.tree = this.tree.insert(keys[ii], dbRow);
+                        self.tree = self.tree.insert(keys[ii], dbRow);
                     } catch (errorCaught) {
                         error = errorCaught;
                         failingI = ii;
@@ -2467,25 +2462,25 @@
 
                 if (error) {
                     for (ii = 0; ii < failingI; ii += 1) {
-                        this.tree = this.tree.delete(keys[ii], dbRow);
+                        self.tree = self.tree.delete(keys[ii], dbRow);
                     }
 
                     throw error;
                 }
             }
         };
-        local.Index.prototype.insertMultipleDocs = function (docs) {
+        local.Index.prototype.insertMultipleDocs = function (dbRowList) {
         /**
-         * Insert an array of dbRows in the index
+         * Insert an array of dbRow's in the index
          * If a constraint is violated, the changes should be rolled back and an error thrown
          *
          * @API private
          */
             var ii, error, failingI;
 
-            for (ii = 0; ii < docs.length; ii += 1) {
+            for (ii = 0; ii < dbRowList.length; ii += 1) {
                 try {
-                    this.insert(docs[ii]);
+                    this.insert(dbRowList[ii]);
                 } catch (errorCaught) {
                     error = errorCaught;
                     failingI = ii;
@@ -2495,7 +2490,7 @@
 
             if (error) {
                 for (ii = 0; ii < failingI; ii += 1) {
-                    this.remove(docs[ii]);
+                    this.remove(dbRowList[ii]);
                 }
 
                 throw error;
@@ -2553,7 +2548,7 @@
         };
         local.Index.prototype.updateMultipleDocs = function (pairs) {
         /**
-         * Update multiple dbRows in the index
+         * Update multiple dbRow's in the index
          * If a constraint is violated, the changes need to be rolled back
          * and an error thrown
          * @param {Array of oldDoc, newDoc pairs} pairs
@@ -2609,9 +2604,9 @@
         };
         local.Index.prototype.getMatching = function (value) {
         /**
-         * Get all dbRows in index whose key match value (if it is a Thing) or one of the elements of value (if it is an array of Things)
+         * Get all dbRow's in index whose key match value (if it is a Thing) or one of the elements of value (if it is an array of Things)
          * @param {Thing} value Value to match the key against
-         * @return {Array of dbRows}
+         * @return {Array of dbRow's}
          */
             var self = this, _res = {}, res = [];
             if (!Array.isArray(value)) {
@@ -2631,17 +2626,17 @@
         };
         local.Index.prototype.getBetweenBounds = function (query) {
         /**
-         * Get all dbRows in index whose key is between bounds are they are defined by query
-         * dbRows are sorted by key
+         * Get all dbRow's in index whose key is between bounds are they are defined by query
+         * dbRow's are sorted by key
          * @param {Query} query
-         * @return {Array of dbRows}
+         * @return {Array of dbRow's}
          */
             return this.tree.betweenBounds(query);
         };
         local.Index.prototype.getAll = function () {
         /**
          * Get all elements in the index
-         * @return {Array of dbRows}
+         * @return {Array of dbRow's}
          */
             var res = [];
 
@@ -2660,7 +2655,7 @@
          * Handle every persistence-related task
          * The interface Datastore expects to be implemented is
          * * Persistence.loadDatabase(callback) and callback has signature error
-         * * Persistence.persistNewState(newDocs, callback) where newDocs is an array of dbRows and callback has signature error
+         * * Persistence.persistNewState(newDocs, callback) where newDocs is an array of dbRow's and callback has signature error
          *
          * Create a new Persistence object for database options.db
          * @param {Datastore} options.db
@@ -2670,7 +2665,7 @@
         local.Persistence.prototype.persistCachedDatabase = function (onError) {
         /**
          * Persist cached database
-         * This serves as a compaction function since the cache always contains only the number of dbRows in the collection
+         * This serves as a compaction function since the cache always contains only the number of dbRow's in the collection
          * while the data file is append-only so it may grow larger
          * @param {Function} onError Optional callback, signature: error
          */
@@ -2692,22 +2687,7 @@
                 }
             });
 
-            local.storageSetItem(self.db.name, toPersist, function (error) {
-                if (error) {
-                    return onError(error);
-                }
-                return onError();
-            });
-        };
-        local.Persistence.prototype.compactDatafile = function () {
-        /**
-         * Queue a rewrite of the datafile
-         */
-            this.db.executor.push({
-                this: this,
-                fn: this.persistCachedDatabase,
-                arguments: []
-            });
+            local.storageSetItem(self.db.name, toPersist, onError);
         };
         local.Persistence.prototype.persistNewState = function (newDocs, onError) {
         /**
@@ -2792,33 +2772,34 @@
             self.db.resetIndexes();
 
             options = {};
-            local.onNext(options, function (error) {
+            local.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    local.storageGetItem(self.db.name, function (error, rawData) {
-                        // validate no error occurred
-                        local.assert(!error, error);
-                        try {
-                            treatedData = self.treatRawData(rawData || '');
-                        } catch (errorCaught) {
-                            return options.onNext(errorCaught);
-                        }
+                    local.storageGetItem(self.db.name, options.onNext);
+                    break;
+                case 2:
+                    // validate no error occurred
+                    local.assert(!error, error);
+                    try {
+                        treatedData = self.treatRawData(data || '');
+                    } catch (errorCaught) {
+                        return options.onNext(errorCaught);
+                    }
 
-                        // Recreate all indexes in the datafile
-                        Object.keys(treatedData.indexes).forEach(function (key) {
-                            self.db.indexes[key] = new local.Index(treatedData.indexes[key]);
-                        });
-
-                        // Fill cached database (i.e. all indexes) with data
-                        try {
-                            self.db.resetIndexes(treatedData.data);
-                        } catch (errorCaught) {
-                            self.db.resetIndexes(); // Rollback any index which didn't fail
-                            return options.onNext(errorCaught);
-                        }
-
-                        self.db.persistence.persistCachedDatabase(options.onNext);
+                    // Recreate all indexes in the datafile
+                    Object.keys(treatedData.indexes).forEach(function (key) {
+                        self.db.indexes[key] = new local.Index(treatedData.indexes[key]);
                     });
+
+                    // Fill cached database (i.e. all indexes) with data
+                    try {
+                        self.db.resetIndexes(treatedData.data);
+                    } catch (errorCaught) {
+                        self.db.resetIndexes(); // Rollback any index which didn't fail
+                        return options.onNext(errorCaught);
+                    }
+
+                    self.db.persistence.persistCachedDatabase(options.onNext);
                     break;
                 default:
                     return onError(error);
@@ -2845,30 +2826,6 @@
          * Set a limit to the number of results
          */
             this._limit = limit;
-            return this;
-        };
-        local.Cursor.prototype.skip = function (skip) {
-        /**
-         * Skip a the number of results
-         */
-            this._skip = skip;
-            return this;
-        };
-        local.Cursor.prototype.sort = function (sortQuery) {
-        /**
-         * Sort results of the query
-         * @param {SortQuery} sortQuery - SortQuery is { field: order }, field can use the dot-notation, order is 1 for ascending and -1 for descending
-         */
-            this._sort = sortQuery;
-            return this;
-        };
-        local.Cursor.prototype.projection = function (projection) {
-        /**
-         * Add the use of a projection
-         * @param {Object} projection - MongoDB-style projection. {} means take all fields. Then it's { key1: 1, key2: 1 } to take only key1 and key2
-         *                              { key1: 0, key2: 0 } to omit only key1 and key2. Except _id, you can't mix takes and omits
-         */
-            this._projection = projection;
             return this;
         };
         local.Cursor.prototype.project = function (candidates) {
@@ -2988,7 +2945,10 @@
                         var criterion, compare, ii;
                         for (ii = 0; ii < criteria.length; ii += 1) {
                             criterion = criteria[ii];
-                            compare = criterion.direction * local.sortCompare(local.queryGetDotValue(aa, criterion.key), local.queryGetDotValue(bb, criterion.key));
+                            compare = criterion.direction * local.sortCompare(
+                                local.queryGetDotValue(aa, criterion.key),
+                                local.queryGetDotValue(bb, criterion.key)
+                            );
                             if (compare !== 0) {
                                 return compare;
                             }
@@ -3012,24 +2972,6 @@
 
                 return onError(error);
             });
-        };
-
-        local.Cursor.prototype.exec = function () {
-            this.db.executor.push({
-                this: this,
-                fn: this._exec,
-                arguments: arguments
-            });
-        };
-        local.prototype.loadDatabase = function () {
-        /**
-         * Load the database from the datafile, and trigger the execution of buffered commands if any
-         */
-            this.executor.push({
-                this: this.persistence,
-                fn: this.persistence.loadDatabase,
-                arguments: arguments
-            }, true);
         };
 
         local.prototype.getAllData = function () {
@@ -3150,8 +3092,8 @@
 
         local.prototype.updateIndexes = function (oldDoc, newDoc) {
         /**
-         * Update one or several dbRows in all indexes
-         * To update multiple dbRows, oldDoc must be an array of { oldDoc, newDoc } pairs
+         * Update one or several dbRow's in all indexes
+         * To update multiple dbRow's, oldDoc must be an array of { oldDoc, newDoc } pairs
          * If one update violates a constraint, all changes are rolled back
          */
             var ii, failingIndex, error, keys = Object.keys(this.indexes);
@@ -3184,21 +3126,25 @@
          * One way to make it better would be to enable the use of multiple indexes if the first usable index
          * returns too much data. I may do it in the future.
          *
-         * Returned candidates will be scanned to find and remove all expired dbRows
+         * Returned candidates will be scanned to find and remove all expired dbRow's
          *
          * @param {Query} query
          * @param {Function} onError Signature error, candidates
          */
             var self = this,
+                onParallel,
                 options,
                 usableQueryKeys;
             options = {};
-            local.onNext(options, function (error, docs) {
+            local.onNext(options, function (error, data) {
                 // jslint-hack
                 local.nop(error);
                 switch (options.modeNext) {
                 // STEP 1: get candidates list by checking indexes from most to least frequent usecase
                 case 1:
+                    local.dbTableDefer(self, options.onNext);
+                    break;
+                case 2:
                     // For a basic match
                     usableQueryKeys = [];
                     Object.keys(query).forEach(function (k) {
@@ -3243,13 +3189,15 @@
 
                     // By default, return all the DB data
                     return options.onNext(null, self.getAllData());
-                // STEP 2: remove all expired dbRows
+                // STEP 2: remove all expired dbRow's
                 default:
-                    var expiredDocsIds = [],
-                        validDocs = [],
+                    var validDocs = [],
                         ttlIndexesFieldNames = Object.keys(self.ttlIndexes);
-
-                    docs.forEach(function (dbRow) {
+                    onParallel = local.onParallel(function (error) {
+                        onError(error, validDocs);
+                    });
+                    onParallel.counter += 1;
+                    data.forEach(function (dbRow) {
                         var valid = true;
                         ttlIndexesFieldNames.forEach(function (ii) {
                             if (dbRow[ii] !== undefined && Date.now() > new Date(dbRow[ii]).getTime() + self.ttlIndexes[ii] * 1000) {
@@ -3259,70 +3207,46 @@
                         if (valid) {
                             validDocs.push(dbRow);
                         } else {
-                            expiredDocsIds.push(dbRow._id);
+                            onParallel.counter += 1;
+                            self.remove({ _id: dbRow._id }, {}, onParallel);
                         }
                     });
-
-                    local.asyncEachSeries(expiredDocsIds, function (_id, onError) {
-                        self._remove({
-                            _id: _id
-                        }, {}, function (error) {
-                            if (error) {
-                                return onError(error);
-                            }
-                            return onError();
-                        });
-                    }, function (error) {
-                        return onError(error, validDocs);
-                    });
+                    onParallel();
                 }
             });
             options.modeNext = 0;
             options.onNext();
         };
 
-        local.prototype._insert = function (newDoc, onError) {
+        local.prototype.insert = function (newDoc, onError) {
         /**
          * Insert a new dbRow
          * @param {Function} onError Optional callback, signature: error, insertedDoc
          *
          * @api private Use Datastore.insert which has the same signature
          */
-            var preparedDoc;
-
-            try {
-                preparedDoc = this.prepareDocumentForInsertion(newDoc);
-                this._insertInCache(preparedDoc);
-            } catch (errorCaught) {
-                return onError(errorCaught);
-            }
-
-            this.persistence.persistNewState(Array.isArray(preparedDoc) ? preparedDoc : [preparedDoc], function (error) {
-                if (error) {
-                    return onError(error);
+            var self, preparedDoc;
+            self = this;
+            local.dbTableDefer(self, function () {
+                try {
+                    preparedDoc = self.prepareDocumentForInsertion(newDoc);
+                    self._insertInCache(preparedDoc);
+                } catch (errorCaught) {
+                    return onError(errorCaught);
                 }
-                return onError(null, local.jsonCopy(preparedDoc));
+
+                self.persistence.persistNewState(Array.isArray(preparedDoc) ? preparedDoc : [preparedDoc], function (error) {
+                    if (error) {
+                        return onError(error);
+                    }
+                    return onError(null, local.jsonCopy(preparedDoc));
+                });
             });
-        };
-
-        local.prototype.createNewId = function () {
-        /**
-         * Create a new _id that's not already in use
-         */
-            var id;
-            // Try as many times as needed to get an unused _id.
-            // the probability of this ever happening is extremely small, so this is O(1)
-            while (true) {
-                id = local.idStringCreate();
-                if (!this.indexes._id.getMatching(id).length) {
-                    return id;
-                }
-            }
         };
 
         local.prototype.prepareDocumentForInsertion = function (newDoc) {
         /**
-         * Prepare a dbRow (or array of dbRows) to be inserted in a database
+         * Prepare a dbRow (or array of dbRow's) to be inserted in a database
          * Meaning adds _id and timestamps if necessary on a copy of newDoc to avoid any side effect on user input
          * @api private
          */
@@ -3335,9 +3259,6 @@
                 });
             } else {
                 preparedDoc = local.jsonCopy(newDoc);
-                if (preparedDoc._id === undefined) {
-                    preparedDoc._id = this.createNewId();
-                }
                 now = new Date().toISOString();
                 if (preparedDoc.createdAt === undefined) {
                     preparedDoc.createdAt = now;
@@ -3353,7 +3274,7 @@
 
         local.prototype._insertInCache = function (preparedDoc) {
         /**
-         * If newDoc is an array of dbRows, this will insert all dbRows in the cache
+         * If newDoc is an array of dbRow's, this will insert all dbRow's in the cache
          * @api private
          */
             if (Array.isArray(preparedDoc)) {
@@ -3390,84 +3311,23 @@
             }
         };
 
-        local.prototype.insert = function () {
-            this.executor.push({
-                this: this,
-                fn: this._insert,
-                arguments: arguments
-            });
-        };
-        local.prototype.count = function (query, onError) {
-        /**
-         * Count all dbRows matching the query
-         * @param {Object} query MongoDB-style query
-         */
-            new local.Cursor(this, query, function (error, docs, onError) {
-                return onError(error, docs && docs.length);
-            }).exec(onError);
-        };
-        local.prototype.find = function (query, projection, onError) {
-        /**
-         * Find all dbRows matching the query
-         * If no callback is passed, we return the cursor so that user can limit, skip and finally exec
-         * @param {Object} query MongoDB-style query
-         * @param {Object} projection MongoDB-style projection
-         */
-            var cursor = new local.Cursor(this, query, function (error, docs, onError) {
-                onError(error, local.jsonCopy(docs));
-            });
-            cursor.projection(projection);
-            if (typeof onError === 'function') {
-                cursor.exec(onError);
-            } else {
-                return cursor;
-            }
-        };
-        local.prototype.findOne = function (query, projection, onError) {
-        /**
-         * Find one dbRow matching the query
-         * @param {Object} query MongoDB-style query
-         * @param {Object} projection MongoDB-style projection
-         */
-            switch (arguments.length) {
-            case 1:
-                projection = {};
-                // onError is undefined, will return a cursor
-                break;
-            case 2:
-                if (typeof projection === 'function') {
-                    onError = projection;
-                    projection = {};
-                } // If not assume projection is an object and onError undefined
-                break;
-            }
-            var cursor = new local.Cursor(this, query, function (error, docs, onError) {
-                onError(error, local.jsonCopy((docs && docs[0]) || null));
-            });
-            cursor.projection(projection).limit(1);
-            if (typeof onError === 'function') {
-                cursor.exec(onError);
-            } else {
-                return cursor;
-            }
-        };
-        local.prototype._update = function (query, updateQuery, options, onError) {
+        local.prototype.update = function (query, updateQuery, options, onError) {
         /**
          * Update all docs matching query
          * @param {Object} query
          * @param {Object} updateQuery
          * @param {Object} options Optional options
-         *                 options.multi If true, can update multiple dbRows (defaults to false)
+         *                 options.multi If true, can update multiple dbRow's (defaults to false)
          *                 options.upsert If true, dbRow is inserted if the query doesn't match anything
          * @param {Function} onError Optional callback, signature: (error, numAffected, affectedDocuments, upsert)
          *                      If update was an upsert, upsert flag is set to true
          *                      affectedDocuments can be one of the following:
          *                        * For an upsert, the upserted dbRow
-         *                        * For an update, the array of updated dbRows
+         *                        * For an update, the array of updated dbRow's
          *
          * WARNING: The API was changed between v1.7.4 and v1.8, for consistency and readability reasons. Prior and including to v1.7.4,
          *          the onError signature was (error, numAffected, updated) where updated was the updated dbRow in case of an upsert
-         *          or the array of updated dbRows for an update. That meant that the type of
+         *          or the array of updated dbRow's for an update. That meant that the type of
          *          affectedDocuments in a non multi update depended on whether there was an upsert or not, leaving only two ways for the
          *          user to check whether an upsert had occured: checking the type of affectedDocuments or running another find query on
          *          the whole dataset to check its size. Both options being ugly, the breaking change was necessary.
@@ -3476,10 +3336,6 @@
          */
             var self = this, numReplaced = 0, multi, upsert, ii;
 
-            if (typeof options === 'function') {
-                onError = options;
-                options = {};
-            }
             multi = options.multi !== undefined ? options.multi : false;
             upsert = options.upsert !== undefined ? options.upsert : false;
 
@@ -3488,6 +3344,9 @@
                 var cursor, modifiedDoc, modifications, createdAt;
                 switch (options.modeNext) {
                 case 1:
+                    local.dbTableDefer(self, options.onNext);
+                    break;
+                case 2:
                     // If upsert option is set, check whether we need to insert the dbRow
                     if (!upsert) {
                         return options.onNext();
@@ -3518,7 +3377,7 @@
                             }
                         }
 
-                        return self._insert(toBeInserted, function (error, newDoc) {
+                        return self.insert(toBeInserted, function (error, newDoc) {
                             if (error) {
                                 return onError(error);
                             }
@@ -3583,20 +3442,13 @@
             options.onNext();
         };
 
-        local.prototype.update = function () {
-            this.executor.push({
-                this: this,
-                fn: this._update,
-                arguments: arguments
-            });
-        };
-        local.prototype._remove = function (query, options, onError) {
+        local.prototype.remove = function (query, options, onError) {
         /**
          * Remove all docs matching the query
          * For now very naive implementation (similar to update)
          * @param {Object} query
          * @param {Object} options Optional options
-         *                 options.multi If true, can update multiple dbRows (defaults to false)
+         *                 options.multi If true, can update multiple dbRow's (defaults to false)
          * @param {Function} onError Optional callback, signature: error, numRemoved
          *
          * @api private Use Datastore.remove which has the same signature
@@ -3606,46 +3458,40 @@
                 removedDocs = [],
                 multi;
 
-            if (typeof options === 'function') {
-                onError = options;
-                options = {};
-            }
-            multi = options.multi !== undefined ? options.multi : false;
-
-            this.getCandidates(query, function (error, candidates) {
-                if (error) {
-                    return onError(error);
+            local.dbTableDefer(self, function () {
+                if (typeof options === 'function') {
+                    onError = options;
+                    options = {};
                 }
+                multi = options.multi !== undefined ? options.multi : false;
 
-                try {
-                    candidates.forEach(function (d) {
-                        if (local.queryMatch(d, query) && (multi || numRemoved === 0)) {
-                            numRemoved += 1;
-                            removedDocs.push({
-                                $$deleted: true,
-                                _id: d._id
-                            });
-                            self.removeFromIndexes(d);
-                        }
-                    });
-                } catch (errorCaught) {
-                    return onError(errorCaught);
-                }
-
-                self.persistence.persistNewState(removedDocs, function (error) {
+                self.getCandidates(query, function (error, candidates) {
                     if (error) {
                         return onError(error);
                     }
-                    return onError(null, numRemoved);
-                });
-            });
-        };
 
-        local.prototype.remove = function () {
-            this.executor.push({
-                this: this,
-                fn: this._remove,
-                arguments: arguments
+                    try {
+                        candidates.forEach(function (d) {
+                            if (local.queryMatch(d, query) && (multi || numRemoved === 0)) {
+                                numRemoved += 1;
+                                removedDocs.push({
+                                    $$deleted: true,
+                                    _id: d._id
+                                });
+                                self.removeFromIndexes(d);
+                            }
+                        });
+                    } catch (errorCaught) {
+                        return onError(errorCaught);
+                    }
+
+                    self.persistence.persistNewState(removedDocs, function (error) {
+                        if (error) {
+                            return onError(error);
+                        }
+                        return onError(null, numRemoved);
+                    });
+                });
             });
         };
     }());

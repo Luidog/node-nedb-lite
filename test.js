@@ -63,6 +63,7 @@
         local.utility2.dbTableCreate = local.dbTableCreate;
         local.utility2.dbTableDrop = local.dbTableDrop;
         local.utility2.jsonStringifyOrdered = local.jsonStringifyOrdered;
+        local.utility2.onErrorDefault = local.onErrorDefault;
         local.utility2.onNext = local.onNext;
     }());
 
@@ -182,8 +183,35 @@
         /*
          * this function will test dbTableCreate's default handling-behavior
          */
+            options = local.crudOptionsSetDefault(options, {
+                id: '00_test_dbTableCount'
+            });
+            local.utility2.onNext(options, function (error, data) {
+                switch (options.modeNext) {
+                case 1:
+                    local.dbTableCount(options.table, {
+                        query: { id: options.id }
+                    }, options.onNext);
+                    break;
+                case 2:
+                    // validate data
+                    local.utility2.assertJsonEqual(data, 1);
+                    options.onNext();
+                    break;
+                default:
+                    onError(error);
+                }
+            });
+            options.modeNext = 0;
+            options.onNext();
+        };
+
+        local.testCase_dbTableCount_default = function (options, onError) {
+        /*
+         * this function will test dbTableCount's default handling-behavior
+         */
             options = {};
-            options.name = 'testCase_dbTableCreate_default';
+            options.name = 'testCase_dbTableCount_default';
             options.table = local.dbTableCreate(options);
             // test re-create handling-behavior
             options.table = local.dbTableCreate(options);
@@ -265,30 +293,6 @@
             options.onNext();
         };
 
-        local.testCase_idIntegerCreate_default = function (options, onError) {
-        /*
-         * this function will test idIntegerCreate's default handling-behavior
-         */
-            options = {};
-            options.data = local.idIntegerCreate();
-            local.utility2.assert(options.data >= Date.now() * 0x700);
-            local.utility2.assert(options.data <= Date.now() * 0x900);
-            options.data = local.idIntegerCreate();
-            local.utility2.assert(options.data >= Date.now() * 0x700);
-            local.utility2.assert(options.data <= Date.now() * 0x900);
-            onError();
-        };
-
-        local.testCase_idStringCreate_default = function (options, onError) {
-        /*
-         * this function will test idStringCreate's default handling-behavior
-         */
-            options = {};
-            options.data = local.idStringCreate();
-            local.utility2.assertJsonEqual(options.data.length, 16);
-            onError();
-        };
-
         local.testCase_jsonStringifyOrdered_default = function (options, onError) {
         /*
          * this function will test jsonStringifyOrdered's default handling-behavior
@@ -320,6 +324,29 @@
             onError();
         };
 
+        local.testCase_onErrorDefault_default = function (options, onError) {
+        /*
+         * this function will test onErrorDefault's default handling-behavior
+         */
+            local.utility2.testMock([
+                // suppress console.error
+                [console, { error: function (arg) {
+                    options = arg;
+                } }],
+                [local.global, { __coverage__: null }]
+            ], function (onError) {
+                // test no error handling-behavior
+                local.utility2.onErrorDefault();
+                // validate options
+                local.utility2.assert(!options, options);
+                // test error handling-behavior
+                local.utility2.onErrorDefault(local.utility2.errorDefault);
+                // validate options
+                local.utility2.assert(options, options);
+                onError();
+            }, onError);
+        };
+
         local.testCase_onNext_error = function (options, onError) {
         /*
          * this function will test onNext's error handling-behavior
@@ -339,14 +366,75 @@
             });
         };
 
-        //!! local.testCase_queryCompare_default = function (options, onError) {
-        //!! /*
-         //!! * this function will test queryCompare's default handling-behavior
-         //!! */
-            //!! local.utility2.assertJsonEqual(local.queryCompare('$elemMatch'), false);
-            //!! local.utility2.assertJsonEqual(local.queryCompare('$elemMatch'), false);
-            //!! onError();
-        //!! };
+        local.testCase_queryCompare_default = function (options, onError) {
+        /*
+         * this function will test queryCompare's default handling-behavior
+         */
+            options = [
+                // $elemMatch
+                ['$elemMatch', undefined, undefined, false],
+                ['$elemMatch', [undefined], undefined, false],
+                // $eq
+                ['$eq', undefined, undefined, true],
+                ['$eq', null, undefined, true],
+                ['$eq', NaN, NaN, true],
+                // $exists
+                ['$exists', false, undefined, true],
+                ['$exists', true, undefined, false],
+                // $gt
+                ['$gt', undefined, undefined, false],
+                ['$gt', undefined, undefined, false],
+                // $gte
+                ['$gte', undefined, undefined, true],
+                // $in
+                ['$in', undefined, undefined, false],
+                ['$in', undefined, [undefined], true],
+                // $lt
+                ['$lt', undefined, undefined, false],
+                // $lte
+                ['$lte', undefined, undefined, true],
+                // $ne
+                ['$ne', undefined, undefined, false],
+                // $nin
+                ['$nin', undefined, undefined, false],
+                ['$nin', undefined, [undefined], false],
+                // $regex
+                ['$regex', undefined, undefined, false],
+                // $size
+                ['$size', undefined, undefined, false],
+                ['$size', [undefined], undefined, false],
+                [undefined, undefined, undefined, false]
+            ];
+            options.forEach(function (element) {
+                local.utility2.assertJsonEqual(
+                    [
+                        element[0],
+                        element[1],
+                        element[2],
+                        local.queryCompare(element[0], element[1], element[2])
+                    ],
+                    element
+                );
+            });
+            onError();
+        };
+
+        local.testCase_sortCompare_default = function (options, onError) {
+        /*
+         * this function will test sortCompare's default handling-behavior
+         */
+            options = {};
+            options.data = [undefined, null, false, 0, '', true, 1, 'a', local.utility2.nop];
+            local.utility2.assertJsonEqual(
+                options.data.sort(local.sortCompare),
+                [null, false, true, 0, 1, '', 'a', null, null]
+            );
+            local.utility2.assertJsonEqual(
+                options.data.reverse().sort(local.sortCompare),
+                [null, false, true, 0, 1, '', 'a', null, null]
+            );
+            onError();
+        };
     }());
     switch (local.modeJs) {
 
@@ -510,6 +598,8 @@
         // init dbSeedList
         local.utility2.dbSeedList = local.utility2.dbSeedList.concat([{
             dbRowList: [{
+                id: '00_test_dbTableCount'
+            }, {
                 id: '00_test_dbTableFindOneById'
             }, {
                 id: '00_test_dbTableRemoveOneById'
