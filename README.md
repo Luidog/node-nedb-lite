@@ -20,7 +20,6 @@ this package will run a standalone, modified version of the nedb database with z
 # documentation
 #### todo
 - npm publish 2016.9.2
-- add lock to dbReset
 - replace classes and methods with static functions (e.g. prototype.find -> dbTableFindMany)
 - none
 
@@ -29,8 +28,9 @@ this package will run a standalone, modified version of the nedb database with z
 - rename window.nedb to window.nedb_lite
 - deprecate class constructor Nedb in favor of dbTableCreate
 - insert will auto-create missing non-sparse unique-keys
-- add isInteger parameter to indexes
 - row-update always returns updated row
+- add isInteger parameter to indexes
+- add lock to dbReset
 - add function dbTableDefer
 - add eval button to demo
 - none

@@ -156,18 +156,35 @@
         /*
          * this function will reset nedb's persistence
          */
-            var onParallel;
-            onParallel = local.nedb.onParallel(onError);
-            onParallel.counter = 0;
-            onParallel.counter += 1;
-            // drop all dbTable's
-            Object.keys(local.nedb.dbTableDict).forEach(function (key) {
-                onParallel.counter += 1;
-                local.nedb.dbTableDrop({ name: key }, onParallel);
+            var onParallel, options;
+            options = {};
+            local.nedb.onNext(options, function (error) {
+                switch (options.modeNext) {
+                case 1:
+                    onParallel = local.nedb.onParallel(onError);
+                    onParallel.counter = 0;
+                    onParallel.counter += 1;
+                    Object.keys(local.nedb.dbTableDict).forEach(function (key) {
+                        // lock dbTable
+                        local.nedb.dbTableDict[key].lock.counter += 1;
+                        // drop dbTable
+                        onParallel.counter += 1;
+                        local.nedb.dbTableDrop({ name: key }, onParallel);
+                    });
+                    onParallel.counter += 1;
+                    local.nedb.dbStorageClear(onParallel);
+                    onParallel();
+                    break;
+                default:
+                    Object.keys(local.nedb.dbTableDict).forEach(function (key) {
+                        // unlock dbTable
+                        local.nedb.dbTableDict[key].lock(error);
+                    });
+                    onError(error);
+                }
             });
-            onParallel.counter += 1;
-            local.nedb.dbStorageClear(onParallel);
-            onParallel();
+            options.modeNext = 0;
+            options.onNext();
         };
 
         local.nedb.dbTableCountMany = function (dbTable, options, onError) {
@@ -487,7 +504,7 @@
                     // or creating it if it doesn't exist.
                     // Also, all data is persisted right away,
                     // which has the effect of compacting the database file.
-                    // This operation is very quick at startup for a big collection
+                    // This operation is very quick at startup for a big dbTable
                     // (60ms for ~10k docs).
                     if (self.dropped) {
                         options.onNext();
@@ -2696,7 +2713,7 @@
         local.nedb.Persistence.prototype.persistCachedDatabase = function (onError) {
         /**
          * Persist cached database
-         * This serves as a compaction function since the cache always contains only the number of dbRow's in the collection
+         * This serves as a compaction function since the cache always contains only the number of dbRow's in the dbTable
          * while the data file is append-only so it may grow larger
          * @param {Function} onError - callback, signature: error
          */
@@ -2747,7 +2764,7 @@
         local.nedb.Persistence.prototype.treatRawData = function (rawData) {
         /**
          * From a database's raw data, return the corresponding
-         * machine understandable collection
+         * machine understandable dbTable
          */
             var data = rawData.split('\n'),
                 dataById = {},
@@ -2789,7 +2806,7 @@
         };
         local.nedb.Cursor = function (db, query, onError) {
         /**
-         * Create a new cursor for this collection
+         * Create a new cursor for this dbTable
          * @param {Datastore} db - The datastore this cursor is bound to
          * @param {Query} query - The query this cursor will operate on
          * @param {Function} onError - Handler to be executed after cursor has found the results and before the callback passed to find/findOne/update/remove
@@ -2955,7 +2972,7 @@
 
         local.nedb.Table = function (options) {
         /**
-         * Create a new collection
+         * Create a new dbTable
          * @param {String} options.name
          * with the error object as parameter. If you don't pass it the error will be thrown
          */
