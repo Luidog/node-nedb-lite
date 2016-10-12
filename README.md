@@ -33,6 +33,7 @@ this package will run a standalone, modified version of the nedb database with z
 - add lock to dbReset
 - add function dbTableDefer
 - add eval button to demo
+- add 'hide internal test' button to demo
 - none
 
 #### this package requires
@@ -194,8 +195,16 @@ instruction
                 });
                 break;
             case 'testRunButton1':
-                local.modeTest = true;
-                local.utility2.testRun(local);
+                document.querySelector('#testRunButton1').innerText =
+                    document.querySelector('.testReportDiv').style.display === 'none'
+                    ? 'hide internal test'
+                    : 'run internal test';
+                if (document.querySelector('.testReportDiv').style.display === 'none') {
+                    local.modeTest = true;
+                    local.utility2.testRun(local);
+                } else {
+                    document.querySelector('.testReportDiv').style.display = 'none';
+                }
                 break;
             default:
                 document.querySelector('#outputTextarea1').value = '';
@@ -207,6 +216,10 @@ instruction
                 }
             }
         };
+        document.querySelector('#testRunButton1').innerText =
+            document.querySelector('.testReportDiv').style.display === 'none'
+            ? 'hide internal test'
+            : 'run internal test';
         // init event-handling
         ['change', 'click'].forEach(function (event) {
             Array.prototype.slice.call(
