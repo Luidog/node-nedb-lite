@@ -1,6 +1,6 @@
 nedb-lite
 =========
-this package will run a standalone, browser-compatible version of the nedb v1.8.0 database with zero npm-dependencies
+this package will run a standalone, modified version of the nedb database with zero npm-dependencies
 
 [![travis-ci.org build-status](https://api.travis-ci.org/kaizhu256/node-nedb-lite.svg)](https://travis-ci.org/kaizhu256/node-nedb-lite)
 
@@ -20,15 +20,18 @@ this package will run a standalone, browser-compatible version of the nedb v1.8.
 # documentation
 #### todo
 - npm publish 2016.9.2
-- add function dbTableLock
+- add lock to dbReset
+- replace classes and methods with static functions (e.g. prototype.find -> dbTableFindMany)
 - none
 
 #### change since 3e821f9c
 - jslint entire code
+- rename window.nedb to window.nedb_lite
+- deprecate class constructor Nedb in favor of dbTableCreate
 - insert will auto-create missing non-sparse unique-keys
 - add isInteger parameter to indexes
 - row-update always returns updated row
-- add function idIntegerCreate, idStringCreate
+- add function dbTableDefer
 - add eval button to demo
 - none
 
@@ -37,14 +40,6 @@ this package will run a standalone, browser-compatible version of the nedb v1.8.
 
 #### additional info
 - nedb derived from https://github.com/louischatriot/nedb/blob/cadf4ef434e517e47c4e9ca1db5b89e892ff5981/browser-version/out/nedb.js
-
-#### major differences from original nedb @ https://github.com/louischatriot/nedb
-- shared js-env - replaced classes and methods with static functions (e.g. table1.find -> dbTableFind)
-- shared js-env - removed support for javascript-datetime (use ISO-datetime-string instead)
-- shared js-env - removed support for promises (callbacks only)
-- shared js-env - tables always have the timestamp-fields createdAt and updatedAt
-- browser js-env - removed support for persistence in localStorage and web-sql (persistence requires indexedDB)
-- node js-env - removed support for ms-windows platform
 
 #### api-doc
 - [https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html](https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html)
@@ -93,7 +88,7 @@ this script will will demo the browser-version of nedb
 instruction
     1. save this script as example.js
     2. run the shell command:
-        $ npm install nedb-lite && export PORT=8081 && node example.js
+        $ npm install "kaizhu256/node-nedb-lite#alpha" && export PORT=8081 && node example.js
     3. open a browser to http://localhost:8081
     4. edit or paste script in browser to eval
 */
@@ -136,7 +131,7 @@ instruction
         /* istanbul ignore next */
         // re-init local
         local = local.modeJs === 'browser'
-            ? window.Nedb.local
+            ? window.nedb_lite.local
             : module.isRollup
             ? module
             : require('nedb-lite').local;
@@ -157,7 +152,7 @@ instruction
                     Array.prototype.slice.call(arguments).map(function (arg) {
                         return typeof arg === 'string'
                             ? arg
-                            : local.Nedb.jsonStringifyOrdered(arg, null, 4);
+                            : local.nedb.jsonStringifyOrdered(arg, null, 4);
                     }).join(' ') + '\n';
             };
         });
@@ -166,7 +161,7 @@ instruction
             var reader, tmp;
             switch (event && event.currentTarget.id) {
             case 'nedbExportButton1':
-                tmp = window.URL.createObjectURL(new window.Blob([local.Nedb.dbExport()]));
+                tmp = window.URL.createObjectURL(new window.Blob([local.nedb.dbExport()]));
                 document.querySelector('#nedbExportA1').href = tmp;
                 document.querySelector('#nedbExportA1').click();
                 setTimeout(function () {
@@ -185,7 +180,7 @@ instruction
                     return;
                 }
                 reader.addEventListener('load', function () {
-                    local.Nedb.dbImport(reader.result, function () {
+                    local.nedb.dbImport(reader.result, function () {
                         console.log('... imported nedb-database');
                     });
                 });
@@ -194,7 +189,7 @@ instruction
             case 'nedbResetButton1':
                 document.querySelector('#outputTextarea1').value = '';
                 console.log('resetting nedb-database ...');
-                local.Nedb.dbReset(function () {
+                local.nedb.dbReset(function () {
                     console.log('... resetted nedb-database');
                 });
                 break;
@@ -315,16 +310,16 @@ utility2-comment -->\n\
         >eval</a>\n\
     </label>\n\
 <textarea id="inputTextarea1">\n\
-window.table1 = window.Nedb.dbTableCreate({ name: "table1" });\n\
+window.table1 = window.nedb_lite.dbTableCreate({ name: "table1" });\n\
 table1.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log();\n\
-    console.log(window.Nedb.dbTableExport(table1));\n\
+    console.log(window.nedb_lite.dbTableExport(table1));\n\
 });\n\
 \n\
-window.table2 = window.Nedb.dbTableCreate({ name: "table2" });\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: "table2" });\n\
 table2.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log();\n\
-    console.log(window.Nedb.dbTableExport(table2));\n\
+    console.log(window.nedb_lite.dbTableExport(table2));\n\
 });\n\
 </textarea>\n\
     <button class="onclick" id="nedbEvalButton1">eval script</button><br>\n\
@@ -368,7 +363,7 @@ utility2-comment -->\n\
         } catch (ignore) {
         }
         local['/assets.nedb-lite.js'] = local.fs.readFileSync(
-            local.Nedb.__dirname + '/index.js',
+            local.nedb.__dirname + '/index.js',
             'utf8'
         );
         // run the cli
@@ -467,9 +462,9 @@ shBuildCiTestPre() {(set -e
     # test example.js
     (export MODE_BUILD=testExampleJs &&
         shRunScreenCapture shReadmeTestJs example.js) || return $?
-    # test published-package
-    (export MODE_BUILD=npmTestPublished &&
-        shRunScreenCapture shNpmTestPublished) || return $?
+    #!! # test published-package
+    #!! (export MODE_BUILD=npmTestPublished &&
+        #!! shRunScreenCapture shNpmTestPublished) || return $?
     # coverage-hack - reset mock persistence
     mkdir -p tmp/nedb.persistence.test
     touch tmp/nedb.persistence.test/undefined
