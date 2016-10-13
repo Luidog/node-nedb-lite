@@ -59,9 +59,12 @@
         local.utility2.nedb = local.utility2.local.nedb = local.nedb;
         [
             'assert',
+            'jsonCopy',
             'jsonStringifyOrdered',
+            'objectSetDefault',
             'onErrorDefault',
-            'onNext'
+            'onNext',
+            'onParallel'
         ].forEach(function (key) {
             local.utility2[key] = local.nedb[key];
             [
@@ -215,10 +218,10 @@
             options.name = 'testCase_dbTableDrop_default';
             options.dbTable = local.nedb.dbTableCreate(options);
             onParallel.counter += 1;
-            options.dbTable.drop(onParallel);
+            options.dbTable.dbTableDrop(onParallel);
             // test multiple-drop handling-behavior
             onParallel.counter += 1;
-            options.dbTable.drop(onParallel);
+            options.dbTable.dbTableDrop(onParallel);
             onParallel();
         };
 
@@ -448,13 +451,9 @@
                             exampleList: [],
                             exports: local.nedb
                         },
-                        'nedb-lite.Index': {
+                        'nedb-lite._DbIndex.prototype': {
                             exampleList: [],
-                            exports: local.nedb.Index
-                        },
-                        'nedb-lite.Index.prototype': {
-                            exampleList: [],
-                            exports: local.nedb.Index.prototype
+                            exports: local.nedb._DbIndex.prototype
                         },
                         'nedb-lite._DbTable.prototype': {
                             exampleList: [],
