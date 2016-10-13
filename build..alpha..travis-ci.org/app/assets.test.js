@@ -172,7 +172,9 @@
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    options.dbTable.countMany({ query: { id: options.id } }, options.onNext);
+                    options.dbTable.crudCountMany({
+                        query: { id: options.id }
+                    }, options.onNext);
                     break;
                 case 2:
                     // validate data
@@ -230,7 +232,7 @@
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    local.nedb.dbTableFindOne(options.dbTable, {
+                    options.dbTable.crudFindOne({
                         query: { id: options.id }
                     }, options.onNext);
                     break;
@@ -260,12 +262,12 @@
                     local.testCase_dbTableFindOne_default(options, options.onNext);
                     break;
                 case 2:
-                    local.nedb.dbTableRemoveOne(options.dbTable, {
+                    options.dbTable.crudRemoveOne({
                         query: { id: options.id }
                     }, options.onNext);
                     break;
                 case 3:
-                    local.nedb.dbTableFindOne(options.dbTable, {
+                    options.dbTable.crudFindOne({
                         query: { id: options.id }
                     }, options.onNext);
                     break;
@@ -454,17 +456,9 @@
                             exampleList: [],
                             exports: local.nedb.Index.prototype
                         },
-                        'nedb-lite.Persistence': {
+                        'nedb-lite._DbTable.prototype': {
                             exampleList: [],
-                            exports: local.nedb.Persistence
-                        },
-                        'nedb-lite.Persistence.prototype': {
-                            exampleList: [],
-                            exports: local.nedb.Persistence.prototype
-                        },
-                        'nedb-lite._Table.prototype': {
-                            exampleList: [],
-                            exports: local.nedb._Table.prototype
+                            exports: local.nedb._DbTable.prototype
                         }
                     };
                     Object.keys(options.moduleDict).forEach(function (key) {
