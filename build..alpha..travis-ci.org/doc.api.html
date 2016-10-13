@@ -1,0 +1,4362 @@
+<style>
+.docApiDiv {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.docApiDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.docApiDiv a[href]:hover {
+    text-decoration: underline;
+}
+.docApiSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.docApiCodeCommentSpan {
+    background-color: #bbf;
+    color: #000;
+    display: block;
+}
+.docApiCodeKeywordSpan {
+    color: #f00;
+    font-weight: bold;
+}
+.docApiCodePre {
+    background-color: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.docApiSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<div class="docApiDiv">
+<h1>api documentation
+    <a
+        
+        href="https://github.com/kaizhu256/node-nedb-lite"
+        
+    >(nedb-lite v2016.9.2)</a>
+</h1>
+<div class="docApiSectionDiv"><a href="#"><h1>table of contents</h1></a><ul>
+
+    <li><a href="#module.nedb-lite">module nedb-lite</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.AvlTree">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>AvlTree
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Cursor">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Cursor
+            <span class="docApiSignatureSpan">(db,&nbsp;query,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.assert">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>assert
+            <span class="docApiSignatureSpan">(passed,&nbsp;message)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbExport
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbImport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbImport
+            <span class="docApiSignatureSpan">(dbTableList,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbIndexCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexCreate
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbIndexRemove">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexRemove
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbReset">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbReset
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowCheckObject">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowCheckObject
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowDeepCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowDeepCopy
+            <span class="docApiSignatureSpan">(obj,&nbsp;strictKeys)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowIsPrimitiveType">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowIsPrimitiveType
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowModify">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowModify
+            <span class="docApiSignatureSpan">(obj,&nbsp;updateQuery)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageClear">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageClear
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageDefer">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageDefer
+            <span class="docApiSignatureSpan">(options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageGetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageGetItem
+            <span class="docApiSignatureSpan">(key,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageInit">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageInit
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageKeys">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageKeys
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageLength">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageLength
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageRemoveItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageRemoveItem
+            <span class="docApiSignatureSpan">(key,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageSetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageSetItem
+            <span class="docApiSignatureSpan">(key,&nbsp;value,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableCountMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCountMany
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCreate
+            <span class="docApiSignatureSpan">(options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableDrop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDrop
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableExport
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableFindAll">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindAll
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableFindMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindMany
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableFindOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindOne
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableRemoveMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveMany
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableRemoveOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveOne
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.isRegExp">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>isRegExp
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.jsonCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonCopy
+            <span class="docApiSignatureSpan">(arg)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.jsonStringifyOrdered">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonStringifyOrdered
+            <span class="docApiSignatureSpan">(element,&nbsp;replacer,&nbsp;space)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.listUnique">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>listUnique
+            <span class="docApiSignatureSpan">(list)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.nop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>nop
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.objectSetDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>objectSetDefault
+            <span class="docApiSignatureSpan">(arg,&nbsp;defaults)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.onErrorDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onErrorDefault
+            <span class="docApiSignatureSpan">(error)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.onNext">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onNext
+            <span class="docApiSignatureSpan">(options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.onParallel">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onParallel
+            <span class="docApiSignatureSpan">(onError,&nbsp;onDebug)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.queryCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryCompare
+            <span class="docApiSignatureSpan">(operator,&nbsp;aa,&nbsp;bb)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.queryGetDotValue">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryGetDotValue
+            <span class="docApiSignatureSpan">(obj,&nbsp;field)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.queryMatch">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryMatch
+            <span class="docApiSignatureSpan">(obj,&nbsp;query)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.sortCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>sortCompare
+            <span class="docApiSignatureSpan">(aa,&nbsp;bb)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">object <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageDeferList</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">object <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDict</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">object <span class="docApiSignatureSpan">nedb-lite.</span>local</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">string <span class="docApiSignatureSpan">nedb-lite.</span>NODE_ENV</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">string <span class="docApiSignatureSpan">nedb-lite.</span>dbStorage</span>
+        
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Index">module nedb-lite.Index</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Index.prototype">module nedb-lite.Index.prototype</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.getBetweenBounds">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getBetweenBounds
+            <span class="docApiSignatureSpan">(query)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.getMatching">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getMatching
+            <span class="docApiSignatureSpan">(value)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insert
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.insertMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insertMultipleDocs
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.remove">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>remove
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.reset">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>reset
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>update
+            <span class="docApiSignatureSpan">(oldDoc,&nbsp;newDoc)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.updateMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>updateMultipleDocs
+            <span class="docApiSignatureSpan">(pairs)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Persistence">module nedb-lite.Persistence</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Persistence.prototype">module nedb-lite.Persistence.prototype</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.prototype.persistCachedDatabase">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistCachedDatabase
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.prototype.persistNewState">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistNewState
+            <span class="docApiSignatureSpan">(newDocs,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.prototype.treatRawData">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>treatRawData
+            <span class="docApiSignatureSpan">(rawData)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite._Table.prototype">module nedb-lite._Table.prototype</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.addToIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>addToIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.getCandidates">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>getCandidates
+            <span class="docApiSignatureSpan">(query,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>insert
+            <span class="docApiSignatureSpan">(newDoc,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.prepareDocumentForInsertion">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>prepareDocumentForInsertion
+            <span class="docApiSignatureSpan">(newDoc)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.removeFromIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>removeFromIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>update
+            <span class="docApiSignatureSpan">(query,&nbsp;updateQuery,&nbsp;options,&nbsp;onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.updateIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>updateIndexes
+            <span class="docApiSignatureSpan">(oldDoc,&nbsp;newDoc)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+</ul></div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite" id="module.nedb-lite">module nedb-lite</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.AvlTree" id="element.nedb-lite.AvlTree">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>AvlTree
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">AvlTree = function (options) {
+<span class="docApiCodeCommentSpan">/**
+ * Constructor of the internal AvlTree
+ *
+ * @param {Object} options Optional
+ * @param {Boolean}  options.unique Whether to enforce a &#x27;unique&#x27; constraint on the key or not
+ * @param {Key}      options.key Initialize this AvlTree&#x27;s key with key
+ * @param {Value}    options.value Initialize this AvlTree&#x27;s data with [value]
+ */
+</span>    this.left = null;
+    this.right = null;
+    this.parent = options.parent !== undefined ? options.parent : null;
+    if (options.hasOwnProperty(&#x27;key&#x27;)) {
+        this.key = options.key;
+    }
+    this.data = options.hasOwnProperty(&#x27;value&#x27;) ? [options.value] : [];
+    this.unique = options.unique || false;
+
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+};
+local.nedb.Index.prototype.reset = function (dbRowList) {
+/**
+ * Reset an index
+ * @param {dbRow or Array of dbRow&#x27;s} dbRowList Optional, data to initialize the index with
+ *                                                 If an error is thrown during insertion, the index is not modified
+ */
+    this.tree = new local.nedb.<span class="docApiCodeKeywordSpan">AvlTree</span>({ unique: this.unique });
+    if (dbRowList) {
+        this.insert(dbRowList);
+    }
+};
+local.nedb.Index.prototype.insert = function (dbRow) {
+/**
+ * Insert a new dbRow in the index
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Cursor" id="element.nedb-lite.Cursor">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Cursor
+            <span class="docApiSignatureSpan">(db,&nbsp;query,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Cursor = function (db,&nbsp;query,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/**
+ * Create a new cursor for this dbTable
+ * @param {Datastore} db - The datastore this cursor is bound to
+ * @param {Query} query - The query this cursor will operate on
+ * @param {Function} onError - Handler to be executed after cursor has found the results and before the callback passed to find/\
+findOne/update/remove
+ */
+</span>    this.db = db;
+    this.query = query || {};
+    if (onError) {
+        this.onError = onError;
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+                case 1:
+// If upsert option is set, check whether we need to insert the dbRow
+if (!upsert) {
+    return options.onNext();
+}
+
+// Need to use an internal function not tied to the executor to avoid deadlock
+cursor = new local.nedb.<span class="docApiCodeKeywordSpan">Cursor</span>(self, query);
+cursor.limit(1)._exec(function (error, docs) {
+    if (error) {
+        return onError(error);
+    }
+    if (docs.length === 1) {
+        return options.onNext();
+    }
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index" id="element.nedb-lite.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Index = function (options) {
+<span class="docApiCodeCommentSpan">/**
+ * Create a new index
+ * All methods on an index guarantee that either the whole operation was successful and the index changed
+ * or the operation was unsuccessful and an error is thrown while the index is unchanged
+ * @param {String} options.fieldName On which field should the index apply (can use dot notation to index on sub fields)
+ * @param {Boolean} options.unique Optional, enforce a unique constraint (default: false)
+ * @param {Boolean} options.sparse Optional, allow a sparse index (we can have dbRow&#x27;s for which fieldName is undefined) (defaul\
+t: false)
+ */
+</span>    this.fieldName = options.fieldName;
+    this.isInteger = options.isInteger;
+
+    this.unique = options.unique || false;
+    this.sparse = options.sparse || false;
+
+    this.reset(); // No data in the beginning
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+*     becomes a TTL index (only works on Date fields, not arrays of Date)
+* @param {Function} onError - callback, signature: error
+*/
+   var self;
+   // require options.fieldName
+   local.nedb.assert(options.fieldName, options.fieldName);
+   self = local.nedb.dbTableDict[dbTable.name];
+   self.indexes[options.fieldName] = new local.nedb.<span class="docApiCodeKeywordSpan">Index</span>(options);
+   // With this implementation index creation is not necessary to ensure TTL
+   // but we stick with MongoDB&#x27;s API here
+   if (options.expireAfterSeconds !== undefined) {
+       self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+   }
+   self.indexes[options.fieldName].insert(local.nedb.dbTableFindAll(self));
+   // We may want to force all options to be persisted including defaults,
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence" id="element.nedb-lite.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Persistence = function (options) {
+<span class="docApiCodeCommentSpan">/**
+ * Handle every persistence-related task
+ * The interface Datastore expects to be implemented is
+ * * Persistence.persistNewState(newDocs, callback) where newDocs is an array of dbRow&#x27;s and callback has signature error
+ *
+ * Create a new Persistence object for database options.db
+ * @param {Datastore} options.db
+ */
+</span>    this.db = options.db;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+// validate name
+local.nedb.assert(
+    options &amp;&amp; options.name &amp;&amp; typeof options.name === &#x27;string&#x27;,
+    options &amp;&amp; options.name
+);
+self.name = self.name || options.name;
+// Persistence handling
+self.persistence = new local.nedb.<span class="docApiCodeKeywordSpan">Persistence</span>({ db: self });
+// Indexed by field name, dot notation can be used
+// _id is always indexed and since _ids are generated randomly
+// the underlying binary is always well-balanced
+self.indexes = {
+    _id: new local.nedb.Index({ fieldName: &#x27;_id&#x27;, unique: true }),
+    createdAt: new local.nedb.Index({ fieldName: &#x27;createdAt&#x27; }),
+    updatedAt: new local.nedb.Index({ fieldName: &#x27;updatedAt&#x27; })
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.assert" id="element.nedb-lite.assert">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>assert
+            <span class="docApiSignatureSpan">(passed,&nbsp;message)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">assert = function (passed,&nbsp;message) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will throw the error message if passed is falsey
+ */
+</span>    var error;
+    if (passed) {
+        return;
+    }
+    error = message &amp;&amp; message.message
+        // if message is an error-object, then leave it as is
+        ? message
+        : new Error(typeof message === &#x27;string&#x27;
+            // if message is a string, then leave it as is
+            ? message
+            // else JSON.stringify message
+            : JSON.stringify(message));
+    throw error;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    onParallel.counter += 1;
+    local.nedb.dbIndexCreate(options, {
+        fieldName: &#x27;id&#x27;,
+        unique: true
+    }, onParallel);
+    options.data = local.nedb.dbExport();
+    // validate data
+    local.utility2.<span class="docApiCodeKeywordSpan">assert</span>(options.data.indexOf(&#x27;&quot;testCase_dbExport_default&\
+quot;\n&#x27; +
+        &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;createdAt&quot;,&quot;unique&quot;:false,&quot;sparse&quo\
+t;:false}}\n&#x27; +
+        &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;updatedAt&quot;,&quot;unique&quot;:false,&quot;sparse&quo\
+t;:false}}\n&#x27; +
+        &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;id&quot;,&quot;unique&quot;:true,&quot;sparse&quot;:false\
+}}&#x27;)
+        &gt;= 0, options.data);
+    onParallel();
+};
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbExport" id="element.nedb-lite.dbExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbExport
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbExport = function () {
+<span class="docApiCodeCommentSpan">/*
+ * this function will export the database as a serialized dbTableList
+ */
+</span>    var data;
+    data = &#x27;&#x27;;
+    Object.keys(local.nedb.dbTableDict).map(function (key) {
+        data += local.nedb.dbTableExport({ name: key }) + &#x27;\n\n&#x27;;
+    });
+    return data.slice(0, -2);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    };
+});
+/* istanbul ignore next */
+local.testRun = function (event) {
+    var reader, tmp;
+    switch (event &amp;&amp; event.currentTarget.id) {
+    case &#x27;nedbExportButton1&#x27;:
+        tmp = window.URL.createObjectURL(new window.Blob([local.nedb.<span class="docApiCodeKeywordSpan">dbExport</span>()]));
+        document.querySelector(&#x27;#nedbExportA1&#x27;).href = tmp;
+        document.querySelector(&#x27;#nedbExportA1&#x27;).click();
+        setTimeout(function () {
+            window.URL.revokeObjectURL(tmp);
+        }, 30000);
+        break;
+    case &#x27;nedbImportButton1&#x27;:
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbImport" id="element.nedb-lite.dbImport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbImport
+            <span class="docApiSignatureSpan">(dbTableList,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbImport = function (dbTableList,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will import the serialized dbTableList
+ */
+</span>    dbTableList.trim().split(&#x27;\n\n&#x27;).forEach(function (dbTable) {
+        local.nedb.dbTableCreate({
+            persistenceData: dbTable,
+            name: JSON.parse((/.*/).exec(dbTable)[0])
+        }, onError);
+    });
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    console.log(&#x27;importing nedb-database ...&#x27;);
+    reader = new window.FileReader();
+    tmp = document.querySelector(&#x27;#nedbImportInput1&#x27;).files[0];
+    if (!tmp) {
+        return;
+    }
+    reader.addEventListener(&#x27;load&#x27;, function () {
+        local.nedb.<span class="docApiCodeKeywordSpan">dbImport</span>(reader.result, function () {
+            console.log(&#x27;... imported nedb-database&#x27;);
+        });
+    });
+    reader.readAsText(tmp);
+    break;
+case &#x27;nedbResetButton1&#x27;:
+    document.querySelector(&#x27;#outputTextarea1&#x27;).value = &#x27;&#x27;;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbIndexCreate" id="element.nedb-lite.dbIndexCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexCreate
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbIndexCreate = function (dbTable,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will create an index for the given dbTable
+ */
+</span>/**
+ * Create an index is for this field. Same parameters as lib/indexes
+ * For now this function is synchronous, we need to test how much time it takes
+ * We use an async API for consistency with the rest of the code
+ * @param {String} options.fieldName
+ * @param {Boolean} options.unique
+ * @param {Boolean} options.sparse
+ * @param {Number} options.expireAfterSeconds - Optional, if set this index
+ *     becomes a TTL index (only works on Date fields, not arrays of Date)
+ * @param {Function} onError - callback, signature: error
+ */
+    var self;
+    // require options.fieldName
+    local.nedb.assert(options.fieldName, options.fieldName);
+    self = local.nedb.dbTableDict[dbTable.name];
+    self.indexes[options.fieldName] = new local.nedb.Index(options);
+    // With this implementation index creation is not necessary to ensure TTL
+    // but we stick with MongoDB&#x27;s API here
+    if (options.expireAfterSeconds !== undefined) {
+        self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+    }
+    self.indexes[options.fieldName].insert(local.nedb.dbTableFindAll(self));
+    // We may want to force all options to be persisted including defaults,
+    // not just the ones passed the index creation function
+    self.persistence.persistNewState([{ $$indexCreated: options }], onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+var onParallel;
+onParallel = local.utility2.onParallel(onError);
+onParallel.counter += 1;
+options = {};
+options.name = &#x27;testCase_dbExport_default&#x27;;
+options.dbTable = local.nedb.dbTableCreate(options);
+onParallel.counter += 1;
+local.nedb.<span class="docApiCodeKeywordSpan">dbIndexCreate</span>(options, {
+    fieldName: &#x27;id&#x27;,
+    unique: true
+}, onParallel);
+options.data = local.nedb.dbExport();
+// validate data
+local.utility2.assert(options.data.indexOf(&#x27;&quot;testCase_dbExport_default&quot;\n&#x27; +
+    &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;createdAt&quot;,&quot;unique&quot;:false,&quot;sparse&quot;:f\
+alse}}\n&#x27; +
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbIndexRemove" id="element.nedb-lite.dbIndexRemove">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexRemove
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbIndexRemove = function (dbTable,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will remove the dbIndex from dbTable with the given options
+ */
+</span>    var self;
+    self = local.nedb.dbTableDict[dbTable.name];
+    delete self.indexes[options.fieldName];
+    self.persistence.persistNewState([{
+        $$indexRemoved: options.fieldName
+    }], onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">n/a</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbReset" id="element.nedb-lite.dbReset">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbReset
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbReset = function (onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will reset nedb&#x27;s persistence
+ */
+</span>    var onParallel, options;
+    options = {};
+    local.nedb.onNext(options, function (error) {
+        switch (options.modeNext) {
+        case 1:
+            onParallel = local.nedb.onParallel(onError);
+            onParallel.counter = 0;
+            onParallel.counter += 1;
+            Object.keys(local.nedb.dbTableDict).forEach(function (key) {
+                // drop dbTable
+                onParallel.counter += 1;
+                local.nedb.dbTableDrop({ name: key }, onParallel);
+            });
+            onParallel.counter += 1;
+            local.nedb.dbStorageClear(onParallel);
+            onParallel();
+            break;
+        default:
+            onError(error);
+        }
+    });
+    options.modeNext = 0;
+    options.onNext();
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        });
+    });
+    reader.readAsText(tmp);
+    break;
+case &#x27;nedbResetButton1&#x27;:
+    document.querySelector(&#x27;#outputTextarea1&#x27;).value = &#x27;&#x27;;
+    console.log(&#x27;resetting nedb-database ...&#x27;);
+    local.nedb.<span class="docApiCodeKeywordSpan">dbReset</span>(function () {
+        console.log(&#x27;... resetted nedb-database&#x27;);
+    });
+    break;
+case &#x27;testRunButton1&#x27;:
+    if (document.querySelector(&#x27;.testReportDiv&#x27;).style.display === &#x27;none&#x27;) {
+        document.querySelector(&#x27;.testReportDiv&#x27;).style.display = &#x27;block&#x27;;
+        document.querySelector(&#x27;#testRunButton1&#x27;).innerText = &#x27;hide internal test&#x27;;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowCheckObject" id="element.nedb-lite.dbRowCheckObject">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowCheckObject
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">function checkObject(obj) {
+<span class="docApiCodeCommentSpan">/**
+ * Check a DB object and throw an error if it&#x27;s not valid
+ * Works by applying the above checkKey function to all fields recursively
+ */
+</span>    if (Array.isArray(obj)) {
+        obj.forEach(function (o) {
+            checkObject(o);
+        });
+    }
+
+    if (typeof obj === &#x27;object&#x27; &amp;&amp; obj !== null) {
+        Object.keys(obj).forEach(function (k) {
+            checkKey(k, obj[k]);
+            checkObject(obj[k]);
+        });
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        now = new Date().toISOString();
+        if (preparedDoc.createdAt === undefined) {
+            preparedDoc.createdAt = now;
+        }
+        if (preparedDoc.updatedAt === undefined) {
+            preparedDoc.updatedAt = now;
+        }
+        local.nedb.<span class="docApiCodeKeywordSpan">dbRowCheckObject</span>(preparedDoc);
+    }
+
+    return preparedDoc;
+};
+
+local.nedb._Table.prototype._insertInCache = function (preparedDoc) {
+/**
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowDeepCopy" id="element.nedb-lite.dbRowDeepCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowDeepCopy
+            <span class="docApiSignatureSpan">(obj,&nbsp;strictKeys)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbRowDeepCopy = function (obj,&nbsp;strictKeys) {
+<span class="docApiCodeCommentSpan">/**
+ * Deep copy a DB object
+ * The optional strictKeys flag (defaulting to false) indicates whether to copy everything or only fields
+ * where the keys are valid, i.e. don&#x27;t begin with $ and don&#x27;t contain a .
+ */
+</span>    var res;
+
+    if (typeof obj === &#x27;boolean&#x27; ||
+            typeof obj === &#x27;number&#x27; ||
+            typeof obj === &#x27;string&#x27; ||
+            obj === null) {
+        return obj;
+    }
+
+    if (Array.isArray(obj)) {
+        res = [];
+        obj.forEach(function (o) {
+            res.push(local.nedb.dbRowDeepCopy(o, strictKeys));
+        });
+        return res;
+    }
+
+    if (typeof obj === &#x27;object&#x27;) {
+        res = {};
+        Object.keys(obj).forEach(function (k) {
+            if (!strictKeys || (k[0] !== &#x27;$&#x27; &amp;&amp; k.indexOf(&#x27;.&#x27;) === -1)) {
+                res[k] = local.nedb.dbRowDeepCopy(obj[k], strictKeys);
+            }
+        });
+        return res;
+    }
+
+    return undefined; // For now everything else is undefined. We should probably throw an error instead
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        obj === null) {
+    return obj;
+}
+
+if (Array.isArray(obj)) {
+    res = [];
+    obj.forEach(function (o) {
+        res.push(local.nedb.<span class="docApiCodeKeywordSpan">dbRowDeepCopy</span>(o, strictKeys));
+    });
+    return res;
+}
+
+if (typeof obj === &#x27;object&#x27;) {
+    res = {};
+    Object.keys(obj).forEach(function (k) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowIsPrimitiveType" id="element.nedb-lite.dbRowIsPrimitiveType">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowIsPrimitiveType
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">function isPrimitiveType(obj) {
+<span class="docApiCodeCommentSpan">/**
+ * Tells if an object is a primitive type or a &#x27;real&#x27; object
+ * Arrays are considered primitive
+ */
+</span>    return (typeof obj === &#x27;boolean&#x27; ||
+        typeof obj === &#x27;number&#x27; ||
+        typeof obj === &#x27;string&#x27; ||
+        obj === null ||
+        Array.isArray(obj));
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">n/a</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowModify" id="element.nedb-lite.dbRowModify">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowModify
+            <span class="docApiSignatureSpan">(obj,&nbsp;updateQuery)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">function modify(obj,&nbsp;updateQuery) {
+<span class="docApiCodeCommentSpan">/**
+ * Modify a DB object according to an update query
+ */
+</span>    var keys, dollarFirstChars, firstChars, modifiers, newDoc;
+    keys = Object.keys(updateQuery);
+    firstChars = keys.map(function (item) {
+        return item[0];
+    });
+    dollarFirstChars = firstChars.filter(function (cc) {
+        return cc === &#x27;$&#x27;;
+    });
+
+    if (keys.indexOf(&#x27;_id&#x27;) !== -1 &amp;&amp; updateQuery._id !== obj._id) {
+        throw new Error(&quot;You cannot change a dbRow&#x27;s _id&quot;);
+    }
+
+    if (dollarFirstChars.length !== 0 &amp;&amp; dollarFirstChars.length !== firstChars.length) {
+        throw new Error(&#x27;You cannot mix modifiers and normal fields&#x27;);
+    }
+
+    if (dollarFirstChars.length === 0) {
+        // Simply replace the object with the update query contents
+        newDoc = local.nedb.jsonCopy(updateQuery);
+        newDoc._id = obj._id;
+    } else {
+        // Apply modifiers
+        modifiers = local.nedb.listUnique(keys);
+        newDoc = local.nedb.jsonCopy(obj);
+        modifiers.forEach(function (m) {
+
+            if (!modifierFunctions[m]) {
+                throw new Error(&#x27;Unknown modifier &#x27; + m);
+            }
+
+            // Can&#x27;t rely on Object.keys throwing on non objects since ES6
+            // Not 100% satisfying as non objects can be interpreted as objects but no false negatives so we can live with it
+            if (typeof updateQuery[m] !== &#x27;object&#x27;) {
+                throw new Error(&#x27;Modifier &#x27; + m + &quot;&#x27;s argument must be an object&quot;);
+            }
+
+            Object.keys(updateQuery[m]).forEach(function (k) {
+                modifierFunctions[m](newDoc, k, updateQuery[m][k]);
+            });
+        });
+    }
+
+    // Check result is valid and return it
+    checkObject(newDoc);
+
+    if (obj._id !== newDoc._id) {
+        throw new Error(&quot;You can&#x27;t change a dbRow&#x27;s _id&quot;);
+    }
+    return newDoc;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    };
+    keys.forEach(function (k) {
+        toPush.$set[k] = local.nedb.queryGetDotValue(candidate, k);
+        if (toPush.$set[k] === undefined) {
+            delete toPush.$set[k];
+        }
+    });
+    toPush = local.nedb.<span class="docApiCodeKeywordSpan">dbRowModify</span>({}, toPush);
+} else { // omit-type projection
+    toPush = {
+        $unset: {}
+    };
+    keys.forEach(function (k) {
+        toPush.$unset[k] = true;
+    });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageClear" id="element.nedb-lite.dbStorageClear">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageClear
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageClear = function (onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will clear dbStorage
+ */
+</span>    local.nedb.dbStorageDefer({ action: &#x27;clear&#x27; }, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        onParallel.counter += 1;
+        Object.keys(local.nedb.dbTableDict).forEach(function (key) {
+            // drop dbTable
+            onParallel.counter += 1;
+            local.nedb.dbTableDrop({ name: key }, onParallel);
+        });
+        onParallel.counter += 1;
+        local.nedb.<span class="docApiCodeKeywordSpan">dbStorageClear</span>(onParallel);
+        onParallel();
+        break;
+    default:
+        onError(error);
+    }
+});
+options.modeNext = 0;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageDefer" id="element.nedb-lite.dbStorageDefer">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageDefer
+            <span class="docApiSignatureSpan">(options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageDefer = function (options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will defer options.action until dbStorage is ready
+ */
+</span>    var data, done, objectStore, onError2, request, tmp;
+    if (!local.nedb.dbStorage) {
+        local.nedb.dbStorageDeferList.push(function () {
+            local.nedb.dbStorageDefer(options, onError);
+        });
+        return;
+    }
+    if (options.action === &#x27;onError&#x27;) {
+        onError();
+        return;
+    }
+    switch (local.modeJs) {
+    case &#x27;browser&#x27;:
+        onError2 = function () {
+            if (done) {
+                return;
+            }
+            done = true;
+            onError(
+                request &amp;&amp; (request.error || request.transaction.error),
+                data || request.result
+            );
+        };
+        switch (options.action) {
+        case &#x27;clear&#x27;:
+        case &#x27;removeItem&#x27;:
+        case &#x27;setItem&#x27;:
+            objectStore = local.nedb.dbStorage
+                .transaction(&#x27;nedb&#x27;, &#x27;readwrite&#x27;)
+                .objectStore(&#x27;nedb&#x27;);
+            break;
+        default:
+            objectStore = local.nedb.dbStorage
+                .transaction(&#x27;nedb&#x27;, &#x27;readonly&#x27;)
+                .objectStore(&#x27;nedb&#x27;);
+        }
+        switch (options.action) {
+        case &#x27;clear&#x27;:
+            request = objectStore.clear();
+            break;
+        case &#x27;getItem&#x27;:
+            request = objectStore.get(options.key);
+            break;
+        case &#x27;keys&#x27;:
+            data = [];
+            request = objectStore.openCursor();
+            request.onsuccess = function () {
+                if (!request.result) {
+                    onError2();
+                    return;
+                }
+                data.push(request.result.key);
+                request.result.continue();
+            };
+            break;
+        case &#x27;length&#x27;:
+            request = objectStore.count();
+            break;
+        case &#x27;removeItem&#x27;:
+            request = objectStore.delete(options.key);
+            break;
+        case &#x27;setItem&#x27;:
+            request = objectStore.put(options.value, options.key);
+            break;
+        }
+        [&#x27;onabort&#x27;, &#x27;onerror&#x27;, &#x27;onsuccess&#x27;].forEach(function (handler) {
+            request[handler] = request[handler] || onError2;
+        });
+        // debug request
+        local.nedb._debugDbStorageRequest = request;
+        break;
+    case &#x27;node&#x27;:
+        switch (options.action) {
+        case &#x27;clear&#x27;:
+            local.child_process.spawn(&#x27;sh&#x27;, [&#x27;-c&#x27;, &#x27;rm &#x27; + local.nedb.dbStorage + &#x27;/*&#x27;], {
+                stdio: [&#x27;ignore&#x27;, 1, 2]
+            }).once(&#x27;exit&#x27;, function () {
+                onError();
+            });
+            break;
+        case &#x27;getItem&#x27;:
+            local.nedb.assert(typeof options.key === &#x27;string&#x27;, options.key);
+            local.fs.readFile(
+                local.nedb.dbStorage + &#x27;/&#x27; + encodeURIComponent(options.key),
+                &#x27;utf8&#x27;,
+                function (error, data) {
+                    // jslint-hack
+                    local.nedb.nop(error);
+                    onError(null, data || &#x27;&#x27;);
+                }
+            );
+            break;
+        case &#x27;keys&#x27;:
+            local.fs.readdir(local.nedb.dbStorage, function (error, data) {
+                onError(error, data &amp;&amp; data.map(decodeURIComponent));
+            });
+            break;
+        case &#x27;length&#x27;:
+            local.fs.readdir(local.nedb.dbStorage, function (error, data) {
+                onError(error, data &amp;&amp; data.length);
+            });
+            break;
+        case &#x27;removeItem&#x27;:
+            local.nedb.assert(typeof options.key === &#x27;string&#x27;, options.key);
+            local.fs.unlink(
+                local.nedb.dbStorage + &#x27;/&#x27; + encodeURIComponent(options.key),
+                // ignore error
+                function () {
+                    onError();
+                }
+            );
+            break;
+        case &#x27;setItem&#x27;:
+            local.nedb.assert(typeof options.key === &#x27;string&#x27;, options.key);
+            local.nedb.assert(typeof options.value === &#x27;string&#x27;, options.value);
+            tmp = local.os.tmpdir() + &#x27;/&#x27; + Date.now() + Math.random();
+            // save to tmp ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    options.onNext();
+};
+
+local.nedb.dbStorageClear = function (onError) {
+/*
+ * this function will clear dbStorage
+ */
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageDefer</span>({ action: &#x27;clear&#x27; }, onError);
+};
+
+local.nedb.dbStorageDefer = function (options, onError) {
+/*
+ * this function will defer options.action until dbStorage is ready
+ */
+    var data, done, objectStore, onError2, request, tmp;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageGetItem" id="element.nedb-lite.dbStorageGetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageGetItem
+            <span class="docApiSignatureSpan">(key,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageGetItem = function (key,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will get the item with the given key from dbStorage
+ */
+</span>    local.nedb.assert(typeof key === &#x27;string&#x27;);
+    local.nedb.dbStorageDefer({ action: &#x27;getItem&#x27;, key: key }, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    }
+    data += &#x27;\n&#x27;;
+    data = data.slice(data.indexOf(&#x27;\n&#x27;) + 1);
+    local.nedb.dbStorageSetItem(self.name, data, options.onNext);
+    break;
+// load persistence
+case 3:
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageGetItem</span>(self.name, options.onNext);
+    break;
+case 4:
+    // Load the database
+    // 1) Create all indexes
+    // 2) Insert all data
+    // 3) Compact the database
+    // This means pulling data out of the data file
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageInit" id="element.nedb-lite.dbStorageInit">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageInit
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageInit = function () {
+<span class="docApiCodeCommentSpan">/*
+ * this function will init dbStorage
+ */
+</span>    var options, request;
+    options = {};
+    local.nedb.onNext(options, function (error) {
+        // validate no error occurred
+        local.nedb.assert(!error, error);
+        if (local.modeJs === &#x27;browser&#x27;) {
+            local.nedb.dbStorage = local.global.nedb_storage;
+        }
+        switch (options.modeNext) {
+        case 1:
+            if (local.nedb.dbStorage) {
+                options.onNext();
+                return;
+            }
+            switch (local.modeJs) {
+            case &#x27;browser&#x27;:
+                // init indexedDB
+                try {
+                    request = local.global.indexedDB.open(&#x27;nedb&#x27;);
+                    request.onerror = options.onNext;
+                    request.onsuccess = function () {
+                        local.global.nedb_storage = request.result;
+                        options.onNext();
+                    };
+                    request.onupgradeneeded = function () {
+                        if (!request.result.objectStoreNames.contains(&#x27;nedb&#x27;)) {
+                            request.result.createObjectStore(&#x27;nedb&#x27;);
+                        }
+                    };
+                } catch (ignore) {
+                }
+                break;
+            case &#x27;node&#x27;:
+                // mkdirp dbStorage
+                local.nedb.dbStorage = &#x27;tmp/nedb.persistence.&#x27; + local.nedb.NODE_ENV;
+                local.child_process.spawnSync(&#x27;mkdir&#x27;, [&#x27;-p&#x27;, local.nedb.dbStorage], {
+                    stdio: [&#x27;ignore&#x27;, 1, 2]
+                });
+                options.onNext();
+                break;
+            }
+            break;
+        // run deferred actions
+        case 2:
+            while (local.nedb.dbStorageDeferList.length) {
+                local.nedb.dbStorageDeferList.shift()();
+            }
+            break;
+        }
+    });
+    options.modeNext = 0;
+    options.onNext();
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+var onParallel;
+// jslint-hack
+local.utility2.nop(options);
+onParallel = local.utility2.onParallel(onError);
+onParallel.counter += 1;
+onParallel.counter += 1;
+// test dbStorageInit&#x27;s re-init handling-behavior
+local.nedb.<span class="docApiCodeKeywordSpan">dbStorageInit</span>();
+// test dbStorageKey&#x27;s handling-behavior
+local.nedb.dbStorageKeys(function () {
+    local.utility2.tryCatchOnError(function () {
+        // test dbStorageDefer&#x27;s done handling-behavior
+        local.nedb._debugDbStorageRequest.onerror(local.utility2.errorDefault);
+    }, local.utility2.nop);
+    onParallel();
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageKeys" id="element.nedb-lite.dbStorageKeys">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageKeys
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageKeys = function (onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will get all the keys in dbStorage
+ */
+</span>    local.nedb.dbStorageDefer({ action: &#x27;keys&#x27; }, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+local.utility2.nop(options);
+onParallel = local.utility2.onParallel(onError);
+onParallel.counter += 1;
+onParallel.counter += 1;
+// test dbStorageInit&#x27;s re-init handling-behavior
+local.nedb.dbStorageInit();
+// test dbStorageKey&#x27;s handling-behavior
+local.nedb.<span class="docApiCodeKeywordSpan">dbStorageKeys</span>(function () {
+    local.utility2.tryCatchOnError(function () {
+        // test dbStorageDefer&#x27;s done handling-behavior
+        local.nedb._debugDbStorageRequest.onerror(local.utility2.errorDefault);
+    }, local.utility2.nop);
+    onParallel();
+});
+onParallel.counter += 1;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageLength" id="element.nedb-lite.dbStorageLength">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageLength
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageLength = function (onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will get the number of items in dbStorage
+ */
+</span>    local.nedb.dbStorageDefer({ action: &#x27;length&#x27; }, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            // test dbStorageDefer&#x27;s done handling-behavior
+            local.nedb._debugDbStorageRequest.onerror(local.utility2.errorDefault);
+        }, local.utility2.nop);
+        onParallel();
+    });
+    onParallel.counter += 1;
+    // test dbStorageLength&#x27;s handling-behavior
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageLength</span>(onParallel);
+    onParallel();
+};
+
+local.testCase_dbTableCountMany_default = function (options, onError) {
+/*
+ * this function will test dbTableCountMany&#x27;s default handling-behavior
+ */
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageRemoveItem" id="element.nedb-lite.dbStorageRemoveItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageRemoveItem
+            <span class="docApiSignatureSpan">(key,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageRemoveItem = function (key,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will remove the item with the given key from dbStorage
+ */
+</span>    local.nedb.assert(typeof key === &#x27;string&#x27;);
+    local.nedb.dbStorageDefer({ action: &#x27;removeItem&#x27;, key: key }, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        case &#x27;dropped&#x27;:
+        case &#x27;name&#x27;:
+            break;
+        default:
+            delete self[key];
+        }
+    });
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageRemoveItem</span>(self.name, onError);
+};
+
+local.nedb.dbTableExport = function (dbTable) {
+/*
+ * this function will export dbTable with the given dbTable.name
+ */
+    var data, self;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageSetItem" id="element.nedb-lite.dbStorageSetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageSetItem
+            <span class="docApiSignatureSpan">(key,&nbsp;value,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageSetItem = function (key,&nbsp;value,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will set the item with the given key and value to dbStorage
+ */
+</span>    local.nedb.assert(typeof key === &#x27;string&#x27;);
+    local.nedb.assert(typeof value === &#x27;string&#x27;);
+    local.nedb.dbStorageDefer({ action: &#x27;setItem&#x27;, key: key, value: value }, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    }
+    if (!data) {
+        options.onNext();
+        return;
+    }
+    data += &#x27;\n&#x27;;
+    data = data.slice(data.indexOf(&#x27;\n&#x27;) + 1);
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageSetItem</span>(self.name, data, options.onNext);
+    break;
+// load persistence
+case 3:
+    local.nedb.dbStorageGetItem(self.name, options.onNext);
+    break;
+case 4:
+    // Load the database
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableCountMany" id="element.nedb-lite.dbTableCountMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCountMany
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableCountMany = function (dbTable,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will count the number of dbRow&#x27;s in dbTable with the given options
+ */
+</span>    var result, self;
+    options = local.nedb.objectSetDefault({}, options);
+    options = local.nedb.objectSetDefault(options, { query: {} });
+    local.nedb.onNext(options, function (error, data) {
+        data = data || [];
+        switch (options.modeNext) {
+        case 1:
+            result = 0;
+            self = local.nedb.dbTableDict[dbTable.name];
+            self.getCandidates(options.query, options.onNext);
+            break;
+        case 2:
+            data.forEach(function (dbRow) {
+                if (local.nedb.queryMatch(dbRow, options.query)) {
+                    result += 1;
+                }
+            });
+            options.onNext();
+            break;
+        default:
+            onError(error, result);
+        }
+    });
+    options.modeNext = 0;
+    options.onNext();
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+         */
+options = local.crudOptionsSetDefault(options, {
+    id: &#x27;testCase_dbTableCountMany_default&#x27;
+});
+local.utility2.onNext(options, function (error, data) {
+    switch (options.modeNext) {
+    case 1:
+        local.nedb.<span class="docApiCodeKeywordSpan">dbTableCountMany</span>(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+        break;
+    case 2:
+        // validate data
+        local.utility2.assertJsonEqual(data, 1);
+        options.onNext();
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableCreate" id="element.nedb-lite.dbTableCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCreate
+            <span class="docApiSignatureSpan">(options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableCreate = function (options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will create a dbTable with the given options.name
+ */
+</span>    var self;
+    options = local.nedb.objectSetDefault({}, options);
+    local.nedb.onNext(options, function (error, data) {
+        switch (options.modeNext) {
+        case 1:
+            self = local.nedb.dbTableDict[options.name] =
+                local.nedb.dbTableDict[options.name] || new local.nedb._Table();
+            if (self.initialized) {
+                options.onNext();
+                return;
+            }
+            self.initialized = 1;
+            self.dropped = null;
+            // validate name
+            local.nedb.assert(
+                options &amp;&amp; options.name &amp;&amp; typeof options.name === &#x27;string&#x27;,
+                options &amp;&amp; options.name
+            );
+            self.name = self.name || options.name;
+            // Persistence handling
+            self.persistence = new local.nedb.Persistence({ db: self });
+            // Indexed by field name, dot notation can be used
+            // _id is always indexed and since _ids are generated randomly
+            // the underlying binary is always well-balanced
+            self.indexes = {
+                _id: new local.nedb.Index({ fieldName: &#x27;_id&#x27;, unique: true }),
+                createdAt: new local.nedb.Index({ fieldName: &#x27;createdAt&#x27; }),
+                updatedAt: new local.nedb.Index({ fieldName: &#x27;updatedAt&#x27; })
+            };
+            self.ttlIndexes = {};
+            // init deferList
+            self.deferList = [];
+            options.onNext();
+            break;
+        // import data
+        case 2:
+            if (self.initialized !== 1) {
+                options.modeNext += 2;
+                options.onNext();
+                return;
+            }
+            self.initialized += 1;
+            data = (options.persistenceData || &#x27;&#x27;).trim();
+            if (options.reset) {
+                data = &#x27;undefined&#x27;;
+            }
+            if (!data) {
+                options.onNext();
+                return;
+            }
+            data += &#x27;\n&#x27;;
+            data = data.slice(data.indexOf(&#x27;\n&#x27;) + 1);
+            local.nedb.dbStorageSetItem(self.name, data, options.onNext);
+            break;
+        // load persistence
+        case 3:
+            local.nedb.dbStorageGetItem(self.name, options.onNext);
+            break;
+        case 4:
+            // Load the database
+            // 1) Create all indexes
+            // 2) Insert all data
+            // 3) Compact the database
+            // This means pulling data out of the data file
+            // or creating it if it doesn&#x27;t exist.
+            // Also, all data is persisted right away,
+            // which has the effect of compacting the database file.
+            // This operation is very quick at startup for a big dbTable
+            // (60ms for ~10k docs).
+            if (self.dropped) {
+                options.onNext();
+                return;
+            }
+            data = self.persistence.treatRawData(data || &#x27;&#x27;);
+            // Recreate all indexes in the datafile
+            Object.keys(data.indexes).forEach(function (key) {
+                self.indexes[key] = new local.nedb.Index(data.indexes[key]);
+            });
+
+            // Fill cached database (i.e. all indexes) with data
+            Object.keys(self.indexes).forEach(function (key) {
+                self.indexes[key].reset(data.data);
+            });
+            self.persistence.persistCachedDatabase(options.onNext);
+            break;
+        default:
+            // validate no error occurred
+            local.nedb.assert(!error, error);
+            if (onError) {
+                onError(error, self);
+            }
+        }
+    });
+    options.modeNext = 0;
+    options.onNext();
+    return self;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    &lt;label&gt;edit or paste script below to\n\
+        &lt;a\n\
+            href=&quot;https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html&quot;\n\
+            target=&quot;_blank&quot;\n\
+        &gt;eval&lt;/a&gt;\n\
+    &lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.<span class="docApiCodeKeywordSpan">dbTableCreate</span>({ name: &quot;table1&quot; });\n\
+table1.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+    console.log();\n\
+    console.log(window.nedb_lite.dbTableExport(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableDrop" id="element.nedb-lite.dbTableDrop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDrop
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableDrop = function (dbTable,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will drop the dbTable with the given dbTable.name
+ */
+</span>    var self;
+    self = local.nedb.dbTableDict[dbTable.name];
+    if (!self) {
+        onError();
+        return;
+    }
+    self.dropped = true;
+    Object.keys(self).forEach(function (key) {
+        switch (key) {
+        case &#x27;deferList&#x27;:
+        case &#x27;dropped&#x27;:
+        case &#x27;name&#x27;:
+            break;
+        default:
+            delete self[key];
+        }
+    });
+    local.nedb.dbStorageRemoveItem(self.name, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+local.testCase_dbTableDrop_default = function (options, onError) {
+/*
+ * this function will test dbTableDrop&#x27;s default handling-behavior
+ */
+    options = {};
+    options.name = &#x27;testCase_dbTableDrop_default&#x27;;
+    options.dbTable = local.nedb.dbTableCreate(options);
+    local.nedb.<span class="docApiCodeKeywordSpan">dbTableDrop</span>(options.dbTable, onError);
+    // test undefined-dbTable handling-behavior
+    local.nedb.dbTableDrop(options.dbTable, local.utility2.onErrorDefault);
+};
+
+local.testCase_dbTableFindOne_default = function (options, onError) {
+/*
+ * this function will test dbTableFindOne&#x27;s default handling-behavior
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableExport" id="element.nedb-lite.dbTableExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableExport
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableExport = function (dbTable) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will export dbTable with the given dbTable.name
+ */
+</span>    var data, self;
+    self = local.nedb.dbTableDict[dbTable.name];
+    data = &#x27;&#x27;;
+    data += JSON.stringify(String(dbTable.name)) + &#x27;\n&#x27;;
+    local.nedb.dbTableFindAll(self).forEach(function (dbRow) {
+        data += JSON.stringify(dbRow) + &#x27;\n&#x27;;
+    });
+    Object.keys(self.indexes).forEach(function (fieldName) {
+        if (fieldName === &#x27;_id&#x27;) {
+            return;
+        }
+        data += JSON.stringify({ $$indexCreated: {
+            fieldName: fieldName,
+            unique: self.indexes[fieldName].unique,
+            sparse: self.indexes[fieldName].sparse
+        } }) + &#x27;\n&#x27;;
+    });
+    return data.slice(0, -1);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            target=&quot;_blank&quot;\n\
+        &gt;eval&lt;/a&gt;\n\
+    &lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.dbTableCreate({ name: &quot;table1&quot; });\n\
+table1.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+    console.log();\n\
+    console.log(window.nedb_lite.<span class="docApiCodeKeywordSpan">dbTableExport</span>(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+    console.log();\n\
+    console.log(window.nedb_lite.dbTableExport(table2));\n\
+});\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableFindAll" id="element.nedb-lite.dbTableFindAll">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindAll
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableFindAll = function (dbTable) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will find all dbRow&#x27;s in dbTable
+ */
+</span>    var result, self;
+    self = local.nedb.dbTableDict[dbTable.name];
+    result = [];
+    self.indexes._id.tree.executeOnEveryNode(function (node) {
+        node.data.forEach(function (dbRow) {
+            result.push(dbRow);
+        });
+    });
+    return result;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    self = local.nedb.dbTableDict[dbTable.name];
+    self.indexes[options.fieldName] = new local.nedb.Index(options);
+    // With this implementation index creation is not necessary to ensure TTL
+    // but we stick with MongoDB&#x27;s API here
+    if (options.expireAfterSeconds !== undefined) {
+        self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+    }
+    self.indexes[options.fieldName].insert(local.nedb.<span class="docApiCodeKeywordSpan">dbTableFindAll</span>(self));
+    // We may want to force all options to be persisted including defaults,
+    // not just the ones passed the index creation function
+    self.persistence.persistNewState([{ $$indexCreated: options }], onError);
+};
+
+local.nedb.dbIndexRemove = function (dbTable, options, onError) {
+/*
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableFindMany" id="element.nedb-lite.dbTableFindMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindMany
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableFindMany = function (dbTable,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/**
+ * this function will find all dbRow&#x27;s in dbTable with the given options
+ */
+</span>    var limit, projection, result, self, skip, sort, tmp;
+    options = local.nedb.objectSetDefault({}, options);
+    options = local.nedb.objectSetDefault(options, {
+        limit: Infinity,
+        projection: {},
+        query: {},
+        skip: 0,
+        sort: {}
+    });
+    local.nedb.onNext(options, function (error, data) {
+        data = data || [];
+        switch (options.modeNext) {
+        case 1:
+            result = [];
+            self = local.nedb.dbTableDict[dbTable.name];
+            self.getCandidates(options.query, options.onNext);
+            break;
+        case 2:
+            sort = Object.keys(options.sort).map(function (key) {
+                return {
+                    key: key,
+                    direction: options.sort[key]
+                };
+            });
+            // optimization - no sort
+            if (!sort.length) {
+                limit = options.limit;
+                skip = options.skip;
+                data.some(function (dbRow) {
+                    if (!local.nedb.queryMatch(dbRow, options.query)) {
+                        return;
+                    }
+                    skip -= 1;
+                    if (skip &gt;= 0) {
+                        return;
+                    }
+                    result.push(dbRow);
+                    limit -= 1;
+                    if (limit &lt;= 0) {
+                        return true;
+                    }
+                });
+                options.onNext();
+                return;
+            }
+            // sort
+            result = data;
+            result = result.filter(function (dbRow) {
+                return local.nedb.queryMatch(dbRow, options.query);
+            });
+            result = result.sort(function (aa, bb) {
+                sort.some(function (element) {
+                    tmp = element.direction * local.nedb.sortCompare(
+                        local.nedb.queryGetDotValue(aa, element.key),
+                        local.nedb.queryGetDotValue(bb, element.key)
+                    );
+                    return tmp;
+                });
+                return tmp;
+            });
+            // limit and skip
+            result = result.slice(options.skip, options.skip + options.limit);
+            options.onNext();
+            break;
+        case 4:
+            // projection
+            projection = Object.keys(options.projection);
+            if (!projection.list) {
+                options.onNext();
+                return;
+            }
+            // pick-type projection
+            if (options.projection[projection.list[0]] === 1) {
+                result = result.map(function (dbRow) {
+                    tmp = {};
+                    projection.forEach(function (key) {
+                        tmp[key] = dbRow[key];
+                    });
+                    return tmp;
+                });
+            // omit-type projection
+            } else {
+                result = result.map(function (dbRow) {
+                    tmp = {};
+                    Object.keys(dbRow).forEach(function (key) {
+                        if (!options.projection.hasOwnProperty(key)) {
+                            tmp[key] = dbRow[key];
+                        }
+                    });
+                    return tmp;
+                });
+            }
+            options.onNext();
+            break;
+        default:
+            onError(error, result);
+        }
+    });
+    options.modeNext = 0;
+    options.onNext();
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    options.onNext();
+};
+
+local.nedb.dbTableFindOne = function (dbTable, options, onError) {
+/**
+ * this function will find one dbRow in dbTable with the given options
+ */
+    local.nedb.<span class="docApiCodeKeywordSpan">dbTableFindMany</span>(dbTable, {
+        limit: 1,
+        query: options.query
+    }, function (error, data) {
+        onError(error, data[0] || null);
+    });
+};
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableFindOne" id="element.nedb-lite.dbTableFindOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindOne
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableFindOne = function (dbTable,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/**
+ * this function will find one dbRow in dbTable with the given options
+ */
+</span>    local.nedb.dbTableFindMany(dbTable, {
+        limit: 1,
+        query: options.query
+    }, function (error, data) {
+        onError(error, data[0] || null);
+    });
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+         */
+options = local.crudOptionsSetDefault(options, {
+    id: &#x27;testCase_dbTableFindOne_default&#x27;
+});
+local.utility2.onNext(options, function (error, data) {
+    switch (options.modeNext) {
+    case 1:
+        local.nedb.<span class="docApiCodeKeywordSpan">dbTableFindOne</span>(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+        break;
+    case 2:
+        // validate data
+        local.utility2.assertJsonEqual(data &amp;&amp; data.id, options.id);
+        options.onNext();
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableRemoveMany" id="element.nedb-lite.dbTableRemoveMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveMany
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableRemoveMany = function (dbTable,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will remove many dbRow&#x27;s in dbTable with the given options
+ */
+</span>    var removedList, result, self;
+    options = local.nedb.objectSetDefault({}, options);
+    options = local.nedb.objectSetDefault(options, { one: null, query: {} });
+    local.nedb.onNext(options, function (error, data) {
+        data = data || [];
+        switch (options.modeNext) {
+        case 1:
+            removedList = [];
+            result = 0;
+            self = local.nedb.dbTableDict[dbTable.name];
+            self.getCandidates(options.query, options.onNext);
+            break;
+        case 2:
+            data.some(function (dbRow) {
+                if (local.nedb.queryMatch(dbRow, options.query)) {
+                    result += 1;
+                    removedList.push({
+                        $$deleted: true,
+                        _id: dbRow._id
+                    });
+                    self.removeFromIndexes(dbRow);
+                    if (options.one) {
+                        return true;
+                    }
+                }
+            });
+            self.persistence.persistNewState(removedList, options.onNext);
+            break;
+        default:
+            onError(error, result);
+        }
+    });
+    options.modeNext = 0;
+    options.onNext();
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+local.nedb.dbTableRemoveOne = function (dbTable, options, onError) {
+/*
+ * this function will remove one dbRow in dbTable with the given options
+ */
+    options = local.nedb.objectSetDefault({}, options);
+    options = local.nedb.objectSetDefault(options, { one: true });
+    local.nedb.<span class="docApiCodeKeywordSpan">dbTableRemoveMany</span>(dbTable, options, onError);
+};
+
+local.nedb.jsonCopy = function (arg) {
+/*
+ * this function will return a deep-copy of the JSON-arg
+ */
+    return arg === undefined
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableRemoveOne" id="element.nedb-lite.dbTableRemoveOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveOne
+            <span class="docApiSignatureSpan">(dbTable,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableRemoveOne = function (dbTable,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will remove one dbRow in dbTable with the given options
+ */
+</span>    options = local.nedb.objectSetDefault({}, options);
+    options = local.nedb.objectSetDefault(options, { one: true });
+    local.nedb.dbTableRemoveMany(dbTable, options, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+});
+local.utility2.onNext(options, function (error, data) {
+    switch (options.modeNext) {
+    case 1:
+        local.testCase_dbTableFindOne_default(options, options.onNext);
+        break;
+    case 2:
+        local.nedb.<span class="docApiCodeKeywordSpan">dbTableRemoveOne</span>(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+        break;
+    case 3:
+        local.nedb.dbTableFindOne(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.isRegExp" id="element.nedb-lite.isRegExp">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>isRegExp
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">isRegExp = function (obj) {
+    return Object.prototype.toString.call(obj) === &#x27;[object RegExp]&#x27;;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+                if (Array.isArray(objValue) &amp;&amp; !treatObjAsValue) {
+// If the queryValue is an array, try to perform an exact match
+if (Array.isArray(queryValue)) {
+    return matchQueryPart(obj, queryKey, queryValue, true);
+}
+
+// Check if we are using an array-specific comparison function
+if (queryValue !== null &amp;&amp; typeof queryValue === &#x27;object&#x27; &amp;&amp; !local.nedb.<span class="docApiCodeKeywor\
+dSpan">isRegExp</span>(queryValue)) {
+    tmp = Object.keys(queryValue).some(function (key) {
+        switch (key) {
+        case &#x27;$elemMatch&#x27;:
+        case &#x27;$size&#x27;:
+            return matchQueryPart(obj, queryKey, queryValue, true);
+        }
+    });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.jsonCopy" id="element.nedb-lite.jsonCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonCopy
+            <span class="docApiSignatureSpan">(arg)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">jsonCopy = function (arg) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will return a deep-copy of the JSON-arg
+ */
+</span>    return arg === undefined
+        ? undefined
+        : JSON.parse(JSON.stringify(arg));
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+if (dollarFirstChars.length !== 0 &amp;&amp; dollarFirstChars.length !== firstChars.length) {
+    throw new Error(&#x27;You cannot mix modifiers and normal fields&#x27;);
+}
+
+if (dollarFirstChars.length === 0) {
+    // Simply replace the object with the update query contents
+    newDoc = local.nedb.<span class="docApiCodeKeywordSpan">jsonCopy</span>(updateQuery);
+    newDoc._id = obj._id;
+} else {
+    // Apply modifiers
+    modifiers = local.nedb.listUnique(keys);
+    newDoc = local.nedb.jsonCopy(obj);
+    modifiers.forEach(function (m) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.jsonStringifyOrdered" id="element.nedb-lite.jsonStringifyOrdered">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonStringifyOrdered
+            <span class="docApiSignatureSpan">(element,&nbsp;replacer,&nbsp;space)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">jsonStringifyOrdered = function (element,&nbsp;replacer,&nbsp;space) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will JSON.stringify the element,
+ * with object-keys sorted and circular-references removed
+ */
+</span>    var circularList, stringify, tmp;
+    stringify = function (element) {
+    /*
+     * this function will recursively JSON.stringify the element,
+     * with object-keys sorted and circular-references removed
+     */
+        // if element is an object, then recurse its items with object-keys sorted
+        if (element &amp;&amp;
+                typeof element === &#x27;object&#x27; &amp;&amp;
+                typeof element.toJSON !== &#x27;function&#x27;) {
+            // ignore circular-reference
+            if (circularList.indexOf(element) &gt;= 0) {
+                return;
+            }
+            circularList.push(element);
+            // if element is an array, then recurse its elements
+            if (Array.isArray(element)) {
+                return &#x27;[&#x27; + element.map(function (element) {
+                    tmp = stringify(element);
+                    return typeof tmp === &#x27;string&#x27;
+                        ? tmp
+                        : &#x27;null&#x27;;
+                }).join(&#x27;,&#x27;) + &#x27;]&#x27;;
+            }
+            return &#x27;{&#x27; + Object.keys(element)
+                // sort object-keys
+                .sort()
+                .map(function (key) {
+                    tmp = stringify(element[key]);
+                    return typeof tmp === &#x27;string&#x27;
+                        ? JSON.stringify(key) + &#x27;:&#x27; + tmp
+                        : undefined;
+                })
+                .filter(function (element) {
+                    return typeof element === &#x27;string&#x27;;
+                })
+                .join(&#x27;,&#x27;) + &#x27;}&#x27;;
+        }
+        // else JSON.stringify as normal
+        return JSON.stringify(element);
+    };
+    circularList = [];
+    return JSON.stringify(element &amp;&amp; typeof element === &#x27;object&#x27;
+        ? JSON.parse(stringify(element))
+        : element, replacer, space);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    console[&#x27;_&#x27; + key] = console[key];
+    console[key] = function () {
+        console[&#x27;_&#x27; + key].apply(console, arguments);
+        document.querySelector(&#x27;#outputTextarea1&#x27;).value +=
+            Array.prototype.slice.call(arguments).map(function (arg) {
+                return typeof arg === &#x27;string&#x27;
+                    ? arg
+                    : local.nedb.<span class="docApiCodeKeywordSpan">jsonStringifyOrdered</span>(arg, null, 4);
+            }).join(&#x27; &#x27;) + &#x27;\n&#x27;;
+    };
+});
+/* istanbul ignore next */
+local.testRun = function (event) {
+    var reader, tmp;
+    switch (event &amp;&amp; event.currentTarget.id) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.listUnique" id="element.nedb-lite.listUnique">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>listUnique
+            <span class="docApiSignatureSpan">(list)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">listUnique = function (list) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will remove duplicate elements from the array
+ */
+</span>    var seen;
+    seen = {};
+    return list.filter(function (element) {
+        if (seen.hasOwnProperty(element)) {
+            return;
+        }
+        seen[element] = true;
+        return true;
+    });
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+            if (dollarFirstChars.length === 0) {
+                // Simply replace the object with the update query contents
+                newDoc = local.nedb.jsonCopy(updateQuery);
+                newDoc._id = obj._id;
+            } else {
+                // Apply modifiers
+                modifiers = local.nedb.<span class="docApiCodeKeywordSpan">listUnique</span>(keys);
+                newDoc = local.nedb.jsonCopy(obj);
+                modifiers.forEach(function (m) {
+
+if (!modifierFunctions[m]) {
+    throw new Error(&#x27;Unknown modifier &#x27; + m);
+}
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.nop" id="element.nedb-lite.nop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>nop
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">nop = function () {
+<span class="docApiCodeCommentSpan">/*
+ * this function will do nothing
+ */
+</span>    return;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+};
+
+local.testCase_dbImport_default = function (options, onError) {
+/*
+ * this function will test dbImport&#x27;s default handling-behavior
+ */
+    // jslint-hack
+    local.utility2.<span class="docApiCodeKeywordSpan">nop</span>(options);
+    local.nedb.dbImport(&#x27;&quot;testCase_dbImport_default&quot;\n{&quot;id&quot;:0}&#x27;, onError);
+};
+
+local.testCase_dbStorageXxx_misc = function (options, onError) {
+/*
+ * this function will test dbStorageXxx&#x27;s misc handling-behavior
+ */
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.objectSetDefault" id="element.nedb-lite.objectSetDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>objectSetDefault
+            <span class="docApiSignatureSpan">(arg,&nbsp;defaults)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">objectSetDefault = function (arg,&nbsp;defaults) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will set defaults for arg
+ */
+</span>    arg = arg || {};
+    defaults = defaults || {};
+    Object.keys(defaults).forEach(function (key) {
+        if (defaults[key] !== undefined) {
+            arg[key] = arg[key] || defaults[key];
+        }
+    });
+    return arg;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+    // run shared js-env code - function
+    (function () {
+local.crudOptionsSetDefault = function (options, defaults) {
+/*
+ * this function will set default-values for options
+ */
+    options = local.utility2.<span class="docApiCodeKeywordSpan">objectSetDefault</span>(options, defaults);
+    options.dbTable = local.nedb.dbTableDict.TestCrud;
+    // shallow-copy options
+    return local.utility2.objectSetDefault({}, options);
+};
+
+local.testCase_consoleLog_default = function (options, onError) {
+/*
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.onErrorDefault" id="element.nedb-lite.onErrorDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onErrorDefault
+            <span class="docApiSignatureSpan">(error)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">onErrorDefault = function (error) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will print error.stack or error.message to stderr
+ */
+</span>    // if error is defined, then print error.stack
+    if (error &amp;&amp; !local.global.__coverage__) {
+        console.error(&#x27;\nonErrorDefault - error\n&#x27; +
+            error.message + &#x27;\n&#x27; + error.stack + &#x27;\n&#x27;);
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            return bb.test(aa);
+        case &#x27;$size&#x27;:
+            return (Array.isArray(aa) &amp;&amp; aa.length === bb);
+        default:
+            return false;
+        }
+    } catch (errorCaught) {
+        local.nedb.<span class="docApiCodeKeywordSpan">onErrorDefault</span>(errorCaught);
+        return false;
+    }
+};
+
+local.nedb.sortCompare = function (aa, bb) {
+/*
+ * this function will sort-compare aa vs bb
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.onNext" id="element.nedb-lite.onNext">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onNext
+            <span class="docApiSignatureSpan">(options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">onNext = function (options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will wrap onError inside the recursive function options.onNext,
+ * and append the current stack to any error
+ */
+</span>    options.onNext = function (error, data, meta) {
+        try {
+            options.modeNext = error
+                ? Infinity
+                : options.modeNext + 1;
+            onError(error, data, meta);
+        } catch (errorCaught) {
+            // throw errorCaught to break infinite recursion-loop
+            if (options.errorCaught) {
+                throw options.errorCaught;
+            }
+            options.errorCaught = errorCaught;
+            options.onNext(errorCaught, data, meta);
+        }
+    };
+    return options;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+local.testCase_dbTableCountMany_default = function (options, onError) {
+/*
+ * this function will test dbTableCountMany&#x27;s default handling-behavior
+ */
+    options = local.crudOptionsSetDefault(options, {
+        id: &#x27;testCase_dbTableCountMany_default&#x27;
+    });
+    local.utility2.<span class="docApiCodeKeywordSpan">onNext</span>(options, function (error, data) {
+        switch (options.modeNext) {
+        case 1:
+            local.nedb.dbTableCountMany(options.dbTable, {
+                query: { id: options.id }
+            }, options.onNext);
+            break;
+        case 2:
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.onParallel" id="element.nedb-lite.onParallel">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onParallel
+            <span class="docApiSignatureSpan">(onError,&nbsp;onDebug)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">onParallel = function (onError,&nbsp;onDebug) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will return a function that will
+ * 1. run async tasks in parallel
+ * 2. if counter === 0 or error occurred, then call onError with error
+ */
+</span>    var self;
+    onDebug = onDebug || local.nedb.nop;
+    self = function (error) {
+        onDebug(error, self);
+        // if previously counter === 0 or error occurred, then return
+        if (self.counter === 0 || self.error) {
+            return;
+        }
+        // handle error
+        if (error) {
+            self.error = error;
+            // ensure counter will decrement to 0
+            self.counter = 1;
+        }
+        // decrement counter
+        self.counter -= 1;
+        // if counter === 0, then call onError with error
+        if (self.counter === 0) {
+            onError(error);
+        }
+    };
+    // init counter
+    self.counter = 0;
+    // return callback
+    return self;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+};
+
+local.testCase_dbExport_default = function (options, onError) {
+/*
+ * this function will test dbExport&#x27;s default handling-behavior
+ */
+    var onParallel;
+    onParallel = local.utility2.<span class="docApiCodeKeywordSpan">onParallel</span>(onError);
+    onParallel.counter += 1;
+    options = {};
+    options.name = &#x27;testCase_dbExport_default&#x27;;
+    options.dbTable = local.nedb.dbTableCreate(options);
+    onParallel.counter += 1;
+    local.nedb.dbIndexCreate(options, {
+        fieldName: &#x27;id&#x27;,
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.queryCompare" id="element.nedb-lite.queryCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryCompare
+            <span class="docApiSignatureSpan">(operator,&nbsp;aa,&nbsp;bb)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">queryCompare = function (operator,&nbsp;aa,&nbsp;bb) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will query-compare aa vs bb
+ */
+</span>    try {
+        switch (operator) {
+        case &#x27;$elemMatch&#x27;:
+            // If match for array element, return true
+            return (Array.isArray(aa)
+                ? aa
+                : []).some(function (element) {
+                return local.nedb.queryMatch(element, bb);
+            });
+        case &#x27;$eq&#x27;:
+            return local.nedb.sortCompare(aa, bb) === 0;
+        case &#x27;$exists&#x27;:
+            return !((!aa) ^ (!bb));
+        case &#x27;$gt&#x27;:
+            return local.nedb.sortCompare(aa, bb) &gt; 0;
+        case &#x27;$gte&#x27;:
+            return local.nedb.sortCompare(aa, bb) &gt;= 0;
+        case &#x27;$in&#x27;:
+            return Array.isArray(bb) &amp;&amp; bb.some(function (cc) {
+                return local.nedb.sortCompare(aa, cc) === 0;
+            });
+        case &#x27;$lt&#x27;:
+            return local.nedb.sortCompare(aa, bb) &lt; 0;
+        case &#x27;$lte&#x27;:
+            return local.nedb.sortCompare(aa, bb) &lt;= 0;
+        case &#x27;$ne&#x27;:
+            return local.nedb.sortCompare(aa, bb) !== 0;
+        case &#x27;$nin&#x27;:
+            return Array.isArray(bb) &amp;&amp; bb.every(function (cc) {
+                return local.nedb.sortCompare(aa, cc) !== 0;
+            });
+        case &#x27;$regex&#x27;:
+            return bb.test(aa);
+        case &#x27;$size&#x27;:
+            return (Array.isArray(aa) &amp;&amp; aa.length === bb);
+        default:
+            return false;
+        }
+    } catch (errorCaught) {
+        local.nedb.onErrorDefault(errorCaught);
+        return false;
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    ];
+    options.forEach(function (element) {
+        local.utility2.assertJsonEqual(
+            [
+                element[0],
+                element[1],
+                element[2],
+                local.nedb.<span class="docApiCodeKeywordSpan">queryCompare</span>(element[0], element[1], element[2])
+            ],
+            element
+        );
+    });
+    onError();
+};
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.queryGetDotValue" id="element.nedb-lite.queryGetDotValue">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryGetDotValue
+            <span class="docApiSignatureSpan">(obj,&nbsp;field)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">queryGetDotValue = function (obj,&nbsp;field) {
+<span class="docApiCodeCommentSpan">/**
+ * Get a value from object with dot notation
+ * @param {Object} obj
+ * @param {String} field
+ */
+</span>    var fieldParts, ii, objs;
+    fieldParts = typeof field === &#x27;string&#x27;
+        ? field.split(&#x27;.&#x27;)
+        : field;
+
+    if (!obj) {
+        return undefined;
+    } // field cannot be empty so that means we should return undefined so that nothing can match
+
+    if (fieldParts.length === 0) {
+        return obj;
+    }
+
+    if (fieldParts.length === 1) {
+        return obj[fieldParts[0]];
+    }
+
+    if (Array.isArray(obj[fieldParts[0]])) {
+        // If the next field is an integer, return only this item of the array
+        ii = parseInt(fieldParts[1], 10);
+        if (typeof ii === &#x27;number&#x27; &amp;&amp; !isNaN(ii)) {
+            return local.nedb.queryGetDotValue(obj[fieldParts[0]][ii], fieldParts.slice(2));
+        }
+
+        // Return the array of values
+        objs = [];
+        for (ii = 0; ii &lt; obj[fieldParts[0]].length; ii += 1) {
+            objs.push(local.nedb.queryGetDotValue(obj[fieldParts[0]][ii], fieldParts.slice(1)));
+        }
+        return objs;
+    }
+    return local.nedb.queryGetDotValue(obj[fieldParts[0]], fieldParts.slice(1));
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+result = data;
+result = result.filter(function (dbRow) {
+    return local.nedb.queryMatch(dbRow, options.query);
+});
+result = result.sort(function (aa, bb) {
+    sort.some(function (element) {
+        tmp = element.direction * local.nedb.sortCompare(
+            local.nedb.<span class="docApiCodeKeywordSpan">queryGetDotValue</span>(aa, element.key),
+            local.nedb.queryGetDotValue(bb, element.key)
+        );
+        return tmp;
+    });
+    return tmp;
+});
+// limit and skip
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.queryMatch" id="element.nedb-lite.queryMatch">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryMatch
+            <span class="docApiSignatureSpan">(obj,&nbsp;query)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">queryMatch = function (obj,&nbsp;query) {
+<span class="docApiCodeCommentSpan">/**
+ * Tell if a given dbRow matches a query
+ * @param {Object} obj dbRow to check
+ * @param {Object} query
+ */
+</span>    function matchQueryPart(obj, queryKey, queryValue, treatObjAsValue) {
+    /**
+     * Match an object against a specific { key: value } part of a query
+     * if the treatObjAsValue flag is set, don&#x27;t try to match every part separately, but the array as a whole
+     */
+        var objValue, ii, keys, firstChars, dollarFirstChars, tmp;
+
+        objValue = local.nedb.queryGetDotValue(obj, queryKey);
+
+        // Check if the value is an array if we don&#x27;t force a treatment as value
+        if (Array.isArray(objValue) &amp;&amp; !treatObjAsValue) {
+            // If the queryValue is an array, try to perform an exact match
+            if (Array.isArray(queryValue)) {
+                return matchQueryPart(obj, queryKey, queryValue, true);
+            }
+
+            // Check if we are using an array-specific comparison function
+            if (queryValue !== null &amp;&amp; typeof queryValue === &#x27;object&#x27; &amp;&amp; !local.nedb.isRegExp(queryValue)) {
+                tmp = Object.keys(queryValue).some(function (key) {
+                    switch (key) {
+                    case &#x27;$elemMatch&#x27;:
+                    case &#x27;$size&#x27;:
+                        return matchQueryPart(obj, queryKey, queryValue, true);
+                    }
+                });
+                if (tmp) {
+                    return tmp;
+                }
+            }
+
+            // If not, treat it as an array of { obj, query } where there needs to be at least one match
+            for (ii = 0; ii &lt; objValue.length; ii += 1) {
+                if (matchQueryPart({
+                        k: objValue[ii]
+                    }, &#x27;k&#x27;, queryValue)) {
+                    return true;
+                } // k here could be any string
+            }
+            return false;
+        }
+
+        // queryValue is an actual object. Determine whether it contains comparison operators
+        // or only normal fields. Mixed objects are not allowed
+        if (queryValue !== null &amp;&amp; typeof queryValue === &#x27;object&#x27; &amp;&amp; !local.nedb.isRegExp(queryValue) &amp;&amp; !Array.isArray(queryVal\
+ue)) {
+            keys = Object.keys(queryValue);
+            firstChars = keys.map(function (item) {
+                return item[0];
+            });
+            dollarFirstChars = firstChars.filter(function (cc) {
+                return cc === &#x27;$&#x27;;
+            });
+
+            if (dollarFirstChars.length !== 0 &amp;&amp; dollarFirstChars.length !== firstChars.length) {
+                throw new Error(&#x27;You cannot mix operators and normal fields&#x27;);
+            }
+
+            // queryValue is an object of this form: { $comparisonOperator1: value1, ... }
+            if (dollarFirstChars.length &gt; 0) {
+                return keys.every(function (key) {
+                    return local.nedb.queryCompare(key, objValue, queryValue[key]);
+                });
+            }
+        }
+
+        // Using regular expressions with basic querying
+        if (local.nedb.isRegExp(queryValue)) {
+            return local.nedb.queryCompare(&#x27;$regex&#x27;, objValue, queryValue);
+        }
+
+        // queryValue is either a native value or a normal object
+        // Basic matching is possible
+        if (!areThingsEqual(objValue, queryValue)) {
+            return false;
+        }
+
+        return true;
+    }
+    // Primitive query against a primitive type
+    // This is a bit of a hack since we construct an object with an arbitrary key only to dereference it later
+    // But I don&#x27;t have time for a cleaner implementation now
+    if (isPrimitiveType(obj) || isPrimitiveType(query)) {
+        return matchQueryPart({
+            needAKey: obj
+        }, &#x27;needAKey&#x27;, query);
+    }
+
+    // Normal query
+    return Object.keys(query).every(function (key) {
+        if (key[0] === &#x27;$&#x27;) {
+            if (!logicalOperators[key]) {
+                throw new Error(&#x27;Unknown logical operator &#x27; + key);
+            }
+            if (!logicalOperators[key](obj, query[key])) {
+                return;
+            }
+        } else if (!matchQueryPart(obj, k ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+case 1:
+    result = 0;
+    self = local.nedb.dbTableDict[dbTable.name];
+    self.getCandidates(options.query, options.onNext);
+    break;
+case 2:
+    data.forEach(function (dbRow) {
+        if (local.nedb.<span class="docApiCodeKeywordSpan">queryMatch</span>(dbRow, options.query)) {
+            result += 1;
+        }
+    });
+    options.onNext();
+    break;
+default:
+    onError(error, result);
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.sortCompare" id="element.nedb-lite.sortCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>sortCompare
+            <span class="docApiSignatureSpan">(aa,&nbsp;bb)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">sortCompare = function (aa,&nbsp;bb) {
+<span class="docApiCodeCommentSpan">/*
+ * this function will sort-compare aa vs bb
+ */
+</span>    var type1, type2;
+    if (aa === undefined) {
+        aa = null;
+    }
+    if (bb === undefined) {
+        bb = null;
+    }
+    // compare equal
+    if (aa === bb) {
+        return 0;
+    }
+    // compare null
+    if (aa === null) {
+        return -1;
+    }
+    if (bb === null) {
+        return 1;
+    }
+    // compare different-types
+    type1 = typeof aa;
+    type2 = typeof bb;
+    if (type1 !== type2) {
+        if (type1 === &#x27;boolean&#x27;) {
+            return -1;
+        }
+        if (type2 === &#x27;boolean&#x27;) {
+            return 1;
+        }
+        if (type1 === &#x27;number&#x27;) {
+            return -1;
+        }
+        if (type2 === &#x27;number&#x27;) {
+            return 1;
+        }
+        if (type1 === &#x27;string&#x27;) {
+            return -1;
+        }
+        if (type2 === &#x27;string&#x27;) {
+            return 1;
+        }
+    }
+    // default compare
+    return aa &lt; bb
+        ? -1
+        : aa &gt; bb
+        ? 1
+        : 0;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+// sort
+result = data;
+result = result.filter(function (dbRow) {
+    return local.nedb.queryMatch(dbRow, options.query);
+});
+result = result.sort(function (aa, bb) {
+    sort.some(function (element) {
+        tmp = element.direction * local.nedb.<span class="docApiCodeKeywordSpan">sortCompare</span>(
+            local.nedb.queryGetDotValue(aa, element.key),
+            local.nedb.queryGetDotValue(bb, element.key)
+        );
+        return tmp;
+    });
+    return tmp;
+});
+...</pre></li>
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Index" id="module.nedb-lite.Index">module nedb-lite.Index</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.Index" id="element.nedb-lite.Index.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Index = function (options) {
+<span class="docApiCodeCommentSpan">/**
+ * Create a new index
+ * All methods on an index guarantee that either the whole operation was successful and the index changed
+ * or the operation was unsuccessful and an error is thrown while the index is unchanged
+ * @param {String} options.fieldName On which field should the index apply (can use dot notation to index on sub fields)
+ * @param {Boolean} options.unique Optional, enforce a unique constraint (default: false)
+ * @param {Boolean} options.sparse Optional, allow a sparse index (we can have dbRow&#x27;s for which fieldName is undefined) (defaul\
+t: false)
+ */
+</span>    this.fieldName = options.fieldName;
+    this.isInteger = options.isInteger;
+
+    this.unique = options.unique || false;
+    this.sparse = options.sparse || false;
+
+    this.reset(); // No data in the beginning
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+*     becomes a TTL index (only works on Date fields, not arrays of Date)
+* @param {Function} onError - callback, signature: error
+*/
+   var self;
+   // require options.fieldName
+   local.nedb.assert(options.fieldName, options.fieldName);
+   self = local.nedb.dbTableDict[dbTable.name];
+   self.indexes[options.fieldName] = new local.nedb.<span class="docApiCodeKeywordSpan">Index</span>(options);
+   // With this implementation index creation is not necessary to ensure TTL
+   // but we stick with MongoDB&#x27;s API here
+   if (options.expireAfterSeconds !== undefined) {
+       self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+   }
+   self.indexes[options.fieldName].insert(local.nedb.dbTableFindAll(self));
+   // We may want to force all options to be persisted including defaults,
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Index.prototype" id="module.nedb-lite.Index.prototype">module nedb-lite.Index.prototype</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.getBetweenBounds" id="element.nedb-lite.Index.prototype.getBetweenBounds">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getBetweenBounds
+            <span class="docApiSignatureSpan">(query)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">getBetweenBounds = function (query) {
+<span class="docApiCodeCommentSpan">/**
+ * Get all dbRow&#x27;s in index whose key is between bounds are they are defined by query
+ * dbRow&#x27;s are sorted by key
+ * @param {Query} query
+ * @return {Array of dbRow&#x27;s}
+ */
+</span>    return this.tree.betweenBounds(query);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            usableQueryKeys.push(k);
+        }
+    });
+    usableQueryKeys = usableQueryKeys.filter(function (element) {
+        return self.indexes.hasOwnProperty(element);
+    });
+    if (usableQueryKeys.length &gt; 0) {
+        return options.onNext(null, self.indexes[usableQueryKeys[0]].<span class="docApiCodeKeywordSpan">getBetweenBounds</span>\
+(query[usableQueryKeys[0]]));
+    }
+
+    // By default, return all the DB data
+    return options.onNext(null, local.nedb.dbTableFindAll(self));
+// STEP 2: remove all expired dbRow&#x27;s
+default:
+    var validDocs = [],
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.getMatching" id="element.nedb-lite.Index.prototype.getMatching">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getMatching
+            <span class="docApiSignatureSpan">(value)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">getMatching = function (value) {
+<span class="docApiCodeCommentSpan">/**
+ * Get all dbRow&#x27;s in index whose key match value (if it is a Thing) or one of the elements of value (if it is an array of Thing\
+s)
+ * @param {Thing} value Value to match the key against
+ * @return {Array of dbRow&#x27;s}
+ */
+</span>    var self = this, _res = {}, res = [];
+    if (!Array.isArray(value)) {
+        return self.tree.search(value);
+    }
+    value.forEach(function (v) {
+        self.getMatching(v).forEach(function (dbRow) {
+            _res[dbRow._id] = dbRow;
+        });
+    });
+
+    Object.keys(_res).forEach(function (_id) {
+        res.push(_res[_id]);
+    });
+
+    return res;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+if (self.unique &amp;&amp; !(key === 0 || key) &amp;&amp; self.fieldName.indexOf(&#x27;.&#x27;) &lt; 0) {
+    while (true) {
+        key = self.isInteger
+            ? Math.floor(Math.random() * 0x20000000000000)
+            : (&#x27;a&#x27; +
+                Math.random().toString(36).slice(2) +
+                Math.random().toString(36).slice(2)).slice(0, 16);
+        if (!self.<span class="docApiCodeKeywordSpan">getMatching</span>(key).length) {
+            break;
+        }
+    }
+    dbRow[self.fieldName] = key;
+}
+
+if (!Array.isArray(key)) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.insert" id="element.nedb-lite.Index.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insert
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">insert = function (dbRow) {
+<span class="docApiCodeCommentSpan">/**
+ * Insert a new dbRow in the index
+ * If an array is passed, we insert all its elements (if one insertion fails the index is not modified)
+ * O(log(n))
+ */
+</span>    var key, keys, ii, failingI, error, self = this;
+
+    if (Array.isArray(dbRow)) {
+        self.insertMultipleDocs(dbRow);
+        return;
+    }
+
+    key = local.nedb.queryGetDotValue(dbRow, self.fieldName);
+
+    // We don&#x27;t index dbRow&#x27;s that don&#x27;t contain the field if the index is sparse
+    if (key === undefined &amp;&amp; self.sparse) {
+        return;
+    }
+
+    // auto-create keyUnique
+    if (self.unique &amp;&amp; !(key === 0 || key) &amp;&amp; self.fieldName.indexOf(&#x27;.&#x27;) &lt; 0) {
+        while (true) {
+            key = self.isInteger
+                ? Math.floor(Math.random() * 0x20000000000000)
+                : (&#x27;a&#x27; +
+                    Math.random().toString(36).slice(2) +
+                    Math.random().toString(36).slice(2)).slice(0, 16);
+            if (!self.getMatching(key).length) {
+                break;
+            }
+        }
+        dbRow[self.fieldName] = key;
+    }
+
+    if (!Array.isArray(key)) {
+        self.tree = self.tree.insert(key, dbRow);
+    } else {
+        // If an insert fails due to a unique constraint, roll back all inserts before it
+        keys = local.nedb.listUnique(key).map(projectForUnique);
+
+        for (ii = 0; ii &lt; keys.length; ii += 1) {
+            try {
+                self.tree = self.tree.insert(keys[ii], dbRow);
+            } catch (errorCaught) {
+                error = errorCaught;
+                failingI = ii;
+                break;
+            }
+        }
+
+        if (error) {
+            for (ii = 0; ii &lt; failingI; ii += 1) {
+                self.tree = self.tree.delete(keys[ii], dbRow);
+            }
+
+            throw error;
+        }
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    &lt;a\n\
+        href=&quot;https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html&quot;\n\
+        target=&quot;_blank&quot;\n\
+    &gt;eval&lt;/a&gt;\n\
+&lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.dbTableCreate({ name: &quot;table1&quot; });\n\
+table1.<span class="docApiCodeKeywordSpan">insert</span>({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\\
+n\
+console.log();\n\
+console.log(window.nedb_lite.dbTableExport(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+console.log();\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.insertMultipleDocs" id="element.nedb-lite.Index.prototype.insertMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insertMultipleDocs
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">insertMultipleDocs = function (dbRowList) {
+<span class="docApiCodeCommentSpan">/**
+ * Insert an array of dbRow&#x27;s in the index
+ * If a constraint is violated, the changes should be rolled back and an error thrown
+ *
+ * @API private
+ */
+</span>    var ii, error, failingI;
+
+    for (ii = 0; ii &lt; dbRowList.length; ii += 1) {
+        try {
+            this.insert(dbRowList[ii]);
+        } catch (errorCaught) {
+            error = errorCaught;
+            failingI = ii;
+            break;
+        }
+    }
+
+    if (error) {
+        for (ii = 0; ii &lt; failingI; ii += 1) {
+            this.remove(dbRowList[ii]);
+        }
+
+        throw error;
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+         * Insert a new dbRow in the index
+         * If an array is passed, we insert all its elements (if one insertion fails the index is not modified)
+         * O(log(n))
+         */
+var key, keys, ii, failingI, error, self = this;
+
+if (Array.isArray(dbRow)) {
+    self.<span class="docApiCodeKeywordSpan">insertMultipleDocs</span>(dbRow);
+    return;
+}
+
+key = local.nedb.queryGetDotValue(dbRow, self.fieldName);
+
+// We don&#x27;t index dbRow&#x27;s that don&#x27;t contain the field if the index is sparse
+if (key === undefined &amp;&amp; self.sparse) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.remove" id="element.nedb-lite.Index.prototype.remove">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>remove
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">remove = function (dbRow) {
+<span class="docApiCodeCommentSpan">/**
+ * Remove a dbRow from the index
+ * If an array is passed, we remove all its elements
+ * The remove operation is safe with regards to the &#x27;unique&#x27; constraint
+ * O(log(n))
+ */
+</span>    var key, self = this;
+
+    if (Array.isArray(dbRow)) {
+        dbRow.forEach(function (d) {
+            self.remove(d);
+        });
+        return;
+    }
+
+    key = local.nedb.queryGetDotValue(dbRow, self.fieldName);
+
+    if (key === undefined &amp;&amp; self.sparse) {
+        return;
+    }
+
+    if (!Array.isArray(key)) {
+        self.tree = self.tree.delete(key, dbRow);
+    } else {
+        local.nedb.listUnique(key).map(projectForUnique).forEach(function (_key) {
+            self.tree = self.tree.delete(_key, dbRow);
+        });
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            failingI = ii;
+            break;
+        }
+    }
+
+    if (error) {
+        for (ii = 0; ii &lt; failingI; ii += 1) {
+            this.<span class="docApiCodeKeywordSpan">remove</span>(dbRowList[ii]);
+        }
+
+        throw error;
+    }
+};
+local.nedb.Index.prototype.remove = function (dbRow) {
+/**
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.reset" id="element.nedb-lite.Index.prototype.reset">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>reset
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">reset = function (dbRowList) {
+<span class="docApiCodeCommentSpan">/**
+ * Reset an index
+ * @param {dbRow or Array of dbRow&#x27;s} dbRowList Optional, data to initialize the index with
+ *                                                 If an error is thrown during insertion, the index is not modified
+ */
+</span>    this.tree = new local.nedb.AvlTree({ unique: this.unique });
+    if (dbRowList) {
+        this.insert(dbRowList);
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    // Recreate all indexes in the datafile
+    Object.keys(data.indexes).forEach(function (key) {
+        self.indexes[key] = new local.nedb.Index(data.indexes[key]);
+    });
+
+    // Fill cached database (i.e. all indexes) with data
+    Object.keys(self.indexes).forEach(function (key) {
+        self.indexes[key].<span class="docApiCodeKeywordSpan">reset</span>(data.data);
+    });
+    self.persistence.persistCachedDatabase(options.onNext);
+    break;
+default:
+    // validate no error occurred
+    local.nedb.assert(!error, error);
+    if (onError) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.update" id="element.nedb-lite.Index.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>update
+            <span class="docApiSignatureSpan">(oldDoc,&nbsp;newDoc)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">update = function (oldDoc,&nbsp;newDoc) {
+<span class="docApiCodeCommentSpan">/**
+ * Update a dbRow in the index
+ * If a constraint is violated, changes are rolled back and an error thrown
+ * Naive implementation, still in O(log(n))
+ */
+</span>    if (Array.isArray(oldDoc)) {
+        this.updateMultipleDocs(oldDoc);
+        return;
+    }
+
+    this.remove(oldDoc);
+
+    try {
+        this.insert(newDoc);
+    } catch (errorCaught) {
+        this.insert(oldDoc);
+        throw errorCaught;
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+ * Update one or several dbRow&#x27;s in all indexes
+ * To update multiple dbRow&#x27;s, oldDoc must be an array of { oldDoc, newDoc } pairs
+ * If one update violates a constraint, all changes are rolled back
+ */
+    var ii, keys = Object.keys(this.indexes);
+
+    for (ii = 0; ii &lt; keys.length; ii += 1) {
+        this.indexes[keys[ii]].<span class="docApiCodeKeywordSpan">update</span>(oldDoc, newDoc);
+    }
+};
+
+local.nedb._Table.prototype.getCandidates = function (query, onError) {
+/**
+ * Return the list of candidates for a given query
+ * Crude implementation for now, we return the candidates given by the first usable index if any
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.updateMultipleDocs" id="element.nedb-lite.Index.prototype.updateMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>updateMultipleDocs
+            <span class="docApiSignatureSpan">(pairs)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">updateMultipleDocs = function (pairs) {
+<span class="docApiCodeCommentSpan">/**
+ * Update multiple dbRow&#x27;s in the index
+ * If a constraint is violated, the changes need to be rolled back
+ * and an error thrown
+ * @param {Array of oldDoc, newDoc pairs} pairs
+ *
+ * @API private
+ */
+</span>    var ii, failingI, error;
+
+    for (ii = 0; ii &lt; pairs.length; ii += 1) {
+        this.remove(pairs[ii].oldDoc);
+    }
+
+    for (ii = 0; ii &lt; pairs.length; ii += 1) {
+        try {
+            this.insert(pairs[ii].newDoc);
+        } catch (errorCaught) {
+            error = errorCaught;
+            failingI = ii;
+            break;
+        }
+    }
+
+    // If an error was raised, roll back changes in the inverse order
+    if (error) {
+        for (ii = 0; ii &lt; failingI; ii += 1) {
+            this.remove(pairs[ii].newDoc);
+        }
+
+        for (ii = 0; ii &lt; pairs.length; ii += 1) {
+            this.insert(pairs[ii].oldDoc);
+        }
+
+        throw error;
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        local.nedb.Index.prototype.update = function (oldDoc, newDoc) {
+        /**
+         * Update a dbRow in the index
+         * If a constraint is violated, changes are rolled back and an error thrown
+         * Naive implementation, still in O(log(n))
+         */
+if (Array.isArray(oldDoc)) {
+    this.<span class="docApiCodeKeywordSpan">updateMultipleDocs</span>(oldDoc);
+    return;
+}
+
+this.remove(oldDoc);
+
+try {
+    this.insert(newDoc);
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Persistence" id="module.nedb-lite.Persistence">module nedb-lite.Persistence</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.Persistence" id="element.nedb-lite.Persistence.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Persistence = function (options) {
+<span class="docApiCodeCommentSpan">/**
+ * Handle every persistence-related task
+ * The interface Datastore expects to be implemented is
+ * * Persistence.persistNewState(newDocs, callback) where newDocs is an array of dbRow&#x27;s and callback has signature error
+ *
+ * Create a new Persistence object for database options.db
+ * @param {Datastore} options.db
+ */
+</span>    this.db = options.db;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+// validate name
+local.nedb.assert(
+    options &amp;&amp; options.name &amp;&amp; typeof options.name === &#x27;string&#x27;,
+    options &amp;&amp; options.name
+);
+self.name = self.name || options.name;
+// Persistence handling
+self.persistence = new local.nedb.<span class="docApiCodeKeywordSpan">Persistence</span>({ db: self });
+// Indexed by field name, dot notation can be used
+// _id is always indexed and since _ids are generated randomly
+// the underlying binary is always well-balanced
+self.indexes = {
+    _id: new local.nedb.Index({ fieldName: &#x27;_id&#x27;, unique: true }),
+    createdAt: new local.nedb.Index({ fieldName: &#x27;createdAt&#x27; }),
+    updatedAt: new local.nedb.Index({ fieldName: &#x27;updatedAt&#x27; })
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Persistence.prototype" id="module.nedb-lite.Persistence.prototype">module nedb-lite.Persistence.prototype</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.prototype.persistCachedDatabase" id="element.nedb-lite.Persistence.prototype.persistCachedDatabase">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistCachedDatabase
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">persistCachedDatabase = function (onError) {
+<span class="docApiCodeCommentSpan">/**
+ * Persist cached database
+ * This serves as a compaction function since the cache always contains only the number of dbRow&#x27;s in the dbTable
+ * while the data file is append-only so it may grow larger
+ * @param {Function} onError - callback, signature: error
+ */
+</span>    var toPersist = &#x27;&#x27;,
+        self = this;
+
+    local.nedb.dbTableFindAll(self.db).forEach(function (dbRow) {
+        toPersist += JSON.stringify(dbRow) + &#x27;\n&#x27;;
+    });
+    Object.keys(self.db.indexes).forEach(function (fieldName) {
+        if (fieldName !== &#x27;_id&#x27;) { // The special _id index is managed by datastore.js, the others need to be persisted
+            toPersist += JSON.stringify({
+                $$indexCreated: {
+                    fieldName: fieldName,
+                    unique: self.db.indexes[fieldName].unique,
+                    sparse: self.db.indexes[fieldName].sparse
+                }
+            }) + &#x27;\n&#x27;;
+        }
+    });
+
+    local.nedb.dbStorageSetItem(self.db.name, toPersist, onError);
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        self.indexes[key] = new local.nedb.Index(data.indexes[key]);
+    });
+
+    // Fill cached database (i.e. all indexes) with data
+    Object.keys(self.indexes).forEach(function (key) {
+        self.indexes[key].reset(data.data);
+    });
+    self.persistence.<span class="docApiCodeKeywordSpan">persistCachedDatabase</span>(options.onNext);
+    break;
+default:
+    // validate no error occurred
+    local.nedb.assert(!error, error);
+    if (onError) {
+        onError(error, self);
+    }
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.prototype.persistNewState" id="element.nedb-lite.Persistence.prototype.persistNewState">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistNewState
+            <span class="docApiSignatureSpan">(newDocs,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">persistNewState = function (newDocs,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/**
+ * Persist new state for the given newDocs (can be insertion, update or removal)
+ * Use an append-only format
+ * @param {Array} newDocs Can be empty if no dbRow was updated/removed
+ * @param {Function} onError Optional, signature: error
+ */
+</span>    var self = this,
+        toPersist = &#x27;&#x27;;
+
+    newDocs.forEach(function (dbRow) {
+        toPersist += JSON.stringify(dbRow) + &#x27;\n&#x27;;
+    });
+
+    if (toPersist.length === 0) {
+        return onError();
+    }
+
+    local.nedb.dbStorageGetItem(self.db.name, function (error, data) {
+        // validate no error occurred
+        local.nedb.assert(!error, error);
+        local.nedb.dbStorageSetItem(self.db.name, (data || &#x27;&#x27;) + toPersist, onError);
+    });
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    // but we stick with MongoDB&#x27;s API here
+    if (options.expireAfterSeconds !== undefined) {
+        self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+    }
+    self.indexes[options.fieldName].insert(local.nedb.dbTableFindAll(self));
+    // We may want to force all options to be persisted including defaults,
+    // not just the ones passed the index creation function
+    self.persistence.<span class="docApiCodeKeywordSpan">persistNewState</span>([{ $$indexCreated: options }], onError);
+};
+
+local.nedb.dbIndexRemove = function (dbTable, options, onError) {
+/*
+ * this function will remove the dbIndex from dbTable with the given options
+ */
+    var self;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.prototype.treatRawData" id="element.nedb-lite.Persistence.prototype.treatRawData">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>treatRawData
+            <span class="docApiSignatureSpan">(rawData)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">treatRawData = function (rawData) {
+<span class="docApiCodeCommentSpan">/**
+ * From a database&#x27;s raw data, return the corresponding
+ * machine understandable dbTable
+ */
+</span>    var data = rawData.split(&#x27;\n&#x27;),
+        dataById = {},
+        dbRow,
+        tdata = [],
+        ii,
+        indexes = {},
+        corruptItems = -1; // Last line of every data file is usually blank so not really corrupt
+
+    for (ii = 0; ii &lt; data.length; ii += 1) {
+        try {
+            dbRow = JSON.parse(data[ii]);
+            if (dbRow._id) {
+                if (dbRow.$$deleted === true) {
+                    delete dataById[dbRow._id];
+                } else {
+                    dataById[dbRow._id] = dbRow;
+                }
+            } else if (dbRow.$$indexCreated &amp;&amp; dbRow.$$indexCreated.fieldName !== undefined) {
+                indexes[dbRow.$$indexCreated.fieldName] = dbRow.$$indexCreated;
+            } else if (typeof dbRow.$$indexRemoved === &#x27;string&#x27;) {
+                delete indexes[dbRow.$$indexRemoved];
+            }
+        } catch (errorCaught) {
+            corruptItems += 1;
+            // validate no error occurred
+            local.nedb.assert(!corruptItems, errorCaught);
+        }
+    }
+
+    Object.keys(dataById).forEach(function (k) {
+        tdata.push(dataById[k]);
+    });
+
+    return {
+        data: tdata,
+        indexes: indexes
+    };
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+// which has the effect of compacting the database file.
+// This operation is very quick at startup for a big dbTable
+// (60ms for ~10k docs).
+if (self.dropped) {
+    options.onNext();
+    return;
+}
+data = self.persistence.<span class="docApiCodeKeywordSpan">treatRawData</span>(data || &#x27;&#x27;);
+// Recreate all indexes in the datafile
+Object.keys(data.indexes).forEach(function (key) {
+    self.indexes[key] = new local.nedb.Index(data.indexes[key]);
+});
+
+// Fill cached database (i.e. all indexes) with data
+Object.keys(self.indexes).forEach(function (key) {
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite._Table.prototype" id="module.nedb-lite._Table.prototype">module nedb-lite._Table.prototype</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.addToIndexes" id="element.nedb-lite._Table.prototype.addToIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>addToIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">addToIndexes = function (dbRow) {
+<span class="docApiCodeCommentSpan">/**
+ * Add one or several dbRow(s) to all indexes
+ */
+</span>    var ii, failingIndex, error, keys = Object.keys(this.indexes);
+
+    for (ii = 0; ii &lt; keys.length; ii += 1) {
+        try {
+            this.indexes[keys[ii]].insert(dbRow);
+        } catch (errorCaught) {
+            failingIndex = ii;
+            error = errorCaught;
+            break;
+        }
+    }
+    // If an error happened, we need to rollback the insert on all other indexes
+    if (error) {
+        for (ii = 0; ii &lt; failingIndex; ii += 1) {
+            this.indexes[keys[ii]].remove(dbRow);
+        }
+
+        throw error;
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+/**
+ * If newDoc is an array of dbRow&#x27;s, this will insert all dbRow&#x27;s in the cache
+ * @api private
+ */
+    if (Array.isArray(preparedDoc)) {
+        this._insertMultipleDocsInCache(preparedDoc);
+    } else {
+        this.<span class="docApiCodeKeywordSpan">addToIndexes</span>(preparedDoc);
+    }
+};
+
+local.nedb._Table.prototype._insertMultipleDocsInCache = function (preparedDocs) {
+/**
+ * If one insertion fails (e.g. because of a unique constraint), roll back all previous
+ * inserts and throws the error
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.getCandidates" id="element.nedb-lite._Table.prototype.getCandidates">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>getCandidates
+            <span class="docApiSignatureSpan">(query,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">getCandidates = function (query,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/**
+ * Return the list of candidates for a given query
+ * Crude implementation for now, we return the candidates given by the first usable index if any
+ * We try the following query types, in this order: basic match, $in match, comparison match
+ * One way to make it better would be to enable the use of multiple indexes if the first usable index
+ * returns too much data. I may do it in the future.
+ *
+ * Returned candidates will be scanned to find and remove all expired dbRow&#x27;s
+ *
+ * @param {Query} query
+ * @param {Function} onError Signature error, candidates
+ */
+</span>    var self = this,
+        onParallel,
+        options,
+        usableQueryKeys;
+    options = {};
+    local.nedb.onNext(options, function (error, data) {
+        // jslint-hack
+        local.nedb.nop(error);
+        switch (options.modeNext) {
+        // STEP 1: get candidates list by checking indexes from most to least frequent usecase
+        case 1:
+            // For a basic match
+            usableQueryKeys = [];
+            Object.keys(query).forEach(function (k) {
+                if (typeof query[k] === &#x27;string&#x27; || typeof query[k] === &#x27;number&#x27; || typeof query[k] === &#x27;boolean&#x27; || query[k] ==\
+= null) {
+                    usableQueryKeys.push(k);
+                }
+            });
+            usableQueryKeys = usableQueryKeys.filter(function (element) {
+                return self.indexes.hasOwnProperty(element);
+            });
+            if (usableQueryKeys.length &gt; 0) {
+                return options.onNext(null, self.indexes[usableQueryKeys[0]].getMatching(query[usableQueryKeys[0]]));
+            }
+
+            // For a $in match
+            usableQueryKeys = [];
+            Object.keys(query).forEach(function (k) {
+                if (query[k] &amp;&amp; query[k].hasOwnProperty(&#x27;$in&#x27;)) {
+                    usableQueryKeys.push(k);
+                }
+            });
+            usableQueryKeys = usableQueryKeys.filter(function (element) {
+                return self.indexes.hasOwnProperty(element);
+            });
+            if (usableQueryKeys.length &gt; 0) {
+                return options.onNext(null, self.indexes[usableQueryKeys[0]].getMatching(query[usableQueryKeys[0]].$in));
+            }
+
+            // For a comparison match
+            usableQueryKeys = [];
+            Object.keys(query).forEach(function (k) {
+                if (query[k] &amp;&amp; (query[k].hasOwnProperty(&#x27;$lt&#x27;) || query[k].hasOwnProperty(&#x27;$lte&#x27;) || query[k].hasOwnProperty(&#x27;$\
+gt&#x27;) || query[k].hasOwnProperty(&#x27;$gte&#x27;))) {
+                    usableQueryKeys.push(k);
+                }
+            });
+            usableQueryKeys = usableQueryKeys.filter(function (element) {
+                return self.indexes.hasOwnProperty(element);
+            });
+            if (usableQueryKeys.length &gt; 0) {
+                return options.onNext(null, self.indexes[usableQueryKeys[0]].getBetweenBounds(query[usableQueryKeys[0]]));
+            }
+
+            // By default, return all the DB data
+            return options.onNext(null, local.nedb.dbTableFindAll(self));
+        // STEP 2: remove all expired dbRow&#x27;s
+        default:
+            var validDocs = [],
+                ttlIndexesFieldNames = Object.keys(self.ttlIndexes);
+            onParallel = local.nedb.onParallel(function (error) {
+                onError(error, validDocs);
+            });
+            onParallel.counter += 1;
+            data.forEach(function (dbRow) {
+                var valid = true;
+                ttlIndexesFieldNames.forEach(function (ii) {
+                    if (dbRow[ii] !== undefined &amp;&amp; Date.now() &gt; new Date(dbRow[ii]).getTime() + self.ttlIndexes[ii] * 1000) {
+                        valid = false;
+                    }
+                });
+                if (valid) {
+                    validDocs.push(dbRow);
+                } else {
+                    onParallel.counter += 1;
+                    self.remove({ _id: dbRow._id }, {}, onParallel);
+                }
+            });
+            onParallel();
+        }
+    });
+    options.modeNext = 0;
+    options.onNext();
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+options = local.nedb.objectSetDefault(options, { query: {} });
+local.nedb.onNext(options, function (error, data) {
+    data = data || [];
+    switch (options.modeNext) {
+    case 1:
+        result = 0;
+        self = local.nedb.dbTableDict[dbTable.name];
+        self.<span class="docApiCodeKeywordSpan">getCandidates</span>(options.query, options.onNext);
+        break;
+    case 2:
+        data.forEach(function (dbRow) {
+            if (local.nedb.queryMatch(dbRow, options.query)) {
+                result += 1;
+            }
+        });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.insert" id="element.nedb-lite._Table.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>insert
+            <span class="docApiSignatureSpan">(newDoc,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">insert = function (newDoc,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/**
+ * Insert a new dbRow
+ * @param {Function} onError - callback, signature: error, insertedDoc
+ *
+ * @api private Use Datastore.insert which has the same signature
+ */
+</span>    var self, preparedDoc;
+    self = this;
+    preparedDoc = self.prepareDocumentForInsertion(newDoc);
+    self._insertInCache(preparedDoc);
+    self.persistence.persistNewState(Array.isArray(preparedDoc) ? preparedDoc : [preparedDoc], function (error) {
+        if (error) {
+            return onError(error);
+        }
+        return onError(null, local.nedb.jsonCopy(preparedDoc));
+    });
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    &lt;a\n\
+        href=&quot;https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html&quot;\n\
+        target=&quot;_blank&quot;\n\
+    &gt;eval&lt;/a&gt;\n\
+&lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.dbTableCreate({ name: &quot;table1&quot; });\n\
+table1.<span class="docApiCodeKeywordSpan">insert</span>({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\\
+n\
+console.log();\n\
+console.log(window.nedb_lite.dbTableExport(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+console.log();\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.prepareDocumentForInsertion" id="element.nedb-lite._Table.prototype.prepareDocumentForInsertion">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>prepareDocumentForInsertion
+            <span class="docApiSignatureSpan">(newDoc)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">prepareDocumentForInsertion = function (newDoc) {
+<span class="docApiCodeCommentSpan">/**
+ * Prepare a dbRow (or array of dbRow&#x27;s) to be inserted in a database
+ * Meaning adds _id and timestamps if necessary on a copy of newDoc to avoid any side effect on user input
+ * @api private
+ */
+</span>    var preparedDoc, now, self = this;
+
+    if (Array.isArray(newDoc)) {
+        preparedDoc = [];
+        newDoc.forEach(function (dbRow) {
+            preparedDoc.push(self.prepareDocumentForInsertion(dbRow));
+        });
+    } else {
+        preparedDoc = local.nedb.jsonCopy(newDoc);
+        now = new Date().toISOString();
+        if (preparedDoc.createdAt === undefined) {
+            preparedDoc.createdAt = now;
+        }
+        if (preparedDoc.updatedAt === undefined) {
+            preparedDoc.updatedAt = now;
+        }
+        local.nedb.dbRowCheckObject(preparedDoc);
+    }
+
+    return preparedDoc;
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+* Insert a new dbRow
+* @param {Function} onError - callback, signature: error, insertedDoc
+*
+* @api private Use Datastore.insert which has the same signature
+*/
+   var self, preparedDoc;
+   self = this;
+   preparedDoc = self.<span class="docApiCodeKeywordSpan">prepareDocumentForInsertion</span>(newDoc);
+   self._insertInCache(preparedDoc);
+   self.persistence.persistNewState(Array.isArray(preparedDoc) ? preparedDoc : [preparedDoc], function (error) {
+       if (error) {
+           return onError(error);
+       }
+       return onError(null, local.nedb.jsonCopy(preparedDoc));
+   });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.removeFromIndexes" id="element.nedb-lite._Table.prototype.removeFromIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>removeFromIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">removeFromIndexes = function (dbRow) {
+<span class="docApiCodeCommentSpan">/**
+ * Remove one or several dbRow(s) from all indexes
+ */
+</span>    var self = this;
+
+    Object.keys(this.indexes).forEach(function (ii) {
+        self.indexes[ii].remove(dbRow);
+    });
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+data.some(function (dbRow) {
+    if (local.nedb.queryMatch(dbRow, options.query)) {
+        result += 1;
+        removedList.push({
+            $$deleted: true,
+            _id: dbRow._id
+        });
+        self.<span class="docApiCodeKeywordSpan">removeFromIndexes</span>(dbRow);
+        if (options.one) {
+            return true;
+        }
+    }
+});
+self.persistence.persistNewState(removedList, options.onNext);
+break;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.update" id="element.nedb-lite._Table.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>update
+            <span class="docApiSignatureSpan">(query,&nbsp;updateQuery,&nbsp;options,&nbsp;onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">update = function (query,&nbsp;updateQuery,&nbsp;options,&nbsp;onError) {
+<span class="docApiCodeCommentSpan">/**
+ * Update all docs matching query
+ * @param {Object} query
+ * @param {Object} updateQuery
+ * @param {Object} options Optional options
+ *                 options.multi If true, can update multiple dbRow&#x27;s (defaults to false)
+ *                 options.upsert If true, dbRow is inserted if the query doesn&#x27;t match anything
+ * @param {Function} onError - callback, signature: (error, numAffected, affectedDocuments, upsert)
+ *                      If update was an upsert, upsert flag is set to true
+ *                      affectedDocuments can be one of the following:
+ *                        * For an upsert, the upserted dbRow
+ *                        * For an update, the array of updated dbRow&#x27;s
+ *
+ * WARNING: The API was changed between v1.7.4 and v1.8, for consistency and readability reasons. Prior and including to v1.7.4,
+ *          the onError signature was (error, numAffected, updated) where updated was the updated dbRow in case of an upsert
+ *          or the array of updated dbRow&#x27;s for an update. That meant that the type of
+ *          affectedDocuments in a non multi update depended on whether there was an upsert or not, leaving only two ways for th\
+e
+ *          user to check whether an upsert had occured: checking the type of affectedDocuments or running another find query on
+ *          the whole dataset to check its size. Both options being ugly, the breaking change was necessary.
+ *
+ * @api private Use Datastore.update which has the same signature
+ */
+</span>    var self = this, numReplaced = 0, multi, upsert, ii;
+
+    multi = options.multi !== undefined ? options.multi : false;
+    upsert = options.upsert !== undefined ? options.upsert : false;
+
+    options = {};
+    local.nedb.onNext(options, function () {
+        var cursor, modifiedDoc, modifications, createdAt;
+        switch (options.modeNext) {
+        case 1:
+            // If upsert option is set, check whether we need to insert the dbRow
+            if (!upsert) {
+                return options.onNext();
+            }
+
+            // Need to use an internal function not tied to the executor to avoid deadlock
+            cursor = new local.nedb.Cursor(self, query);
+            cursor.limit(1)._exec(function (error, docs) {
+                if (error) {
+                    return onError(error);
+                }
+                if (docs.length === 1) {
+                    return options.onNext();
+                }
+                var toBeInserted;
+
+                try {
+                    local.nedb.dbRowCheckObject(updateQuery);
+                    // updateQuery is a simple object with no modifier, use it as the dbRow to insert
+                    toBeInserted = updateQuery;
+                } catch (errorCaught) {
+                    // updateQuery contains modifiers, use the find query as the base,
+                    // strip it from all operators and update it according to updateQuery
+                    try {
+                        toBeInserted = local.nedb.dbRowModify(local.nedb.dbRowDeepCopy(query, true), updateQuery);
+                    } catch (errorCaught2) {
+                        return onError(errorCaught2);
+                    }
+                }
+
+                return self.insert(toBeInserted, function (error, newDoc) {
+                    if (error) {
+                        return onError(error);
+                    }
+                    return onError(null, 1, newDoc, true);
+                });
+            });
+            break;
+        default:
+            // Perform the update
+            modifications = [];
+
+            self.getCandidates(query, function (error, candidates) {
+                if (error) {
+                    return onError(error);
+                }
+
+                // Preparing update (if an error is thrown here neither the datafile nor
+                // the in-memory indexes are affected)
+                try {
+                    for (ii = 0; ii &lt; candidates.length; ii += 1) {
+                        if (local.nedb.queryMatch(candidates[ii], query) &amp;&amp; (multi | ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+ * Update one or several dbRow&#x27;s in all indexes
+ * To update multiple dbRow&#x27;s, oldDoc must be an array of { oldDoc, newDoc } pairs
+ * If one update violates a constraint, all changes are rolled back
+ */
+    var ii, keys = Object.keys(this.indexes);
+
+    for (ii = 0; ii &lt; keys.length; ii += 1) {
+        this.indexes[keys[ii]].<span class="docApiCodeKeywordSpan">update</span>(oldDoc, newDoc);
+    }
+};
+
+local.nedb._Table.prototype.getCandidates = function (query, onError) {
+/**
+ * Return the list of candidates for a given query
+ * Crude implementation for now, we return the candidates given by the first usable index if any
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.updateIndexes" id="element.nedb-lite._Table.prototype.updateIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>updateIndexes
+            <span class="docApiSignatureSpan">(oldDoc,&nbsp;newDoc)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">updateIndexes = function (oldDoc,&nbsp;newDoc) {
+<span class="docApiCodeCommentSpan">/**
+ * Update one or several dbRow&#x27;s in all indexes
+ * To update multiple dbRow&#x27;s, oldDoc must be an array of { oldDoc, newDoc } pairs
+ * If one update violates a constraint, all changes are rolled back
+ */
+</span>    var ii, keys = Object.keys(this.indexes);
+
+    for (ii = 0; ii &lt; keys.length; ii += 1) {
+        this.indexes[keys[ii]].update(oldDoc, newDoc);
+    }
+}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    }
+} catch (errorCaught) {
+    return onError(errorCaught);
+}
+
+// Change the docs in memory
+try {
+    self.<span class="docApiCodeKeywordSpan">updateIndexes</span>(modifications);
+} catch (errorCaught) {
+    return onError(errorCaught);
+}
+
+// Update the datafile
+var updatedDocs = modifications.map(function (element) {
+    return element.newDoc;
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+</div>
