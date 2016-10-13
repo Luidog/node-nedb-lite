@@ -470,8 +470,47 @@
             local.nedb.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    self = local.nedb.dbTableDict[options.name] = local.nedb.dbTableDict[options.name] ||
-                        new local.nedb._Table(options);
+                    self = local.nedb.dbTableDict[options.name] =
+                        local.nedb.dbTableDict[options.name] || new local.nedb._Table();
+                    if (self.initialized) {
+                        options.onNext();
+                        return;
+                    }
+                    self.initialized = 1;
+                    // validate name
+                    local.nedb.assert(
+                        options && options.name && typeof options.name === 'string',
+                        options && options.name
+                    );
+                    self.name = self.name || options.name;
+                    //!! local.nedb.dbTableDrop(self, local.nedb.nop);
+                    //!! local.nedb.dbTableDict[self.name] = self;
+                    // Persistence handling
+                    self.persistence = new local.nedb.Persistence({ db: self });
+                    // Indexed by field name, dot notation can be used
+                    // _id is always indexed and since _ids are generated randomly
+                    // the underlying binary is always well-balanced
+                    self.indexes = {
+                        _id: new local.nedb.Index({ fieldName: '_id', unique: true }),
+                        createdAt: new local.nedb.Index({ fieldName: 'createdAt' }),
+                        updatedAt: new local.nedb.Index({ fieldName: 'updatedAt' })
+                    };
+                    self.ttlIndexes = {};
+                    // init deferList
+                    self.deferList = [];
+                    // init lock
+                    self.lock = local.nedb.onParallel(function (error) {
+                        // validate no error occurred
+                        local.nedb.assert(!error, error);
+                        // run deferred actions
+                        while (self.deferList.length) {
+                            self.deferList.shift()();
+                        }
+                    });
+                    options.onNext();
+                    break;
+                // import data
+                case 2:
                     self.lock.counter += 1;
                     data = (options.persistenceData || '').trim();
                     if (options.reset) {
@@ -486,7 +525,8 @@
                     data = data.slice(data.indexOf('\n') + 1);
                     local.nedb.dbStorageSetItem(self.name, data, options.onNext);
                     break;
-                case 2:
+                // load persistence
+                case 3:
                     if (self.isLoaded) {
                         options.modeNext += 2;
                         options.onNext();
@@ -495,7 +535,7 @@
                     self.isLoaded = true;
                     local.nedb.dbStorageGetItem(self.name, options.onNext);
                     break;
-                case 3:
+                case 4:
                     // Load the database
                     // 1) Create all indexes
                     // 2) Insert all data
@@ -2970,45 +3010,13 @@
             });
         };
 
-        local.nedb._Table = function (options) {
+        local.nedb._Table = function () {
         /**
          * Create a new dbTable
          * @param {String} options.name
          * with the error object as parameter. If you don't pass it the error will be thrown
          */
-            var self;
-            self = this;
-            // validate name
-            if (!(options && options.name && typeof options.name === 'string')) {
-                throw new Error(
-                    'nedb - missing name param, e.g. nedb.dbTableCreate({ name: "table1" })'
-                );
-            }
-            self.name = options.name;
-            local.nedb.dbTableDrop(self, local.nedb.nop);
-            local.nedb.dbTableDict[self.name] = self;
-            // Persistence handling
-            self.persistence = new local.nedb.Persistence({ db: self });
-            // Indexed by field name, dot notation can be used
-            // _id is always indexed and since _ids are generated randomly the underlying
-            // binary is always well-balanced
-            self.indexes = {
-                _id: new local.nedb.Index({ fieldName: '_id', unique: true }),
-                createdAt: new local.nedb.Index({ fieldName: 'createdAt' }),
-                updatedAt: new local.nedb.Index({ fieldName: 'updatedAt' })
-            };
-            self.ttlIndexes = {};
-            // init deferList
-            self.deferList = [];
-            // init lock
-            self.lock = local.nedb.onParallel(function (error) {
-                // validate no error occurred
-                local.nedb.assert(!error, error);
-                // run deferred actions
-                while (self.deferList.length) {
-                    self.deferList.shift()();
-                }
-            });
+            return;
         };
 
         local.nedb._Table.prototype.addToIndexes = function (dbRow) {
