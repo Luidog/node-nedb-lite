@@ -59,9 +59,12 @@
         local.utility2.nedb = local.utility2.local.nedb = local.nedb;
         [
             'assert',
+            'jsonCopy',
             'jsonStringifyOrdered',
+            'objectSetDefault',
             'onErrorDefault',
-            'onNext'
+            'onNext',
+            'onParallel'
         ].forEach(function (key) {
             local.utility2[key] = local.nedb[key];
             [
@@ -172,7 +175,7 @@
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    local.nedb.dbTableCountMany(options.dbTable, {
+                    options.dbTable.crudCountMany({
                         query: { id: options.id }
                     }, options.onNext);
                     break;
@@ -208,12 +211,18 @@
         /*
          * this function will test dbTableDrop's default handling-behavior
          */
+            var onParallel;
+            onParallel = local.utility2.onParallel(onError);
+            onParallel.counter += 1;
             options = {};
             options.name = 'testCase_dbTableDrop_default';
             options.dbTable = local.nedb.dbTableCreate(options);
-            local.nedb.dbTableDrop(options.dbTable, onError);
-            // test undefined-dbTable handling-behavior
-            local.nedb.dbTableDrop(options.dbTable, local.utility2.onErrorDefault);
+            onParallel.counter += 1;
+            options.dbTable.dbTableDrop(onParallel);
+            // test multiple-drop handling-behavior
+            onParallel.counter += 1;
+            options.dbTable.dbTableDrop(onParallel);
+            onParallel();
         };
 
         local.testCase_dbTableFindOne_default = function (options, onError) {
@@ -226,7 +235,7 @@
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    local.nedb.dbTableFindOne(options.dbTable, {
+                    options.dbTable.crudFindOne({
                         query: { id: options.id }
                     }, options.onNext);
                     break;
@@ -256,12 +265,12 @@
                     local.testCase_dbTableFindOne_default(options, options.onNext);
                     break;
                 case 2:
-                    local.nedb.dbTableRemoveOne(options.dbTable, {
+                    options.dbTable.crudRemoveOne({
                         query: { id: options.id }
                     }, options.onNext);
                     break;
                 case 3:
-                    local.nedb.dbTableFindOne(options.dbTable, {
+                    options.dbTable.crudFindOne({
                         query: { id: options.id }
                     }, options.onNext);
                     break;
@@ -442,25 +451,13 @@
                             exampleList: [],
                             exports: local.nedb
                         },
-                        'nedb-lite.Index': {
+                        'nedb-lite._DbIndex.prototype': {
                             exampleList: [],
-                            exports: local.nedb.Index
+                            exports: local.nedb._DbIndex.prototype
                         },
-                        'nedb-lite.Index.prototype': {
+                        'nedb-lite._DbTable.prototype': {
                             exampleList: [],
-                            exports: local.nedb.Index.prototype
-                        },
-                        'nedb-lite.Persistence': {
-                            exampleList: [],
-                            exports: local.nedb.Persistence
-                        },
-                        'nedb-lite.Persistence.prototype': {
-                            exampleList: [],
-                            exports: local.nedb.Persistence.prototype
-                        },
-                        'nedb-lite._Table.prototype': {
-                            exampleList: [],
-                            exports: local.nedb._Table.prototype
+                            exports: local.nedb._DbTable.prototype
                         }
                     };
                     Object.keys(options.moduleDict).forEach(function (key) {

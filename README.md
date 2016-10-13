@@ -20,7 +20,7 @@ this package will run a standalone, modified version of the nedb database with z
 # documentation
 #### todo
 - npm publish 2016.9.2
-- replace classes and methods with static functions (e.g. prototype.find -> dbTableFindMany)
+- allow dropped tables to be re-used
 - none
 
 #### change since 3e821f9c
@@ -319,15 +319,15 @@ utility2-comment -->\n\
     </label>\n\
 <textarea id="inputTextarea1">\n\
 window.table1 = window.nedb_lite.dbTableCreate({ name: "table1" });\n\
-table1.insert({ field1: "hello", field2: "world"}, function () {\n\
+table1.crudInsertMany([{ field1: "hello", field2: "world"}], function () {\n\
     console.log();\n\
-    console.log(window.nedb_lite.dbTableExport(table1));\n\
+    console.log(table1.dbTableExport());\n\
 });\n\
 \n\
 window.table2 = window.nedb_lite.dbTableCreate({ name: "table2" });\n\
-table2.insert({ field1: "hello", field2: "world"}, function () {\n\
+table2.crudInsertMany([{ field1: "hello", field2: "world"}], function () {\n\
     console.log();\n\
-    console.log(window.nedb_lite.dbTableExport(table2));\n\
+    console.log(table2.dbTableExport());\n\
 });\n\
 </textarea>\n\
     <button class="onclick" id="nedbEvalButton1">eval script</button><br>\n\
