@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>
+nedb-lite v2016.9.1
+</title>
+<style>
+/*csslint
+    box-sizing: false,
+    ids: false,
+    universal-selector: false
+*/
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body > * {
+    margin-bottom: 1rem;
+}
+body > button {
+    width: 15rem;
+}
+textarea {
+    font-family: monospace;
+    height: 16rem;
+    width: 100%;
+}
+textarea[readonly] {
+    background-color: #ddd;
+}
+.zeroPixel {
+    border: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    width: 0;
+}
+</style>
+</head>
+<body>
+    <h1>
+
+        <a
+            
+            href="https://github.com/kaizhu256/node-nedb-lite"
+            
+            target="_blank"
+        >
+
+            nedb-lite v2016.9.1
+
+        </a>
+
+
+        
+        (NODE_ENV=production)
+        
+
+    </h1>
+    <h3>this package will run a standalone, browser-compatible version of the nedb v1.8.0 database with zero npm-dependencies</h3>
+
+    <h4><a download href="assets.app.js">download standalone app</a></h4>
+    <button class="onclick" id="testRunButton1">run internal test</button><br>
+    <div class="testReportDiv" style="display: none;"></div>
+
+
+    <button class="onclick" id="nedbResetButton1">reset nedb-database</button><br>
+    <button class="onclick" id="nedbExportButton1">save nedb-database to file</button><br>
+    <a download="nedb.persistence.json" href="" id="nedbExportA1"></a>
+    <button class="onclick" id="nedbImportButton1">load nedb-database from file</button><br>
+    <input class="onchange zeroPixel" type="file" id="nedbImportInput1">
+    <label>edit or paste script below to
+        <a
+            href="https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html"
+            target="_blank"
+        >eval</a>
+    </label>
+<textarea class="onkeyup" id="inputTextarea1">
+window.table1 = window.Nedb.dbTableCreate({ name: "table1" });
+table1.insert({ field1: "hello", field2: "world"}, function () {
+    console.log();
+    console.log(table1.export());
+});
+
+window.table2 = window.Nedb.dbTableCreate({ name: "table2" });
+table2.insert({ field1: "hello", field2: "world"}, function () {
+    console.log();
+    console.log(table2.export());
+});
+</textarea>
+    <label>stderr and stdout</label>
+    <textarea id="outputTextarea1" readonly></textarea>
+
+    
+    <script src="assets.app.min.js"></script>
+    
+
+</body>
+</html>

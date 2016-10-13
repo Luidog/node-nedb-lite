@@ -1,0 +1,174 @@
+<svg height="2734" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="2734" fill="#555" width="720"></rect>
+<text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
+<tspan x="10" y="26"></tspan>
+<tspan x="10" y="42">[MODE_BUILD=npmTestPublished] - 2016-09-13T23:17:53Z - npm-testing published-package nedb-lite</tspan>
+<tspan x="10" y="58"></tspan>
+<tspan x="10" y="74">/tmp/app</tspan>
+<tspan x="10" y="90">└── nedb-lite@2016.8.3 </tspan>
+<tspan x="10" y="106"></tspan>
+<tspan x="10" y="122">npm WARN enoent ENOENT: no such file or directory, open '/tmp/app/package.json'</tspan>
+<tspan x="10" y="138">npm WARN app No description</tspan>
+<tspan x="10" y="154">npm WARN app No repository field.</tspan>
+<tspan x="10" y="170">npm WARN app No README data</tspan>
+<tspan x="10" y="186">npm WARN app No license field.</tspan>
+<tspan x="10" y="202"></tspan>
+<tspan x="10" y="218">&gt; electron-lite@2016.7.3 postinstall /tmp/app/node_modules/nedb-lite/node_modules/electron-lite</tspan>
+<tspan x="10" y="234">&gt; ./index.sh shNpmPostinstall</tspan>
+<tspan x="10" y="250"></tspan>
+<tspan x="10" y="266">nedb-lite@2016.8.3 /tmp/app/node_modules/nedb-lite</tspan>
+<tspan x="10" y="282">├── electron-lite@2016.7.3  (git://github.com/kaizhu256/node-electron-lite.git#4554185fcfd73ce4a\</tspan>
+<tspan x="10" y="298">3a9f8f04905cb1407db4582)</tspan>
+<tspan x="10" y="314">└── utility2@2016.8.2  (git://github.com/kaizhu256/node-utility2.git#b92e4f0ff8e2843d5509c854d10\</tspan>
+<tspan x="10" y="330">646c4f899b721)</tspan>
+<tspan x="10" y="346"></tspan>
+<tspan x="10" y="362"></tspan>
+<tspan x="10" y="378">&gt; nedb-lite@2016.8.3 test /tmp/app/node_modules/nedb-lite</tspan>
+<tspan x="10" y="394">&gt; export PORT=$(utility2 shServerPortRandom) &amp;&amp; utility2 test test.js</tspan>
+<tspan x="10" y="410"></tspan>
+<tspan x="10" y="426"></tspan>
+<tspan x="10" y="442">[MODE_BUILD=npmTestPublished] - 2016-09-13T23:17:57Z - npm-testing /tmp/app/node_modules/nedb-li\</tspan>
+<tspan x="10" y="458">te</tspan>
+<tspan x="10" y="474"></tspan>
+<tspan x="10" y="490"></tspan>
+<tspan x="10" y="506">covering $ /home/travis/.nvm/versions/node/v6.5.0/bin/node /tmp/app/node_modules/nedb-lite/test.\</tspan>
+<tspan x="10" y="522">js</tspan>
+<tspan x="10" y="538">server listening on http-port 46107</tspan>
+<tspan x="10" y="554">&gt; [node test-case 1 of 12 passed] - testCase_assertXxx_default</tspan>
+<tspan x="10" y="570">[node test-case 2 of 12 passed] - testCase_dbExport_default</tspan>
+<tspan x="10" y="586">[node test-case 3 of 12 passed] - testCase_dbTableCreate_default</tspan>
+<tspan x="10" y="602">[node test-case 4 of 12 passed] - testCase_dbTableCreate_error</tspan>
+<tspan x="10" y="618">[node test-case 5 of 12 passed] - testCase_jsonStringifyOrdered_default</tspan>
+<tspan x="10" y="634">rm: cannot remove `tmp/aa/bb': No such file or directory</tspan>
+<tspan x="10" y="650">[node test-case 6 of 12 passed] - testCase_mkdirp_default</tspan>
+<tspan x="10" y="666">[node test-case 7 of 12 passed] - testCase_mkdirp_error</tspan>
+<tspan x="10" y="682"></tspan>
+<tspan x="10" y="698">browserTest - created electron entry-page /tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-\</tspan>
+<tspan x="10" y="714">965d-421f-9477-8f74786d3c90.html</tspan>
+<tspan x="10" y="730"></tspan>
+<tspan x="10" y="746">[node test-case 8 of 12 passed] - testCase_dbTableDrop_default</tspan>
+<tspan x="10" y="762"></tspan>
+<tspan x="10" y="778">browserTest - created electron entry-page /tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-\</tspan>
+<tspan x="10" y="794">9a59-4953-b615-9a79c6d6094f.html</tspan>
+<tspan x="10" y="810"></tspan>
+<tspan x="10" y="826">[3603:0913/231801:ERROR:browser_main_loop.cc(219)] Running without the SUID sandbox! See https:/\</tspan>
+<tspan x="10" y="842">/chromium.googlesource.com/chromium/src/+/master/docs/linux_suid_sandbox_development.md for more\</tspan>
+<tspan x="10" y="858"> information on developing with the sandbox on.</tspan>
+<tspan x="10" y="874">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="890">[3607:0913/231801:ERROR:browser_main_loop.cc(219)] Running without the SUID sandbox! See https:/\</tspan>
+<tspan x="10" y="906">/chromium.googlesource.com/chromium/src/+/master/docs/linux_suid_sandbox_development.md for more\</tspan>
+<tspan x="10" y="922"> information on developing with the sandbox on.</tspan>
+<tspan x="10" y="938">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="954">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="970">[3603:0913/231802:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
+<tspan x="10" y="986">var/run/dbus/system_bus_socket: Connection refused</tspan>
+<tspan x="10" y="1002">[node test-case 9 of 12 passed] - testCase_build_app</tspan>
+<tspan x="10" y="1018">[node test-case 10 of 12 passed] - testCase_dbImport_default</tspan>
+<tspan x="10" y="1034">[3660:0913/231802:ERROR:sandbox_linux.cc(334)] InitializeSandbox() called with multiple threads \</tspan>
+<tspan x="10" y="1050">in process gpu-process</tspan>
+<tspan x="10" y="1066">[3660:0913/231802:WARNING:ipc_message_attachment_set.cc(57)] MessageAttachmentSet destroyed with\</tspan>
+<tspan x="10" y="1082"> unconsumed descriptors: 0/1</tspan>
+<tspan x="10" y="1098">[3603:0913/231802:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
+<tspan x="10" y="1114">[3607:0913/231802:WARNING:host_discardable_shared_memory_manager.cc(130)] Less than 64MB of free\</tspan>
+<tspan x="10" y="1130"> space in temporary directory for shared memory files: 63</tspan>
+<tspan x="10" y="1146">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="1162">[3607:0913/231802:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
+<tspan x="10" y="1178">var/run/dbus/system_bus_socket: Connection refused</tspan>
+<tspan x="10" y="1194">[3695:0913/231802:ERROR:sandbox_linux.cc(334)] InitializeSandbox() called with multiple threads \</tspan>
+<tspan x="10" y="1210">in process gpu-process</tspan>
+<tspan x="10" y="1226">[3695:0913/231802:WARNING:ipc_message_attachment_set.cc(57)] MessageAttachmentSet destroyed with\</tspan>
+<tspan x="10" y="1242"> unconsumed descriptors: 0/1</tspan>
+<tspan x="10" y="1258">[3607:0913/231802:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
+<tspan x="10" y="1274"></tspan>
+<tspan x="10" y="1290">browserTest - opened url http://localhost:46107?modeTest=1</tspan>
+<tspan x="10" y="1306"></tspan>
+<tspan x="10" y="1322"></tspan>
+<tspan x="10" y="1338">browserTest - opened url file:///tmp/app/node_modules/nedb-lite/tmp/build/doc.api.html</tspan>
+<tspan x="10" y="1354"></tspan>
+<tspan x="10" y="1370">[3603:0913/231803:INFO:CONSOLE(205)] "null", source: file:///tmp/app/node_modules/nedb-lite/tmp/\</tspan>
+<tspan x="10" y="1386">electron.15725d7c-965d-421f-9477-8f74786d3c90.html (205)</tspan>
+<tspan x="10" y="1402">[3603:0913/231803:INFO:CONSOLE(205)] ""persistentTable1"</tspan>
+<tspan x="10" y="1418">{"field1":"hello","field2":"world","_id":"SlTH7Vluzpqhizfw","createdAt":{"$$date":1473808683749}\</tspan>
+<tspan x="10" y="1434">,"updatedAt":{"$$date":1473808683749}}", source: file:///tmp/app/node_modules/nedb-lite/tmp/elec\</tspan>
+<tspan x="10" y="1450">tron.15725d7c-965d-421f-9477-8f74786d3c90.html (205)</tspan>
+<tspan x="10" y="1466">[3603:0913/231803:INFO:CONSOLE(205)] ""persistentTable2"</tspan>
+<tspan x="10" y="1482">{"field1":"hello","field2":"world","_id":"iTE81Edn6w6oQPXK","createdAt":{"$$date":1473808683754}\</tspan>
+<tspan x="10" y="1498">,"updatedAt":{"$$date":1473808683754}}", source: file:///tmp/app/node_modules/nedb-lite/tmp/elec\</tspan>
+<tspan x="10" y="1514">tron.15725d7c-965d-421f-9477-8f74786d3c90.html (205)</tspan>
+<tspan x="10" y="1530">[3603:0913/231803:INFO:CONSOLE(205)] "[browser test-case 1 of 7 passed] - testCase_assertXxx_def\</tspan>
+<tspan x="10" y="1546">ault", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f-9477-8f747\</tspan>
+<tspan x="10" y="1562">86d3c90.html (205)</tspan>
+<tspan x="10" y="1578">[3603:0913/231803:INFO:CONSOLE(205)] "[browser test-case 2 of 7 passed] - testCase_dbExport_defa\</tspan>
+<tspan x="10" y="1594">ult", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f-9477-8f7478\</tspan>
+<tspan x="10" y="1610">6d3c90.html (205)</tspan>
+<tspan x="10" y="1626">[3603:0913/231803:INFO:CONSOLE(205)] "[browser test-case 3 of 7 passed] - testCase_dbTableCreate\</tspan>
+<tspan x="10" y="1642">_default", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f-9477-8\</tspan>
+<tspan x="10" y="1658">f74786d3c90.html (205)</tspan>
+<tspan x="10" y="1674">[3603:0913/231803:INFO:CONSOLE(205)] "[browser test-case 4 of 7 passed] - testCase_dbTableCreate\</tspan>
+<tspan x="10" y="1690">_error", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f-9477-8f7\</tspan>
+<tspan x="10" y="1706">4786d3c90.html (205)</tspan>
+<tspan x="10" y="1722">[3603:0913/231803:INFO:CONSOLE(205)] "[browser test-case 5 of 7 passed] - testCase_jsonStringify\</tspan>
+<tspan x="10" y="1738">Ordered_default", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f\</tspan>
+<tspan x="10" y="1754">-9477-8f74786d3c90.html (205)</tspan>
+<tspan x="10" y="1770">[3603:0913/231803:INFO:CONSOLE(205)] "[browser test-case 6 of 7 passed] - testCase_dbTableDrop_d\</tspan>
+<tspan x="10" y="1786">efault", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f-9477-8f7\</tspan>
+<tspan x="10" y="1802">4786d3c90.html (205)</tspan>
+<tspan x="10" y="1818">[3603:0913/231803:INFO:CONSOLE(205)] "[browser test-case 7 of 7 passed] - testCase_dbImport_defa\</tspan>
+<tspan x="10" y="1834">ult", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f-9477-8f7478\</tspan>
+<tspan x="10" y="1850">6d3c90.html (205)</tspan>
+<tspan x="10" y="1866">[3603:0913/231805:INFO:CONSOLE(205)] "created coverage file:///tmp/build/coverage.html/index.htm\</tspan>
+<tspan x="10" y="1882">l", source: file:///tmp/app/node_modules/nedb-lite/tmp/electron.15725d7c-965d-421f-9477-8f74786d\</tspan>
+<tspan x="10" y="1898">3c90.html (205)</tspan>
+<tspan x="10" y="1914"></tspan>
+<tspan x="10" y="1930">browserTest - created screen-capture file:///tmp/app/node_modules/nedb-lite/tmp/build/screen-cap\</tspan>
+<tspan x="10" y="1946">ture.npmTestPublished.browser..png</tspan>
+<tspan x="10" y="1962"></tspan>
+<tspan x="10" y="1978"></tspan>
+<tspan x="10" y="1994">browserTest - exit-code 0 - http://localhost:46107?modeTest=1</tspan>
+<tspan x="10" y="2010"></tspan>
+<tspan x="10" y="2026"></tspan>
+<tspan x="10" y="2042">browserTest - created screen-capture file:///tmp/app/node_modules/nedb-lite/tmp/build/screen-cap\</tspan>
+<tspan x="10" y="2058">ture.npmTestPublished.browser._2Ftmp_2Fapp_2Fnode_modules_2Fnedb-lite_2Ftmp_2Fbuild_2Fdoc.api.ht\</tspan>
+<tspan x="10" y="2074">ml.png</tspan>
+<tspan x="10" y="2090"></tspan>
+<tspan x="10" y="2106"></tspan>
+<tspan x="10" y="2122">browserTest - merged coverage from /tmp/app/node_modules/nedb-lite/tmp/coverage.npmTestPublished\</tspan>
+<tspan x="10" y="2138">.browser.%2F.json</tspan>
+<tspan x="10" y="2154"></tspan>
+<tspan x="10" y="2170"></tspan>
+<tspan x="10" y="2186">browserTest - merging test-report from /tmp/app/node_modules/nedb-lite/tmp/test-report.npmTestPu\</tspan>
+<tspan x="10" y="2202">blished.browser.%2F.json</tspan>
+<tspan x="10" y="2218"></tspan>
+<tspan x="10" y="2234">[node test-case 11 of 12 passed] - testCase_webpage_default</tspan>
+<tspan x="10" y="2250"></tspan>
+<tspan x="10" y="2266">browserTest - exit-code 0 - file:///tmp/app/node_modules/nedb-lite/tmp/build/doc.api.html</tspan>
+<tspan x="10" y="2282"></tspan>
+<tspan x="10" y="2298">[node test-case 12 of 12 passed] - testCase_build_doc</tspan>
+<tspan x="10" y="2314">---------------|-----------|-----------|-----------|-----------|</tspan>
+<tspan x="10" y="2330">File           |   % Stmts |% Branches |   % Funcs |   % Lines |</tspan>
+<tspan x="10" y="2346">---------------|-----------|-----------|-----------|-----------|</tspan>
+<tspan x="10" y="2362">   nedb-lite/  |     99.96 |       100 |     99.91 |     99.96 |</tspan>
+<tspan x="10" y="2378">      index.js |     99.96 |       100 |      99.9 |     99.96 |</tspan>
+<tspan x="10" y="2394">      test.js  |       100 |       100 |       100 |       100 |</tspan>
+<tspan x="10" y="2410">---------------|-----------|-----------|-----------|-----------|</tspan>
+<tspan x="10" y="2426">All files      |     99.96 |       100 |     99.91 |     99.96 |</tspan>
+<tspan x="10" y="2442">---------------|-----------|-----------|-----------|-----------|</tspan>
+<tspan x="10" y="2458"></tspan>
+<tspan x="10" y="2474">created coverage file:///tmp/app/node_modules/nedb-lite/tmp/build/coverage.html/index.html</tspan>
+<tspan x="10" y="2490"></tspan>
+<tspan x="10" y="2506">-------------------------------------------------------</tspan>
+<tspan x="10" y="2522">| test-report - npmTestPublished - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537\</tspan>
+<tspan x="10" y="2538">.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Electron/1.2.8 Safari/537.36 - 2016-09-13T23:18:03.\</tspan>
+<tspan x="10" y="2554">343Z</tspan>
+<tspan x="10" y="2570">|     233 ms            0 failed        7 passed      |</tspan>
+<tspan x="10" y="2586">-------------------------------------------------------</tspan>
+<tspan x="10" y="2602">| test-report - npmTestPublished - node - linux v6.5.0 - 2016-09-13T23:17:57.900Z</tspan>
+<tspan x="10" y="2618">|    8318 ms            0 failed       12 passed      |</tspan>
+<tspan x="10" y="2634">-------------------------------------------------------</tspan>
+<tspan x="10" y="2650"></tspan>
+<tspan x="10" y="2666">created test-report file:///tmp/app/node_modules/nedb-lite/tmp/build/test-report.html</tspan>
+<tspan x="10" y="2682"></tspan>
+<tspan x="10" y="2698"></tspan>
+<tspan x="10" y="2714">npmTestPublished - 0 failed tests</tspan>
+</text>
+</svg>

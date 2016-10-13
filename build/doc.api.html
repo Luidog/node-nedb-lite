@@ -1,0 +1,3114 @@
+<style>
+.docApiDiv {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.docApiDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.docApiDiv a[href]:hover {
+    text-decoration: underline;
+}
+.docApiSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.docApiCodeCommentSpan {
+    background-color: #bbf;
+    color: #000;
+    display: block;
+}
+.docApiCodeKeywordSpan {
+    color: #f00;
+    font-weight: bold;
+}
+.docApiCodePre {
+    background-color: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.docApiSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<div class="docApiDiv">
+<h1>api documentation
+    <a
+        
+        href="https://github.com/kaizhu256/node-nedb-lite"
+        
+    >(nedb-lite v2016.9.2)</a>
+</h1>
+<div class="docApiSectionDiv"><a href="#"><h1>table of contents</h1></a><ul>
+
+    <li><a href="#module.nedb-lite">module nedb-lite</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.AvlTree">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>AvlTree
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Cursor">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Cursor
+            <span class="docApiSignatureSpan">(db,query,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.assert">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>assert
+            <span class="docApiSignatureSpan">(passed,message)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbExport
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbImport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbImport
+            <span class="docApiSignatureSpan">(dbTableList,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbIndexCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexCreate
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbIndexRemove">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexRemove
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbReset">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbReset
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowCheckObject">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowCheckObject
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowDeepCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowDeepCopy
+            <span class="docApiSignatureSpan">(obj,strictKeys)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowIsPrimitiveType">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowIsPrimitiveType
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbRowModify">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowModify
+            <span class="docApiSignatureSpan">(obj,updateQuery)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageClear">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageClear
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageDefer">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageDefer
+            <span class="docApiSignatureSpan">(options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageGetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageGetItem
+            <span class="docApiSignatureSpan">(key,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageInit">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageInit
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageKeys">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageKeys
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageLength">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageLength
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageRemoveItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageRemoveItem
+            <span class="docApiSignatureSpan">(key,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbStorageSetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageSetItem
+            <span class="docApiSignatureSpan">(key,value,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableCountMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCountMany
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCreate
+            <span class="docApiSignatureSpan">(options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableDefer">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDefer
+            <span class="docApiSignatureSpan">(dbTable,task)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableDrop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDrop
+            <span class="docApiSignatureSpan">(dbTable,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableExport
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableFindAll">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindAll
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableFindMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindMany
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableFindOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindOne
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableRemoveMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveMany
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.dbTableRemoveOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveOne
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.isRegExp">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>isRegExp
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.jsonCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonCopy
+            <span class="docApiSignatureSpan">(arg)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.jsonStringifyOrdered">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonStringifyOrdered
+            <span class="docApiSignatureSpan">(element,replacer,space)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.listUnique">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>listUnique
+            <span class="docApiSignatureSpan">(list)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.nop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>nop
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.objectSetDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>objectSetDefault
+            <span class="docApiSignatureSpan">(arg,defaults)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.onErrorDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onErrorDefault
+            <span class="docApiSignatureSpan">(error)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.onNext">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onNext
+            <span class="docApiSignatureSpan">(options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.onParallel">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onParallel
+            <span class="docApiSignatureSpan">(onError,onDebug)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.queryCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryCompare
+            <span class="docApiSignatureSpan">(operator,aa,bb)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.queryGetDotValue">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryGetDotValue
+            <span class="docApiSignatureSpan">(obj,field)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.queryMatch">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryMatch
+            <span class="docApiSignatureSpan">(obj,query)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.sortCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>sortCompare
+            <span class="docApiSignatureSpan">(aa,bb)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">object <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageDeferList</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">object <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDict</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">object <span class="docApiSignatureSpan">nedb-lite.</span>local</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">string <span class="docApiSignatureSpan">nedb-lite.</span>NODE_ENV</span>
+        
+        </li>
+        
+        <li>
+            
+            <span class="docApiSignatureSpan">string <span class="docApiSignatureSpan">nedb-lite.</span>dbStorage</span>
+        
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Index">module nedb-lite.Index</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Index.prototype">module nedb-lite.Index.prototype</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.getBetweenBounds">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getBetweenBounds
+            <span class="docApiSignatureSpan">(query)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.getMatching">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getMatching
+            <span class="docApiSignatureSpan">(value)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insert
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.insertMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insertMultipleDocs
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.remove">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>remove
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.reset">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>reset
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>update
+            <span class="docApiSignatureSpan">(oldDoc,newDoc)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Index.prototype.updateMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>updateMultipleDocs
+            <span class="docApiSignatureSpan">(pairs)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Persistence">module nedb-lite.Persistence</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite.Persistence.prototype">module nedb-lite.Persistence.prototype</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.prototype.persistCachedDatabase">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistCachedDatabase
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.prototype.persistNewState">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistNewState
+            <span class="docApiSignatureSpan">(newDocs,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite.Persistence.prototype.treatRawData">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>treatRawData
+            <span class="docApiSignatureSpan">(rawData)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+    <li><a href="#module.nedb-lite._Table.prototype">module nedb-lite._Table.prototype</a><ol>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.addToIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>addToIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.getCandidates">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>getCandidates
+            <span class="docApiSignatureSpan">(query,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>insert
+            <span class="docApiSignatureSpan">(newDoc,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.prepareDocumentForInsertion">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>prepareDocumentForInsertion
+            <span class="docApiSignatureSpan">(newDoc)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.removeFromIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>removeFromIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>update
+            <span class="docApiSignatureSpan">(query,updateQuery,options,onError)</span>
+            </a>
+            
+        </li>
+        
+        <li>
+            
+            <a class="docApiElementLiA" href="#element.nedb-lite._Table.prototype.updateIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>updateIndexes
+            <span class="docApiSignatureSpan">(oldDoc,newDoc)</span>
+            </a>
+            
+        </li>
+        
+    </ol></li>
+
+</ul></div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite" id="module.nedb-lite">module nedb-lite</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.AvlTree" id="element.nedb-lite.AvlTree">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>AvlTree
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">AvlTree = function (options){__cov_2d3533cc4458f.f[&#x27;135&#x27;]++;__cov_2d3533cc4458f.s[&#x27;763&#x27;]++;this.left=null;__cov_2d3533cc4458f.s[&#x27;764&#x27;]++;t\
+his.right=null;__cov_2d3533cc4458f.s[&#x27;765&#x27;]++;this.parent=options.parent!==undefined?(__cov_2d3533cc4458f.b[&#x27;206&#x27;][0]++,options.\
+parent):(__cov_2d3533cc4458f.b[&#x27;206&#x27;][1]++,null);__cov_2d3533cc4458f.s[&#x27;766&#x27;]++;if(options.hasOwnProperty(&#x27;key&#x27;)){__cov_2d3533cc\
+4458f.b[&#x27;207&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;767&#x27;]++;this.key=options.key;}else{__cov_2d3533cc4458f.b[&#x27;207&#x27;][1]++;}__cov_2d3533cc4\
+458f.s[&#x27;768&#x27;]++;this.data=options.hasOwnProperty(&#x27;value&#x27;)?(__cov_2d3533cc4458f.b[&#x27;208&#x27;][0]++,[options.value]):(__cov_2d3533cc445\
+8f.b[&#x27;208&#x27;][1]++,[]);__cov_2d3533cc4458f.s[&#x27;769&#x27;]++;this.unique=(__cov_2d3533cc4458f.b[&#x27;209&#x27;][0]++,options.unique)||(__cov_2d353\
+3cc4458f.b[&#x27;209&#x27;][1]++,false);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+};
+local.nedb.Index.prototype.reset = function (dbRowList) {
+/**
+ * Reset an index
+ * @param {dbRow or Array of dbRow&#x27;s} dbRowList Optional, data to initialize the index with
+ *                                                 If an error is thrown during insertion, the index is not modified
+ */
+    this.tree = new local.nedb.<span class="docApiCodeKeywordSpan">AvlTree</span>({ unique: this.unique });
+    if (dbRowList) {
+        this.insert(dbRowList);
+    }
+};
+local.nedb.Index.prototype.insert = function (dbRow) {
+/**
+ * Insert a new dbRow in the index
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Cursor" id="element.nedb-lite.Cursor">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Cursor
+            <span class="docApiSignatureSpan">(db,query,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Cursor = function (db,query,onError){__cov_2d3533cc4458f.f[&#x27;196&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1273&#x27;]++;this.db=db;__cov_2d3533cc4458f.s[&#x27;127\
+4&#x27;]++;this.query=(__cov_2d3533cc4458f.b[&#x27;367&#x27;][0]++,query)||(__cov_2d3533cc4458f.b[&#x27;367&#x27;][1]++,{});__cov_2d3533cc4458f.s[&#x27;1275&#x27;]\
+++;if(onError){__cov_2d3533cc4458f.b[&#x27;368&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1276&#x27;]++;this.onError=onError;}else{__cov_2d3533cc4458f.\
+b[&#x27;368&#x27;][1]++;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+                case 2:
+// If upsert option is set, check whether we need to insert the dbRow
+if (!upsert) {
+    return options.onNext();
+}
+
+// Need to use an internal function not tied to the executor to avoid deadlock
+cursor = new local.nedb.<span class="docApiCodeKeywordSpan">Cursor</span>(self, query);
+cursor.limit(1)._exec(function (error, docs) {
+    if (error) {
+        return onError(error);
+    }
+    if (docs.length === 1) {
+        return options.onNext();
+    }
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index" id="element.nedb-lite.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Index = function (options){__cov_2d3533cc4458f.f[&#x27;173&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1137&#x27;]++;this.fieldName=options.fieldName;__cov_2d3533c\
+c4458f.s[&#x27;1138&#x27;]++;this.isInteger=options.isInteger;__cov_2d3533cc4458f.s[&#x27;1139&#x27;]++;this.unique=(__cov_2d3533cc4458f.b[&#x27;338&#x27;][0]\
+++,options.unique)||(__cov_2d3533cc4458f.b[&#x27;338&#x27;][1]++,false);__cov_2d3533cc4458f.s[&#x27;1140&#x27;]++;this.sparse=(__cov_2d3533cc4458f.b\
+[&#x27;339&#x27;][0]++,options.sparse)||(__cov_2d3533cc4458f.b[&#x27;339&#x27;][1]++,false);__cov_2d3533cc4458f.s[&#x27;1141&#x27;]++;this.reset();}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+*     becomes a TTL index (only works on Date fields, not arrays of Date)
+* @param {Function} onError - callback, signature: error
+*/
+   var self;
+   // require options.fieldName
+   local.nedb.assert(options.fieldName, options.fieldName);
+   self = local.nedb.dbTableDict[dbTable.name];
+   self.indexes[options.fieldName] = new local.nedb.<span class="docApiCodeKeywordSpan">Index</span>(options);
+   // With this implementation index creation is not necessary to ensure TTL
+   // but we stick with MongoDB&#x27;s API here
+   if (options.expireAfterSeconds !== undefined) {
+       self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+   }
+   self.indexes[options.fieldName].insert(local.nedb.dbTableFindAll(self));
+   // We may want to force all options to be persisted including defaults,
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence" id="element.nedb-lite.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Persistence = function (options){__cov_2d3533cc4458f.f[&#x27;187&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1236&#x27;]++;this.db=options.db;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        &#x27;nedb - missing name param, e.g. nedb.dbTableCreate({ name: &quot;table1&quot; })&#x27;
+    );
+}
+self.name = options.name;
+local.nedb.dbTableDrop(self, local.nedb.nop);
+local.nedb.dbTableDict[self.name] = self;
+// Persistence handling
+self.persistence = new local.nedb.<span class="docApiCodeKeywordSpan">Persistence</span>({ db: self });
+// Indexed by field name, dot notation can be used
+// _id is always indexed and since _ids are generated randomly the underlying
+// binary is always well-balanced
+self.indexes = {
+    _id: new local.nedb.Index({ fieldName: &#x27;_id&#x27;, unique: true }),
+    createdAt: new local.nedb.Index({ fieldName: &#x27;createdAt&#x27; }),
+    updatedAt: new local.nedb.Index({ fieldName: &#x27;updatedAt&#x27; })
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.assert" id="element.nedb-lite.assert">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>assert
+            <span class="docApiSignatureSpan">(passed,message)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">assert = function (passed,message){__cov_2d3533cc4458f.f[&#x27;5&#x27;]++;__cov_2d3533cc4458f.s[&#x27;14&#x27;]++;var error;__cov_2d3533cc4458f.s[&#x27;15&#x27;]++;if(\
+passed){__cov_2d3533cc4458f.b[&#x27;4&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;16&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;4&#x27;][1]++;}__cov_2d3533\
+cc4458f.s[&#x27;17&#x27;]++;error=(__cov_2d3533cc4458f.b[&#x27;6&#x27;][0]++,message)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;6&#x27;][1]++,message.message)?(__cov_2d35\
+33cc4458f.b[&#x27;5&#x27;][0]++,message):(__cov_2d3533cc4458f.b[&#x27;5&#x27;][1]++,new Error(typeof message===&#x27;string&#x27;?(__cov_2d3533cc4458f.b[&#x27;7&#x27;][\
+0]++,message):(__cov_2d3533cc4458f.b[&#x27;7&#x27;][1]++,JSON.stringify(message))));__cov_2d3533cc4458f.s[&#x27;18&#x27;]++;throw error;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    onParallel.counter += 1;
+    local.nedb.dbIndexCreate(options, {
+        fieldName: &#x27;id&#x27;,
+        unique: true
+    }, onParallel);
+    options.data = local.nedb.dbExport();
+    // validate data
+    local.utility2.<span class="docApiCodeKeywordSpan">assert</span>(options.data.indexOf(&#x27;&quot;testCase_dbExport_default&\
+quot;\n&#x27; +
+        &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;createdAt&quot;,&quot;unique&quot;:false,&quot;sparse&quo\
+t;:false}}\n&#x27; +
+        &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;updatedAt&quot;,&quot;unique&quot;:false,&quot;sparse&quo\
+t;:false}}\n&#x27; +
+        &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;id&quot;,&quot;unique&quot;:true,&quot;sparse&quot;:false\
+}}&#x27;)
+        &gt;= 0, options.data);
+    onParallel();
+};
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbExport" id="element.nedb-lite.dbExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbExport
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbExport = function (){__cov_2d3533cc4458f.f[&#x27;6&#x27;]++;__cov_2d3533cc4458f.s[&#x27;20&#x27;]++;var data;__cov_2d3533cc4458f.s[&#x27;21&#x27;]++;data=&#x27;&#x27;;__cov_2d35\
+33cc4458f.s[&#x27;22&#x27;]++;Object.keys(local.nedb.dbTableDict).map(function(key){__cov_2d3533cc4458f.f[&#x27;7&#x27;]++;__cov_2d3533cc4458f.s[&#x27;23\
+&#x27;]++;data+=local.nedb.dbTableExport({name:key})+&#x27;\n\n&#x27;;});__cov_2d3533cc4458f.s[&#x27;24&#x27;]++;return data.slice(0,-2);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    };
+});
+/* istanbul ignore next */
+local.testRun = function (event) {
+    var reader, tmp;
+    switch (event &amp;&amp; event.currentTarget.id) {
+    case &#x27;nedbExportButton1&#x27;:
+        tmp = window.URL.createObjectURL(new window.Blob([local.nedb.<span class="docApiCodeKeywordSpan">dbExport</span>()]));
+        document.querySelector(&#x27;#nedbExportA1&#x27;).href = tmp;
+        document.querySelector(&#x27;#nedbExportA1&#x27;).click();
+        setTimeout(function () {
+            window.URL.revokeObjectURL(tmp);
+        }, 30000);
+        break;
+    case &#x27;nedbImportButton1&#x27;:
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbImport" id="element.nedb-lite.dbImport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbImport
+            <span class="docApiSignatureSpan">(dbTableList,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbImport = function (dbTableList,onError){__cov_2d3533cc4458f.f[&#x27;8&#x27;]++;__cov_2d3533cc4458f.s[&#x27;26&#x27;]++;dbTableList.trim().split(&#x27;\n\n&#x27;).forEa\
+ch(function(dbTable){__cov_2d3533cc4458f.f[&#x27;9&#x27;]++;__cov_2d3533cc4458f.s[&#x27;27&#x27;]++;local.nedb.dbTableCreate({persistenceData:dbTabl\
+e,name:JSON.parse(/.*/.exec(dbTable)[0])},onError);});}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    console.log(&#x27;importing nedb-database ...&#x27;);
+    reader = new window.FileReader();
+    tmp = document.querySelector(&#x27;#nedbImportInput1&#x27;).files[0];
+    if (!tmp) {
+        return;
+    }
+    reader.addEventListener(&#x27;load&#x27;, function () {
+        local.nedb.<span class="docApiCodeKeywordSpan">dbImport</span>(reader.result, function () {
+            console.log(&#x27;... imported nedb-database&#x27;);
+        });
+    });
+    reader.readAsText(tmp);
+    break;
+case &#x27;nedbResetButton1&#x27;:
+    document.querySelector(&#x27;#outputTextarea1&#x27;).value = &#x27;&#x27;;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbIndexCreate" id="element.nedb-lite.dbIndexCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexCreate
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbIndexCreate = function (dbTable,options,onError){__cov_2d3533cc4458f.f[&#x27;10&#x27;]++;__cov_2d3533cc4458f.s[&#x27;29&#x27;]++;var self;__cov_2d3533cc4458f.s[&#x27;3\
+0&#x27;]++;local.nedb.assert(options.fieldName,options.fieldName);__cov_2d3533cc4458f.s[&#x27;31&#x27;]++;self=local.nedb.dbTableDict[dbTable.n\
+ame];__cov_2d3533cc4458f.s[&#x27;32&#x27;]++;self.indexes[options.fieldName]=new local.nedb.Index(options);__cov_2d3533cc4458f.s[&#x27;33&#x27;]++;i\
+f(options.expireAfterSeconds!==undefined){__cov_2d3533cc4458f.b[&#x27;8&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;34&#x27;]++;self.ttlIndexes[options.\
+fieldName]=options.expireAfterSeconds;}else{__cov_2d3533cc4458f.b[&#x27;8&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;35&#x27;]++;self.indexes[options.\
+fieldName].insert(local.nedb.dbTableFindAll(self));__cov_2d3533cc4458f.s[&#x27;36&#x27;]++;self.persistence.persistNewState([{$$indexCreat\
+ed:options}],onError);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+var onParallel;
+onParallel = local.utility2.onParallel(onError);
+onParallel.counter += 1;
+options = {};
+options.name = &#x27;testCase_dbExport_default&#x27;;
+options.dbTable = local.nedb.dbTableCreate(options);
+onParallel.counter += 1;
+local.nedb.<span class="docApiCodeKeywordSpan">dbIndexCreate</span>(options, {
+    fieldName: &#x27;id&#x27;,
+    unique: true
+}, onParallel);
+options.data = local.nedb.dbExport();
+// validate data
+local.utility2.assert(options.data.indexOf(&#x27;&quot;testCase_dbExport_default&quot;\n&#x27; +
+    &#x27;{&quot;$$indexCreated&quot;:{&quot;fieldName&quot;:&quot;createdAt&quot;,&quot;unique&quot;:false,&quot;sparse&quot;:f\
+alse}}\n&#x27; +
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbIndexRemove" id="element.nedb-lite.dbIndexRemove">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbIndexRemove
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbIndexRemove = function (dbTable,options,onError){__cov_2d3533cc4458f.f[&#x27;11&#x27;]++;__cov_2d3533cc4458f.s[&#x27;38&#x27;]++;var self;__cov_2d3533cc4458f.s[&#x27;3\
+9&#x27;]++;self=local.nedb.dbTableDict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;40&#x27;]++;delete self.indexes[options.fieldName];__cov_2d353\
+3cc4458f.s[&#x27;41&#x27;]++;self.persistence.persistNewState([{$$indexRemoved:options.fieldName}],onError);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">n/a</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbReset" id="element.nedb-lite.dbReset">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbReset
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbReset = function (onError){__cov_2d3533cc4458f.f[&#x27;12&#x27;]++;__cov_2d3533cc4458f.s[&#x27;43&#x27;]++;var onParallel,options;__cov_2d3533cc4458f.s[&#x27;44&#x27;\
+]++;options={};__cov_2d3533cc4458f.s[&#x27;45&#x27;]++;local.nedb.onNext(options,function(error){__cov_2d3533cc4458f.f[&#x27;13&#x27;]++;__cov_2d353\
+3cc4458f.s[&#x27;46&#x27;]++;switch(options.modeNext){case 1:__cov_2d3533cc4458f.b[&#x27;9&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;47&#x27;]++;onParallel=loca\
+l.nedb.onParallel(onError);__cov_2d3533cc4458f.s[&#x27;48&#x27;]++;onParallel.counter=0;__cov_2d3533cc4458f.s[&#x27;49&#x27;]++;onParallel.counter+=\
+1;__cov_2d3533cc4458f.s[&#x27;50&#x27;]++;Object.keys(local.nedb.dbTableDict).forEach(function(key){__cov_2d3533cc4458f.f[&#x27;14&#x27;]++;__cov_2d\
+3533cc4458f.s[&#x27;51&#x27;]++;local.nedb.dbTableDict[key].lock.counter+=1;__cov_2d3533cc4458f.s[&#x27;52&#x27;]++;onParallel.counter+=1;__cov_2d35\
+33cc4458f.s[&#x27;53&#x27;]++;local.nedb.dbTableDrop({name:key},onParallel);});__cov_2d3533cc4458f.s[&#x27;54&#x27;]++;onParallel.counter+=1;__cov_2\
+d3533cc4458f.s[&#x27;55&#x27;]++;local.nedb.dbStorageClear(onParallel);__cov_2d3533cc4458f.s[&#x27;56&#x27;]++;onParallel();__cov_2d3533cc4458f.s[&#x27;5\
+7&#x27;]++;break;default:__cov_2d3533cc4458f.b[&#x27;9&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;58&#x27;]++;Object.keys(local.nedb.dbTableDict).forEach(fu\
+nction(key){__cov_2d3533cc4458f.f[&#x27;15&#x27;]++;__cov_2d3533cc4458f.s[&#x27;59&#x27;]++;local.nedb.dbTableDict[key].lock(error);});__cov_2d3533c\
+c4458f.s[&#x27;60&#x27;]++;onError(error);}});__cov_2d3533cc4458f.s[&#x27;61&#x27;]++;options.modeNext=0;__cov_2d3533cc4458f.s[&#x27;62&#x27;]++;options.onNex\
+t();}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        });
+    });
+    reader.readAsText(tmp);
+    break;
+case &#x27;nedbResetButton1&#x27;:
+    document.querySelector(&#x27;#outputTextarea1&#x27;).value = &#x27;&#x27;;
+    console.log(&#x27;resetting nedb-database ...&#x27;);
+    local.nedb.<span class="docApiCodeKeywordSpan">dbReset</span>(function () {
+        console.log(&#x27;... resetted nedb-database&#x27;);
+    });
+    break;
+case &#x27;testRunButton1&#x27;:
+    if (document.querySelector(&#x27;.testReportDiv&#x27;).style.display === &#x27;none&#x27;) {
+        document.querySelector(&#x27;.testReportDiv&#x27;).style.display = &#x27;block&#x27;;
+        document.querySelector(&#x27;#testRunButton1&#x27;).innerText = &#x27;hide internal test&#x27;;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowCheckObject" id="element.nedb-lite.dbRowCheckObject">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowCheckObject
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">function checkObject(obj){__cov_2d3533cc4458f.f[&#x27;95&#x27;]++;__cov_2d3533cc4458f.s[&#x27;504&#x27;]++;if(Array.isArray(obj)){__cov_2d3533cc4458\
+f.b[&#x27;107&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;505&#x27;]++;obj.forEach(function(o){__cov_2d3533cc4458f.f[&#x27;96&#x27;]++;__cov_2d3533cc4458f.s[&#x27;506&#x27;\
+]++;checkObject(o);});}else{__cov_2d3533cc4458f.b[&#x27;107&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;507&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;109&#x27;][0\
+]++,typeof obj===&#x27;object&#x27;)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;109&#x27;][1]++,obj!==null)){__cov_2d3533cc4458f.b[&#x27;108&#x27;][0]++;__cov_2d3533cc4458\
+f.s[&#x27;508&#x27;]++;Object.keys(obj).forEach(function(k){__cov_2d3533cc4458f.f[&#x27;97&#x27;]++;__cov_2d3533cc4458f.s[&#x27;509&#x27;]++;checkKey(k,obj[k]\
+);__cov_2d3533cc4458f.s[&#x27;510&#x27;]++;checkObject(obj[k]);});}else{__cov_2d3533cc4458f.b[&#x27;108&#x27;][1]++;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        now = new Date().toISOString();
+        if (preparedDoc.createdAt === undefined) {
+            preparedDoc.createdAt = now;
+        }
+        if (preparedDoc.updatedAt === undefined) {
+            preparedDoc.updatedAt = now;
+        }
+        local.nedb.<span class="docApiCodeKeywordSpan">dbRowCheckObject</span>(preparedDoc);
+    }
+
+    return preparedDoc;
+};
+
+local.nedb._Table.prototype._insertInCache = function (preparedDoc) {
+/**
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowDeepCopy" id="element.nedb-lite.dbRowDeepCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowDeepCopy
+            <span class="docApiSignatureSpan">(obj,strictKeys)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbRowDeepCopy = function (obj,strictKeys){__cov_2d3533cc4458f.f[&#x27;98&#x27;]++;__cov_2d3533cc4458f.s[&#x27;512&#x27;]++;var res;__cov_2d3533cc4458f.s[&#x27;513&#x27;]++;if\
+((__cov_2d3533cc4458f.b[&#x27;111&#x27;][0]++,typeof obj===&#x27;boolean&#x27;)||(__cov_2d3533cc4458f.b[&#x27;111&#x27;][1]++,typeof obj===&#x27;number&#x27;)||(__cov_2\
+d3533cc4458f.b[&#x27;111&#x27;][2]++,typeof obj===&#x27;string&#x27;)||(__cov_2d3533cc4458f.b[&#x27;111&#x27;][3]++,obj===null)){__cov_2d3533cc4458f.b[&#x27;110&#x27;][\
+0]++;__cov_2d3533cc4458f.s[&#x27;514&#x27;]++;return obj;}else{__cov_2d3533cc4458f.b[&#x27;110&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;515&#x27;]++;if(Array.\
+isArray(obj)){__cov_2d3533cc4458f.b[&#x27;112&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;516&#x27;]++;res=[];__cov_2d3533cc4458f.s[&#x27;517&#x27;]++;obj.forEach\
+(function(o){__cov_2d3533cc4458f.f[&#x27;99&#x27;]++;__cov_2d3533cc4458f.s[&#x27;518&#x27;]++;res.push(local.nedb.dbRowDeepCopy(o,strictKeys));});__\
+cov_2d3533cc4458f.s[&#x27;519&#x27;]++;return res;}else{__cov_2d3533cc4458f.b[&#x27;112&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;520&#x27;]++;if(typeof obj===\
+&#x27;object&#x27;){__cov_2d3533cc4458f.b[&#x27;113&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;521&#x27;]++;res={};__cov_2d3533cc4458f.s[&#x27;522&#x27;]++;Object.keys(obj\
+).forEach(function(k){__cov_2d3533cc4458f.f[&#x27;100&#x27;]++;__cov_2d3533cc4458f.s[&#x27;523&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;115&#x27;][0]++,!stric\
+tKeys)||(__cov_2d3533cc4458f.b[&#x27;115&#x27;][1]++,k[0]!==&#x27;$&#x27;)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;115&#x27;][2]++,k.indexOf(&#x27;.&#x27;)===-1)){__cov_2d3533cc4\
+458f.b[&#x27;114&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;524&#x27;]++;res[k]=local.nedb.dbRowDeepCopy(obj[k],strictKeys);}else{__cov_2d3533cc4458f.b\
+[&#x27;114&#x27;][1]++;}});__cov_2d3533cc4458f.s[&#x27;525&#x27;]++;return res;}else{__cov_2d3533cc4458f.b[&#x27;113&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;526&#x27;]\
+++;return undefined;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        obj === null) {
+    return obj;
+}
+
+if (Array.isArray(obj)) {
+    res = [];
+    obj.forEach(function (o) {
+        res.push(local.nedb.<span class="docApiCodeKeywordSpan">dbRowDeepCopy</span>(o, strictKeys));
+    });
+    return res;
+}
+
+if (typeof obj === &#x27;object&#x27;) {
+    res = {};
+    Object.keys(obj).forEach(function (k) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowIsPrimitiveType" id="element.nedb-lite.dbRowIsPrimitiveType">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowIsPrimitiveType
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">function isPrimitiveType(obj){__cov_2d3533cc4458f.f[&#x27;101&#x27;]++;__cov_2d3533cc4458f.s[&#x27;528&#x27;]++;return(__cov_2d3533cc4458f.b[&#x27;116&#x27;][\
+0]++,typeof obj===&#x27;boolean&#x27;)||(__cov_2d3533cc4458f.b[&#x27;116&#x27;][1]++,typeof obj===&#x27;number&#x27;)||(__cov_2d3533cc4458f.b[&#x27;116&#x27;][2]++,type\
+of obj===&#x27;string&#x27;)||(__cov_2d3533cc4458f.b[&#x27;116&#x27;][3]++,obj===null)||(__cov_2d3533cc4458f.b[&#x27;116&#x27;][4]++,Array.isArray(obj));}</pre></li>
+        <li>example usage<pre class="docApiCodePre">n/a</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbRowModify" id="element.nedb-lite.dbRowModify">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbRowModify
+            <span class="docApiSignatureSpan">(obj,updateQuery)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">function modify(obj,updateQuery){__cov_2d3533cc4458f.f[&#x27;117&#x27;]++;__cov_2d3533cc4458f.s[&#x27;627&#x27;]++;var keys,dollarFirstChars,firstCh\
+ars,modifiers,newDoc;__cov_2d3533cc4458f.s[&#x27;628&#x27;]++;keys=Object.keys(updateQuery);__cov_2d3533cc4458f.s[&#x27;629&#x27;]++;firstChars=keys\
+.map(function(item){__cov_2d3533cc4458f.f[&#x27;118&#x27;]++;__cov_2d3533cc4458f.s[&#x27;630&#x27;]++;return item[0];});__cov_2d3533cc4458f.s[&#x27;631&#x27;]\
+++;dollarFirstChars=firstChars.filter(function(cc){__cov_2d3533cc4458f.f[&#x27;119&#x27;]++;__cov_2d3533cc4458f.s[&#x27;632&#x27;]++;return cc===&#x27;$&#x27;\
+;});__cov_2d3533cc4458f.s[&#x27;633&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;157&#x27;][0]++,keys.indexOf(&#x27;_id&#x27;)!==-1)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;157&#x27;\
+][1]++,updateQuery._id!==obj._id)){__cov_2d3533cc4458f.b[&#x27;156&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;634&#x27;]++;throw new Error(&#x27;You cannot \
+change a dbRow\&#x27;s _id&#x27;);}else{__cov_2d3533cc4458f.b[&#x27;156&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;635&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;159&#x27;]\
+[0]++,dollarFirstChars.length!==0)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;159&#x27;][1]++,dollarFirstChars.length!==firstChars.length)){__cov_2d353\
+3cc4458f.b[&#x27;158&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;636&#x27;]++;throw new Error(&#x27;You cannot mix modifiers and normal fields&#x27;);}else{__cov_\
+2d3533cc4458f.b[&#x27;158&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;637&#x27;]++;if(dollarFirstChars.length===0){__cov_2d3533cc4458f.b[&#x27;160&#x27;][0]++;__\
+cov_2d3533cc4458f.s[&#x27;638&#x27;]++;newDoc=local.nedb.jsonCopy(updateQuery);__cov_2d3533cc4458f.s[&#x27;639&#x27;]++;newDoc._id=obj._id;}else{__c\
+ov_2d3533cc4458f.b[&#x27;160&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;640&#x27;]++;modifiers=local.nedb.listUnique(keys);__cov_2d3533cc4458f.s[&#x27;641&#x27;]\
+++;newDoc=local.nedb.jsonCopy(obj);__cov_2d3533cc4458f.s[&#x27;642&#x27;]++;modifiers.forEach(function(m){__cov_2d3533cc4458f.f[&#x27;120&#x27;]++;_\
+_cov_2d3533cc4458f.s[&#x27;643&#x27;]++;if(!modifierFunctions[m]){__cov_2d3533cc4458f.b[&#x27;161&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;644&#x27;]++;throw n\
+ew Error(&#x27;Unknown modifier &#x27;+m);}else{__cov_2d3533cc4458f.b[&#x27;161&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;645&#x27;]++;if(typeof updateQuery[m]\
+!==&#x27;object&#x27;){__cov_2d3533cc4458f.b[&#x27;162&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;646&#x27;]++;throw new Error(&#x27;Modifier &#x27;+m+&#x27;\&#x27;s argument must b\
+e an object&#x27;);}else{__cov_2d3533cc4458f.b[&#x27;162&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;647&#x27;]++;Object.keys(updateQuery[m]).forEach(functi\
+on(k){__cov_2d3533cc4458f.f[&#x27;121&#x27;]++;__cov_2d3533cc4458f.s[&#x27;648&#x27;]++;modifierFunctions[m](newDoc,k,updateQuery[m][k]);});});}__co\
+v_2d3533cc4458f.s[&#x27;649&#x27;]++;checkObject(newDoc);__cov_2d3533cc4458f.s[&#x27;650&#x27;]++;if(obj._id!==newDoc._id){__cov_2d3533cc4458f.b[&#x27;16\
+3&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;651&#x27;]++;throw new Error(&#x27;You can\&#x27;t change a dbRow\&#x27;s _id&#x27;);}else{__cov_2d3533cc4458f.b[&#x27;163&#x27;][1\
+]++;}__cov_2d3533cc4458f.s[&#x27;652&#x27;]++;return newDoc;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    };
+    keys.forEach(function (k) {
+        toPush.$set[k] = local.nedb.queryGetDotValue(candidate, k);
+        if (toPush.$set[k] === undefined) {
+            delete toPush.$set[k];
+        }
+    });
+    toPush = local.nedb.<span class="docApiCodeKeywordSpan">dbRowModify</span>({}, toPush);
+} else { // omit-type projection
+    toPush = {
+        $unset: {}
+    };
+    keys.forEach(function (k) {
+        toPush.$unset[k] = true;
+    });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageClear" id="element.nedb-lite.dbStorageClear">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageClear
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageClear = function (onError){__cov_2d3533cc4458f.f[&#x27;19&#x27;]++;__cov_2d3533cc4458f.s[&#x27;83&#x27;]++;local.nedb.dbStorageDefer({action:&#x27;clear&#x27;},onErro\
+r);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        // lock dbTable
+        local.nedb.dbTableDict[key].lock.counter += 1;
+        // drop dbTable
+        onParallel.counter += 1;
+        local.nedb.dbTableDrop({ name: key }, onParallel);
+    });
+    onParallel.counter += 1;
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageClear</span>(onParallel);
+    onParallel();
+    break;
+default:
+    Object.keys(local.nedb.dbTableDict).forEach(function (key) {
+        // unlock dbTable
+        local.nedb.dbTableDict[key].lock(error);
+    });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageDefer" id="element.nedb-lite.dbStorageDefer">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageDefer
+            <span class="docApiSignatureSpan">(options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageDefer = function (options,onError){__cov_2d3533cc4458f.f[&#x27;20&#x27;]++;__cov_2d3533cc4458f.s[&#x27;85&#x27;]++;var data,done,objectStore,onError2,reques\
+t,tmp;__cov_2d3533cc4458f.s[&#x27;86&#x27;]++;if(!local.nedb.dbStorage){__cov_2d3533cc4458f.b[&#x27;13&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;87&#x27;]++;loc\
+al.nedb.dbStorageDeferList.push(function(){__cov_2d3533cc4458f.f[&#x27;21&#x27;]++;__cov_2d3533cc4458f.s[&#x27;88&#x27;]++;local.nedb.dbStorageDefer\
+(options,onError);});__cov_2d3533cc4458f.s[&#x27;89&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;13&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;90&#x27;]++;\
+if(options.action===&#x27;onError&#x27;){__cov_2d3533cc4458f.b[&#x27;14&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;91&#x27;]++;onError();__cov_2d3533cc4458f.s[&#x27;9\
+2&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;14&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;93&#x27;]++;switch(local.modeJs){case&#x27;browser&#x27;:__cov_2d35\
+33cc4458f.b[&#x27;15&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;94&#x27;]++;onError2=function(){__cov_2d3533cc4458f.f[&#x27;22&#x27;]++;__cov_2d3533cc4458f.s[&#x27;95\
+&#x27;]++;if(done){__cov_2d3533cc4458f.b[&#x27;16&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;96&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;16&#x27;][1]++;}__co\
+v_2d3533cc4458f.s[&#x27;97&#x27;]++;done=true;__cov_2d3533cc4458f.s[&#x27;98&#x27;]++;onError((__cov_2d3533cc4458f.b[&#x27;17&#x27;][0]++,request)&amp;&amp;((__cov_2d\
+3533cc4458f.b[&#x27;17&#x27;][1]++,request.error)||(__cov_2d3533cc4458f.b[&#x27;17&#x27;][2]++,request.transaction.error)),(__cov_2d3533cc4458f.b[&#x27;1\
+8&#x27;][0]++,data)||(__cov_2d3533cc4458f.b[&#x27;18&#x27;][1]++,request.result));};__cov_2d3533cc4458f.s[&#x27;99&#x27;]++;switch(options.action){case&#x27;c\
+lear&#x27;:__cov_2d3533cc4458f.b[&#x27;19&#x27;][0]++;case&#x27;removeItem&#x27;:__cov_2d3533cc4458f.b[&#x27;19&#x27;][1]++;case&#x27;setItem&#x27;:__cov_2d3533cc4458f.b[&#x27;19\
+&#x27;][2]++;__cov_2d3533cc4458f.s[&#x27;100&#x27;]++;objectStore=local.nedb.dbStorage.transaction(&#x27;nedb&#x27;,&#x27;readwrite&#x27;).objectStore(&#x27;nedb&#x27;);__co\
+v_2d3533cc4458f.s[&#x27;101&#x27;]++;break;default:__cov_2d3533cc4458f.b[&#x27;19&#x27;][3]++;__cov_2d3533cc4458f.s[&#x27;102&#x27;]++;objectStore=local.nedb.\
+dbStorage.transaction(&#x27;nedb&#x27;,&#x27;readonly&#x27;).objectStore(&#x27;nedb&#x27;);}__cov_2d3533cc4458f.s[&#x27;103&#x27;]++;switch(options.action){case&#x27;clear&#x27;:\
+__cov_2d3533cc4458f.b[&#x27;20&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;104&#x27;]++;request=objectStore.clear();__cov_2d3533cc4458f.s[&#x27;105&#x27;]++;break\
+;case&#x27;getItem&#x27;:__cov_2d3533cc4458f.b[&#x27;20&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;106&#x27;]++;request=objectStore.get(options.key);__cov_2d3533\
+cc4458f.s[&#x27;107&#x27;]++;break;case&#x27;keys&#x27;:__cov_2d3533cc4458f.b[&#x27;20&#x27;][2]++;__cov_2d3533cc4458f.s[&#x27;108&#x27;]++;data=[];__cov_2d3533cc4458f.\
+s[&#x27;109&#x27;]++;request=objectStore.openCursor();__cov_2d3533cc4458f.s[&#x27;110&#x27;]++;request.onsuccess=function(){__cov_2d3533cc4458f.f[&#x27;2\
+3&#x27;]++;__cov_2d3533cc4458f.s[&#x27;111&#x27;]++;if(!request.result){__cov_2d3533cc4458f.b[&#x27;21&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;112&#x27;]++;onError\
+2();__cov_2d3533cc4458f.s[&#x27;113&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;21&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;114&#x27;]++;data.push(reque\
+st.result.key);__cov_2d3533cc4458f.s[&#x27;115&#x27;]++;request.result.continue();};__cov_2d3533cc4458f.s[&#x27;116&#x27;]++;break;case&#x27;length&#x27;:__co\
+v_2d3533cc4458f.b[&#x27;20&#x27;][3]++;__cov_2d3533cc4458f.s[&#x27;117&#x27;]++;request=objectStore.count();__cov_2d3533cc4458f.s[&#x27;118&#x27;]++;break;cas\
+e&#x27;removeItem&#x27;:__cov_2d3533cc4458f.b[&#x27;20&#x27;][4]++;__cov_2d3533cc4458f.s[&#x27;119&#x27;]++;request=objectStore.delete(options.key);__cov_2d35\
+33cc4458f.s[&#x27;120&#x27;]++;break;case&#x27;setItem&#x27;:__cov_2d3533cc4458f.b[&#x27;20&#x27;][5]++;__cov_2d3533cc4458f.s[&#x27;121&#x27;]++;request=objectStore.put\
+(options.value,options.key);__cov_2d3533cc4458f.s[&#x27;122&#x27;]++;break;}__cov_2d3533cc4458f.s[&#x27;123&#x27;]++;[&#x27;onabort&#x27;,&#x27;onerror&#x27;,&#x27;onsuccess\
+&#x27;].forEach(function(handler){__cov_2d3533cc4458f.f[&#x27;24&#x27;]++;__cov_2d3533cc4458f.s[&#x27;124&#x27;]++;request[handler]=(__cov_2d3533cc4458f.\
+b[&#x27;22&#x27;][0]++,request[handler])||(__cov_2d3533cc4458f.b[&#x27;22&#x27;][1]++,onError2);});__cov_2d3533cc4458f.s[&#x27;125&#x27;]++;local.nedb._debugD\
+bStorageRequest=request;__cov_2d3533cc4458f.s[&#x27;126&#x27;]++;break;case&#x27;node&#x27;:__cov_2d3533cc4458f.b[&#x27;15&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;\
+127&#x27;]++;switch(options.action){case&#x27;clear&#x27;:__cov_2d3533cc4458f.b[&#x27;23&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;128&#x27;]++;local.child_process.s\
+pawn(&#x27;sh&#x27;,[&#x27;-c&#x27;,&#x27;rm &#x27;+local.nedb.dbStorage+&#x27;/*&#x27;],{stdio:[&#x27;ignore&#x27;,1,2]}).once(&#x27;exit&#x27;,function(){__cov_2d3533cc4458f.f[&#x27;25&#x27;]++;__\
+cov_2d3533cc4458f.s[&#x27;129&#x27;]++;onError();});__cov_2d3533cc4458f.s[&#x27;1 ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    options.onNext();
+};
+
+local.nedb.dbStorageClear = function (onError) {
+/*
+ * this function will clear dbStorage
+ */
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageDefer</span>({ action: &#x27;clear&#x27; }, onError);
+};
+
+local.nedb.dbStorageDefer = function (options, onError) {
+/*
+ * this function will defer options.action until dbStorage is ready
+ */
+    var data, done, objectStore, onError2, request, tmp;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageGetItem" id="element.nedb-lite.dbStorageGetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageGetItem
+            <span class="docApiSignatureSpan">(key,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageGetItem = function (key,onError){__cov_2d3533cc4458f.f[&#x27;31&#x27;]++;__cov_2d3533cc4458f.s[&#x27;156&#x27;]++;local.nedb.assert(typeof key===&#x27;string&#x27;);__c\
+ov_2d3533cc4458f.s[&#x27;157&#x27;]++;local.nedb.dbStorageDefer({action:&#x27;getItem&#x27;,key:key},onError);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+case 2:
+    if (self.isLoaded) {
+        options.modeNext += 2;
+        options.onNext();
+        return;
+    }
+    self.isLoaded = true;
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageGetItem</span>(self.name, options.onNext);
+    break;
+case 3:
+    // Load the database
+    // 1) Create all indexes
+    // 2) Insert all data
+    // 3) Compact the database
+    // This means pulling data out of the data file
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageInit" id="element.nedb-lite.dbStorageInit">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageInit
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageInit = function (){__cov_2d3533cc4458f.f[&#x27;32&#x27;]++;__cov_2d3533cc4458f.s[&#x27;159&#x27;]++;var options,request;__cov_2d3533cc4458f.s[&#x27;160&#x27;]++;opti\
+ons={};__cov_2d3533cc4458f.s[&#x27;161&#x27;]++;local.nedb.onNext(options,function(error){__cov_2d3533cc4458f.f[&#x27;33&#x27;]++;__cov_2d3533cc4458\
+f.s[&#x27;162&#x27;]++;local.nedb.assert(!error,error);__cov_2d3533cc4458f.s[&#x27;163&#x27;]++;if(local.modeJs===&#x27;browser&#x27;){__cov_2d3533cc4458f.b[&#x27;\
+27&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;164&#x27;]++;local.nedb.dbStorage=local.global.nedb_storage;}else{__cov_2d3533cc4458f.b[&#x27;27&#x27;][1]++;}\
+__cov_2d3533cc4458f.s[&#x27;165&#x27;]++;switch(options.modeNext){case 1:__cov_2d3533cc4458f.b[&#x27;28&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;166&#x27;]++;i\
+f(local.nedb.dbStorage){__cov_2d3533cc4458f.b[&#x27;29&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;167&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;\
+168&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;29&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;169&#x27;]++;switch(local.modeJs){case&#x27;browser&#x27;:__cov_2\
+d3533cc4458f.b[&#x27;30&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;170&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;171&#x27;]++;request=local.global.indexedDB.open(\
+&#x27;nedb&#x27;);__cov_2d3533cc4458f.s[&#x27;172&#x27;]++;request.onerror=options.onNext;__cov_2d3533cc4458f.s[&#x27;173&#x27;]++;request.onsuccess=function(\
+){__cov_2d3533cc4458f.f[&#x27;34&#x27;]++;__cov_2d3533cc4458f.s[&#x27;174&#x27;]++;local.global.nedb_storage=request.result;__cov_2d3533cc4458f.s[&#x27;1\
+75&#x27;]++;options.onNext();};__cov_2d3533cc4458f.s[&#x27;176&#x27;]++;request.onupgradeneeded=function(){__cov_2d3533cc4458f.f[&#x27;35&#x27;]++;__cov_\
+2d3533cc4458f.s[&#x27;177&#x27;]++;if(!request.result.objectStoreNames.contains(&#x27;nedb&#x27;)){__cov_2d3533cc4458f.b[&#x27;31&#x27;][0]++;__cov_2d3533cc44\
+58f.s[&#x27;178&#x27;]++;request.result.createObjectStore(&#x27;nedb&#x27;);}else{__cov_2d3533cc4458f.b[&#x27;31&#x27;][1]++;}};}catch(ignore){}__cov_2d3533cc\
+4458f.s[&#x27;179&#x27;]++;break;case&#x27;node&#x27;:__cov_2d3533cc4458f.b[&#x27;30&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;180&#x27;]++;local.nedb.dbStorage=&#x27;tmp/nedb\
+.persistence.&#x27;+local.nedb.NODE_ENV;__cov_2d3533cc4458f.s[&#x27;181&#x27;]++;local.child_process.spawnSync(&#x27;mkdir&#x27;,[&#x27;-p&#x27;,local.nedb.dbStora\
+ge],{stdio:[&#x27;ignore&#x27;,1,2]});__cov_2d3533cc4458f.s[&#x27;182&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;183&#x27;]++;break;}__cov_2d3533cc\
+4458f.s[&#x27;184&#x27;]++;break;case 2:__cov_2d3533cc4458f.b[&#x27;28&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;185&#x27;]++;while(local.nedb.dbStorageDeferLis\
+t.length){__cov_2d3533cc4458f.s[&#x27;186&#x27;]++;local.nedb.dbStorageDeferList.shift()();}__cov_2d3533cc4458f.s[&#x27;187&#x27;]++;break;}});__cov\
+_2d3533cc4458f.s[&#x27;188&#x27;]++;options.modeNext=0;__cov_2d3533cc4458f.s[&#x27;189&#x27;]++;options.onNext();}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+var onParallel;
+// jslint-hack
+local.utility2.nop(options);
+onParallel = local.utility2.onParallel(onError);
+onParallel.counter += 1;
+onParallel.counter += 1;
+// test dbStorageInit&#x27;s re-init handling-behavior
+local.nedb.<span class="docApiCodeKeywordSpan">dbStorageInit</span>();
+// test dbStorageKey&#x27;s handling-behavior
+local.nedb.dbStorageKeys(function () {
+    local.utility2.tryCatchOnError(function () {
+        // test dbStorageDefer&#x27;s done handling-behavior
+        local.nedb._debugDbStorageRequest.onerror(local.utility2.errorDefault);
+    }, local.utility2.nop);
+    onParallel();
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageKeys" id="element.nedb-lite.dbStorageKeys">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageKeys
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageKeys = function (onError){__cov_2d3533cc4458f.f[&#x27;36&#x27;]++;__cov_2d3533cc4458f.s[&#x27;191&#x27;]++;local.nedb.dbStorageDefer({action:&#x27;keys&#x27;},onErro\
+r);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+local.utility2.nop(options);
+onParallel = local.utility2.onParallel(onError);
+onParallel.counter += 1;
+onParallel.counter += 1;
+// test dbStorageInit&#x27;s re-init handling-behavior
+local.nedb.dbStorageInit();
+// test dbStorageKey&#x27;s handling-behavior
+local.nedb.<span class="docApiCodeKeywordSpan">dbStorageKeys</span>(function () {
+    local.utility2.tryCatchOnError(function () {
+        // test dbStorageDefer&#x27;s done handling-behavior
+        local.nedb._debugDbStorageRequest.onerror(local.utility2.errorDefault);
+    }, local.utility2.nop);
+    onParallel();
+});
+onParallel.counter += 1;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageLength" id="element.nedb-lite.dbStorageLength">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageLength
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageLength = function (onError){__cov_2d3533cc4458f.f[&#x27;37&#x27;]++;__cov_2d3533cc4458f.s[&#x27;193&#x27;]++;local.nedb.dbStorageDefer({action:&#x27;length&#x27;},onEr\
+ror);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            // test dbStorageDefer&#x27;s done handling-behavior
+            local.nedb._debugDbStorageRequest.onerror(local.utility2.errorDefault);
+        }, local.utility2.nop);
+        onParallel();
+    });
+    onParallel.counter += 1;
+    // test dbStorageLength&#x27;s handling-behavior
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageLength</span>(onParallel);
+    onParallel();
+};
+
+local.testCase_dbTableCountMany_default = function (options, onError) {
+/*
+ * this function will test dbTableCountMany&#x27;s default handling-behavior
+ */
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageRemoveItem" id="element.nedb-lite.dbStorageRemoveItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageRemoveItem
+            <span class="docApiSignatureSpan">(key,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageRemoveItem = function (key,onError){__cov_2d3533cc4458f.f[&#x27;38&#x27;]++;__cov_2d3533cc4458f.s[&#x27;195&#x27;]++;local.nedb.assert(typeof key===&#x27;string&#x27;);__c\
+ov_2d3533cc4458f.s[&#x27;196&#x27;]++;local.nedb.dbStorageDefer({action:&#x27;removeItem&#x27;,key:key},onError);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        case &#x27;lock&#x27;:
+        case &#x27;name&#x27;:
+            break;
+        default:
+            delete self[key];
+        }
+    });
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageRemoveItem</span>(self.name, function (error) {
+        onError(error);
+        self.lock();
+    });
+};
+
+local.nedb.dbTableExport = function (dbTable) {
+/*
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbStorageSetItem" id="element.nedb-lite.dbStorageSetItem">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbStorageSetItem
+            <span class="docApiSignatureSpan">(key,value,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbStorageSetItem = function (key,value,onError){__cov_2d3533cc4458f.f[&#x27;39&#x27;]++;__cov_2d3533cc4458f.s[&#x27;198&#x27;]++;local.nedb.assert(typeof key===&#x27;string\
+&#x27;);__cov_2d3533cc4458f.s[&#x27;199&#x27;]++;local.nedb.assert(typeof value===&#x27;string&#x27;);__cov_2d3533cc4458f.s[&#x27;200&#x27;]++;local.nedb.dbStorage\
+Defer({action:&#x27;setItem&#x27;,key:key,value:value},onError);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    if (!data) {
+        options.onNext();
+        return;
+    }
+    self.isLoaded = null;
+    data += &#x27;\n&#x27;;
+    data = data.slice(data.indexOf(&#x27;\n&#x27;) + 1);
+    local.nedb.<span class="docApiCodeKeywordSpan">dbStorageSetItem</span>(self.name, data, options.onNext);
+    break;
+case 2:
+    if (self.isLoaded) {
+        options.modeNext += 2;
+        options.onNext();
+        return;
+    }
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableCountMany" id="element.nedb-lite.dbTableCountMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCountMany
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableCountMany = function (dbTable,options,onError){__cov_2d3533cc4458f.f[&#x27;16&#x27;]++;__cov_2d3533cc4458f.s[&#x27;64&#x27;]++;var result,self;__cov_2d3533cc445\
+8f.s[&#x27;65&#x27;]++;options=local.nedb.objectSetDefault({},options);__cov_2d3533cc4458f.s[&#x27;66&#x27;]++;options=local.nedb.objectSetDefault(o\
+ptions,{query:{}});__cov_2d3533cc4458f.s[&#x27;67&#x27;]++;local.nedb.onNext(options,function(error,data){__cov_2d3533cc4458f.f[&#x27;17&#x27;]++;__\
+cov_2d3533cc4458f.s[&#x27;68&#x27;]++;data=(__cov_2d3533cc4458f.b[&#x27;10&#x27;][0]++,data)||(__cov_2d3533cc4458f.b[&#x27;10&#x27;][1]++,[]);__cov_2d3533cc44\
+58f.s[&#x27;69&#x27;]++;switch(options.modeNext){case 1:__cov_2d3533cc4458f.b[&#x27;11&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;70&#x27;]++;result=0;__cov_2d35\
+33cc4458f.s[&#x27;71&#x27;]++;self=local.nedb.dbTableDict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;72&#x27;]++;self.getCandidates(options.query,opt\
+ions.onNext);__cov_2d3533cc4458f.s[&#x27;73&#x27;]++;break;case 2:__cov_2d3533cc4458f.b[&#x27;11&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;74&#x27;]++;data.forE\
+ach(function(dbRow){__cov_2d3533cc4458f.f[&#x27;18&#x27;]++;__cov_2d3533cc4458f.s[&#x27;75&#x27;]++;if(local.nedb.queryMatch(dbRow,options.query)){_\
+_cov_2d3533cc4458f.b[&#x27;12&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;76&#x27;]++;result+=1;}else{__cov_2d3533cc4458f.b[&#x27;12&#x27;][1]++;}});__cov_2d3533c\
+c4458f.s[&#x27;77&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;78&#x27;]++;break;default:__cov_2d3533cc4458f.b[&#x27;11&#x27;][2]++;__cov_2d3533cc445\
+8f.s[&#x27;79&#x27;]++;onError(error,result);}});__cov_2d3533cc4458f.s[&#x27;80&#x27;]++;options.modeNext=0;__cov_2d3533cc4458f.s[&#x27;81&#x27;]++;options.on\
+Next();}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+         */
+options = local.crudOptionsSetDefault(options, {
+    id: &#x27;testCase_dbTableCountMany_default&#x27;
+});
+local.utility2.onNext(options, function (error, data) {
+    switch (options.modeNext) {
+    case 1:
+        local.nedb.<span class="docApiCodeKeywordSpan">dbTableCountMany</span>(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+        break;
+    case 2:
+        // validate data
+        local.utility2.assertJsonEqual(data, 1);
+        options.onNext();
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableCreate" id="element.nedb-lite.dbTableCreate">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableCreate
+            <span class="docApiSignatureSpan">(options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableCreate = function (options,onError){__cov_2d3533cc4458f.f[&#x27;40&#x27;]++;__cov_2d3533cc4458f.s[&#x27;202&#x27;]++;var self;__cov_2d3533cc4458f.s[&#x27;203&#x27;]++;\
+options=local.nedb.objectSetDefault({},options);__cov_2d3533cc4458f.s[&#x27;204&#x27;]++;local.nedb.onNext(options,function(error,data){__\
+cov_2d3533cc4458f.f[&#x27;41&#x27;]++;__cov_2d3533cc4458f.s[&#x27;205&#x27;]++;switch(options.modeNext){case 1:__cov_2d3533cc4458f.b[&#x27;32&#x27;][0]++;__co\
+v_2d3533cc4458f.s[&#x27;206&#x27;]++;self=local.nedb.dbTableDict[options.name]=(__cov_2d3533cc4458f.b[&#x27;33&#x27;][0]++,local.nedb.dbTableDict[op\
+tions.name])||(__cov_2d3533cc4458f.b[&#x27;33&#x27;][1]++,new local.nedb._Table(options));__cov_2d3533cc4458f.s[&#x27;207&#x27;]++;self.lock.counter\
++=1;__cov_2d3533cc4458f.s[&#x27;208&#x27;]++;data=((__cov_2d3533cc4458f.b[&#x27;34&#x27;][0]++,options.persistenceData)||(__cov_2d3533cc4458f.b[&#x27;34&#x27;\
+][1]++,&#x27;&#x27;)).trim();__cov_2d3533cc4458f.s[&#x27;209&#x27;]++;if(options.reset){__cov_2d3533cc4458f.b[&#x27;35&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;210&#x27;\
+]++;data=&#x27;undefined&#x27;;}else{__cov_2d3533cc4458f.b[&#x27;35&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;211&#x27;]++;if(!data){__cov_2d3533cc4458f.b[&#x27;36&#x27;\
+][0]++;__cov_2d3533cc4458f.s[&#x27;212&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;213&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;36&#x27;][1\
+]++;}__cov_2d3533cc4458f.s[&#x27;214&#x27;]++;self.isLoaded=null;__cov_2d3533cc4458f.s[&#x27;215&#x27;]++;data+=&#x27;\n&#x27;;__cov_2d3533cc4458f.s[&#x27;216&#x27;]++;\
+data=data.slice(data.indexOf(&#x27;\n&#x27;)+1);__cov_2d3533cc4458f.s[&#x27;217&#x27;]++;local.nedb.dbStorageSetItem(self.name,data,options.onNext);\
+__cov_2d3533cc4458f.s[&#x27;218&#x27;]++;break;case 2:__cov_2d3533cc4458f.b[&#x27;32&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;219&#x27;]++;if(self.isLoaded){__\
+cov_2d3533cc4458f.b[&#x27;37&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;220&#x27;]++;options.modeNext+=2;__cov_2d3533cc4458f.s[&#x27;221&#x27;]++;options.onNext(\
+);__cov_2d3533cc4458f.s[&#x27;222&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;37&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;223&#x27;]++;self.isLoaded=tru\
+e;__cov_2d3533cc4458f.s[&#x27;224&#x27;]++;local.nedb.dbStorageGetItem(self.name,options.onNext);__cov_2d3533cc4458f.s[&#x27;225&#x27;]++;break;case\
+ 3:__cov_2d3533cc4458f.b[&#x27;32&#x27;][2]++;__cov_2d3533cc4458f.s[&#x27;226&#x27;]++;if(self.dropped){__cov_2d3533cc4458f.b[&#x27;38&#x27;][0]++;__cov_2d353\
+3cc4458f.s[&#x27;227&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;228&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;38&#x27;][1]++;}__cov_2d3533c\
+c4458f.s[&#x27;229&#x27;]++;data=self.persistence.treatRawData((__cov_2d3533cc4458f.b[&#x27;39&#x27;][0]++,data)||(__cov_2d3533cc4458f.b[&#x27;39&#x27;][1]++,\
+&#x27;&#x27;));__cov_2d3533cc4458f.s[&#x27;230&#x27;]++;Object.keys(data.indexes).forEach(function(key){__cov_2d3533cc4458f.f[&#x27;42&#x27;]++;__cov_2d3533cc\
+4458f.s[&#x27;231&#x27;]++;self.indexes[key]=new local.nedb.Index(data.indexes[key]);});__cov_2d3533cc4458f.s[&#x27;232&#x27;]++;Object.keys(self.in\
+dexes).forEach(function(key){__cov_2d3533cc4458f.f[&#x27;43&#x27;]++;__cov_2d3533cc4458f.s[&#x27;233&#x27;]++;self.indexes[key].reset(data.data);});\
+__cov_2d3533cc4458f.s[&#x27;234&#x27;]++;self.persistence.persistCachedDatabase(options.onNext);__cov_2d3533cc4458f.s[&#x27;235&#x27;]++;break;defau\
+lt:__cov_2d3533cc4458f.b[&#x27;32&#x27;][3]++;__cov_2d3533cc4458f.s[&#x27;236&#x27;]++;local.nedb.assert(!error,error);__cov_2d3533cc4458f.s[&#x27;237&#x27;]+\
++;if(onError){__cov_2d3533cc4458f.b[&#x27;40&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;238&#x27;]++;onError(error,self);}else{__cov_2d3533cc4458f.b[&#x27;4\
+0&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;239&#x27;]++;self.lock();}});__cov_2d3533cc4458f.s[&#x27;240&#x27;]++;options.modeNext=0;__cov_2d3533cc4458f.s\
+[&#x27;241&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;242&#x27;]++;return self;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    &lt;label&gt;edit or paste script below to\n\
+        &lt;a\n\
+            href=&quot;https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html&quot;\n\
+            target=&quot;_blank&quot;\n\
+        &gt;eval&lt;/a&gt;\n\
+    &lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.<span class="docApiCodeKeywordSpan">dbTableCreate</span>({ name: &quot;table1&quot; });\n\
+table1.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+    console.log();\n\
+    console.log(window.nedb_lite.dbTableExport(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableDefer" id="element.nedb-lite.dbTableDefer">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDefer
+            <span class="docApiSignatureSpan">(dbTable,task)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableDefer = function (dbTable,task){__cov_2d3533cc4458f.f[&#x27;44&#x27;]++;__cov_2d3533cc4458f.s[&#x27;244&#x27;]++;var self;__cov_2d3533cc4458f.s[&#x27;245&#x27;]++;sel\
+f=local.nedb.dbTableDict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;246&#x27;]++;if(self.lock.counter){__cov_2d3533cc4458f.b[&#x27;41&#x27;][0]++;__c\
+ov_2d3533cc4458f.s[&#x27;247&#x27;]++;self.deferList.push(task);__cov_2d3533cc4458f.s[&#x27;248&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;41&#x27;][1]\
+++;}__cov_2d3533cc4458f.s[&#x27;249&#x27;]++;task();}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+options = {};
+local.nedb.onNext(options, function (error, data) {
+    // jslint-hack
+    local.nedb.nop(error);
+    switch (options.modeNext) {
+    // STEP 1: get candidates list by checking indexes from most to least frequent usecase
+    case 1:
+        local.nedb.<span class="docApiCodeKeywordSpan">dbTableDefer</span>(self, options.onNext);
+        break;
+    case 2:
+        // For a basic match
+        usableQueryKeys = [];
+        Object.keys(query).forEach(function (k) {
+            if (typeof query[k] === &#x27;string&#x27; || typeof query[k] === &#x27;number&#x27; || typeof query[k] === &#x27;bo\
+olean&#x27; || query[k] === null) {
+                usableQueryKeys.push(k);
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableDrop" id="element.nedb-lite.dbTableDrop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableDrop
+            <span class="docApiSignatureSpan">(dbTable,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableDrop = function (dbTable,onError){__cov_2d3533cc4458f.f[&#x27;45&#x27;]++;__cov_2d3533cc4458f.s[&#x27;252&#x27;]++;var self;__cov_2d3533cc4458f.s[&#x27;253&#x27;]++;\
+self=local.nedb.dbTableDict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;254&#x27;]++;if(!self){__cov_2d3533cc4458f.b[&#x27;42&#x27;][0]++;__cov_2d3533\
+cc4458f.s[&#x27;255&#x27;]++;onError();__cov_2d3533cc4458f.s[&#x27;256&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;42&#x27;][1]++;}__cov_2d3533cc4458f.s\
+[&#x27;257&#x27;]++;delete local.nedb.dbTableDict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;258&#x27;]++;self.dropped=true;__cov_2d3533cc4458f.s[&#x27;25\
+9&#x27;]++;self.lock.counter+=1;__cov_2d3533cc4458f.s[&#x27;260&#x27;]++;Object.keys(self).forEach(function(key){__cov_2d3533cc4458f.f[&#x27;46&#x27;]++;\
+__cov_2d3533cc4458f.s[&#x27;261&#x27;]++;switch(key){case&#x27;deferList&#x27;:__cov_2d3533cc4458f.b[&#x27;43&#x27;][0]++;case&#x27;dropped&#x27;:__cov_2d3533cc4458f.b[\
+&#x27;43&#x27;][1]++;case&#x27;lock&#x27;:__cov_2d3533cc4458f.b[&#x27;43&#x27;][2]++;case&#x27;name&#x27;:__cov_2d3533cc4458f.b[&#x27;43&#x27;][3]++;__cov_2d3533cc4458f.s[&#x27;262&#x27;]+\
++;break;default:__cov_2d3533cc4458f.b[&#x27;43&#x27;][4]++;__cov_2d3533cc4458f.s[&#x27;263&#x27;]++;delete self[key];}});__cov_2d3533cc4458f.s[&#x27;264&#x27;\
+]++;local.nedb.dbStorageRemoveItem(self.name,function(error){__cov_2d3533cc4458f.f[&#x27;47&#x27;]++;__cov_2d3533cc4458f.s[&#x27;265&#x27;]++;onErro\
+r(error);__cov_2d3533cc4458f.s[&#x27;266&#x27;]++;self.lock();});}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+local.testCase_dbTableDrop_default = function (options, onError) {
+/*
+ * this function will test dbTableDrop&#x27;s default handling-behavior
+ */
+    options = {};
+    options.name = &#x27;testCase_dbTableDrop_default&#x27;;
+    options.dbTable = local.nedb.dbTableCreate(options);
+    local.nedb.<span class="docApiCodeKeywordSpan">dbTableDrop</span>(options.dbTable, onError);
+    // test undefined-dbTable handling-behavior
+    local.nedb.dbTableDrop(options.dbTable, local.utility2.onErrorDefault);
+};
+
+local.testCase_dbTableFindOne_default = function (options, onError) {
+/*
+ * this function will test dbTableFindOne&#x27;s default handling-behavior
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableExport" id="element.nedb-lite.dbTableExport">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableExport
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableExport = function (dbTable){__cov_2d3533cc4458f.f[&#x27;48&#x27;]++;__cov_2d3533cc4458f.s[&#x27;268&#x27;]++;var data,self;__cov_2d3533cc4458f.s[&#x27;269&#x27;]++;sel\
+f=local.nedb.dbTableDict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;270&#x27;]++;data=&#x27;&#x27;;__cov_2d3533cc4458f.s[&#x27;271&#x27;]++;data+=JSON.stringif\
+y(String(dbTable.name))+&#x27;\n&#x27;;__cov_2d3533cc4458f.s[&#x27;272&#x27;]++;local.nedb.dbTableFindAll(self).forEach(function(dbRow){__cov_2d3533\
+cc4458f.f[&#x27;49&#x27;]++;__cov_2d3533cc4458f.s[&#x27;273&#x27;]++;data+=JSON.stringify(dbRow)+&#x27;\n&#x27;;});__cov_2d3533cc4458f.s[&#x27;274&#x27;]++;Object.keys(\
+self.indexes).forEach(function(fieldName){__cov_2d3533cc4458f.f[&#x27;50&#x27;]++;__cov_2d3533cc4458f.s[&#x27;275&#x27;]++;if(fieldName===&#x27;_id&#x27;){__c\
+ov_2d3533cc4458f.b[&#x27;44&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;276&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;44&#x27;][1]++;}__cov_2d3533cc4458f.\
+s[&#x27;277&#x27;]++;data+=JSON.stringify({$$indexCreated:{fieldName:fieldName,unique:self.indexes[fieldName].unique,sparse:self.indexes[f\
+ieldName].sparse}})+&#x27;\n&#x27;;});__cov_2d3533cc4458f.s[&#x27;278&#x27;]++;return data.slice(0,-1);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            target=&quot;_blank&quot;\n\
+        &gt;eval&lt;/a&gt;\n\
+    &lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.dbTableCreate({ name: &quot;table1&quot; });\n\
+table1.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+    console.log();\n\
+    console.log(window.nedb_lite.<span class="docApiCodeKeywordSpan">dbTableExport</span>(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+    console.log();\n\
+    console.log(window.nedb_lite.dbTableExport(table2));\n\
+});\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableFindAll" id="element.nedb-lite.dbTableFindAll">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindAll
+            <span class="docApiSignatureSpan">(dbTable)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableFindAll = function (dbTable){__cov_2d3533cc4458f.f[&#x27;51&#x27;]++;__cov_2d3533cc4458f.s[&#x27;280&#x27;]++;var result,self;__cov_2d3533cc4458f.s[&#x27;281&#x27;]++;s\
+elf=local.nedb.dbTableDict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;282&#x27;]++;result=[];__cov_2d3533cc4458f.s[&#x27;283&#x27;]++;self.indexes._i\
+d.tree.executeOnEveryNode(function(node){__cov_2d3533cc4458f.f[&#x27;52&#x27;]++;__cov_2d3533cc4458f.s[&#x27;284&#x27;]++;node.data.forEach(function\
+(dbRow){__cov_2d3533cc4458f.f[&#x27;53&#x27;]++;__cov_2d3533cc4458f.s[&#x27;285&#x27;]++;result.push(dbRow);});});__cov_2d3533cc4458f.s[&#x27;286&#x27;]++;ret\
+urn result;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    self = local.nedb.dbTableDict[dbTable.name];
+    self.indexes[options.fieldName] = new local.nedb.Index(options);
+    // With this implementation index creation is not necessary to ensure TTL
+    // but we stick with MongoDB&#x27;s API here
+    if (options.expireAfterSeconds !== undefined) {
+        self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+    }
+    self.indexes[options.fieldName].insert(local.nedb.<span class="docApiCodeKeywordSpan">dbTableFindAll</span>(self));
+    // We may want to force all options to be persisted including defaults,
+    // not just the ones passed the index creation function
+    self.persistence.persistNewState([{ $$indexCreated: options }], onError);
+};
+
+local.nedb.dbIndexRemove = function (dbTable, options, onError) {
+/*
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableFindMany" id="element.nedb-lite.dbTableFindMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindMany
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableFindMany = function (dbTable,options,onError){__cov_2d3533cc4458f.f[&#x27;54&#x27;]++;__cov_2d3533cc4458f.s[&#x27;288&#x27;]++;var limit,projection,result,self\
+,skip,sort,tmp;__cov_2d3533cc4458f.s[&#x27;289&#x27;]++;options=local.nedb.objectSetDefault({},options);__cov_2d3533cc4458f.s[&#x27;290&#x27;]++;opt\
+ions=local.nedb.objectSetDefault(options,{limit:Infinity,projection:{},query:{},skip:0,sort:{}});__cov_2d3533cc4458f.s[&#x27;291&#x27;]++;\
+local.nedb.onNext(options,function(error,data){__cov_2d3533cc4458f.f[&#x27;55&#x27;]++;__cov_2d3533cc4458f.s[&#x27;292&#x27;]++;data=(__cov_2d3533cc\
+4458f.b[&#x27;45&#x27;][0]++,data)||(__cov_2d3533cc4458f.b[&#x27;45&#x27;][1]++,[]);__cov_2d3533cc4458f.s[&#x27;293&#x27;]++;switch(options.modeNext){case 1:_\
+_cov_2d3533cc4458f.b[&#x27;46&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;294&#x27;]++;result=[];__cov_2d3533cc4458f.s[&#x27;295&#x27;]++;self=local.nedb.dbTableD\
+ict[dbTable.name];__cov_2d3533cc4458f.s[&#x27;296&#x27;]++;self.getCandidates(options.query,options.onNext);__cov_2d3533cc4458f.s[&#x27;297&#x27;]++\
+;break;case 2:__cov_2d3533cc4458f.b[&#x27;46&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;298&#x27;]++;sort=Object.keys(options.sort).map(function(key){_\
+_cov_2d3533cc4458f.f[&#x27;56&#x27;]++;__cov_2d3533cc4458f.s[&#x27;299&#x27;]++;return{key:key,direction:options.sort[key]};});__cov_2d3533cc4458f.s\
+[&#x27;300&#x27;]++;if(!sort.length){__cov_2d3533cc4458f.b[&#x27;47&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;301&#x27;]++;limit=options.limit;__cov_2d3533cc445\
+8f.s[&#x27;302&#x27;]++;skip=options.skip;__cov_2d3533cc4458f.s[&#x27;303&#x27;]++;data.some(function(dbRow){__cov_2d3533cc4458f.f[&#x27;57&#x27;]++;__cov_2d3\
+533cc4458f.s[&#x27;304&#x27;]++;if(!local.nedb.queryMatch(dbRow,options.query)){__cov_2d3533cc4458f.b[&#x27;48&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;30\
+5&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;48&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;306&#x27;]++;skip-=1;__cov_2d3533cc4458f.s[&#x27;307&#x27;]++;if(sk\
+ip&gt;=0){__cov_2d3533cc4458f.b[&#x27;49&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;308&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;49&#x27;][1]++;}__cov_2d35\
+33cc4458f.s[&#x27;309&#x27;]++;result.push(dbRow);__cov_2d3533cc4458f.s[&#x27;310&#x27;]++;limit-=1;__cov_2d3533cc4458f.s[&#x27;311&#x27;]++;if(limit&lt;=0){__co\
+v_2d3533cc4458f.b[&#x27;50&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;312&#x27;]++;return true;}else{__cov_2d3533cc4458f.b[&#x27;50&#x27;][1]++;}});__cov_2d3533c\
+c4458f.s[&#x27;313&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;314&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;47&#x27;][1]++;}__cov_2d3533cc4\
+458f.s[&#x27;315&#x27;]++;result=data;__cov_2d3533cc4458f.s[&#x27;316&#x27;]++;result=result.filter(function(dbRow){__cov_2d3533cc4458f.f[&#x27;58&#x27;]++;__\
+cov_2d3533cc4458f.s[&#x27;317&#x27;]++;return local.nedb.queryMatch(dbRow,options.query);});__cov_2d3533cc4458f.s[&#x27;318&#x27;]++;result=result.s\
+ort(function(aa,bb){__cov_2d3533cc4458f.f[&#x27;59&#x27;]++;__cov_2d3533cc4458f.s[&#x27;319&#x27;]++;sort.some(function(element){__cov_2d3533cc4458f\
+.f[&#x27;60&#x27;]++;__cov_2d3533cc4458f.s[&#x27;320&#x27;]++;tmp=element.direction*local.nedb.sortCompare(local.nedb.queryGetDotValue(aa,element.ke\
+y),local.nedb.queryGetDotValue(bb,element.key));__cov_2d3533cc4458f.s[&#x27;321&#x27;]++;return tmp;});__cov_2d3533cc4458f.s[&#x27;322&#x27;]++;retu\
+rn tmp;});__cov_2d3533cc4458f.s[&#x27;323&#x27;]++;result=result.slice(options.skip,options.skip+options.limit);__cov_2d3533cc4458f.s[&#x27;324\
+&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;325&#x27;]++;break;case 4:__cov_2d3533cc4458f.b[&#x27;46&#x27;][2]++;__cov_2d3533cc4458f.s[&#x27;326&#x27;]+\
++;projection=Object.keys(options.projection);__cov_2d3533cc4458f.s[&#x27;327&#x27;]++;if(!projection.list){__cov_2d3533cc4458f.b[&#x27;51&#x27;][0]+\
++;__cov_2d3533cc4458f.s[&#x27;328&#x27;]++;options.onNext();__cov_2d3533cc4458f.s[&#x27;329&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;51&#x27;][1]++;}\
+__cov_2d3533cc4458f.s[&#x27;330&#x27;]++;if(options.projection[projection.list[0]]===1){__cov_2d3533cc4458f.b[&#x27;52&#x27;][0]++;__cov_2d3533cc445\
+8f.s[&#x27;331&#x27;]++;result=result.map(function(dbRow){__cov_2d3533cc4458f.f[&#x27;61&#x27;]++;__cov_2d3533cc4458f.s[&#x27;332&#x27;]++;tmp={};__cov_2d3533\
+cc4458f.s[&#x27;333&#x27;]++;projection.forEach(function(key){__cov_2d3533cc4458f.f[&#x27;62&#x27;]++;__cov_2d3533cc4458f.s[&#x27;334&#x27;]++;tmp[key]=dbRow[\
+key];});__cov_2d3533cc4458f.s[&#x27;335&#x27;]++;return tmp;});}else{__cov_2d3533cc4458f.b[&#x27;52&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;336&#x27;]++;resul\
+t=result.map(function(dbRow){__cov_2d3533cc4458f.f[&#x27;63&#x27;]++;__cov_2d3533cc4458f.s[&#x27;337&#x27;]++;tmp={};__cov_2d3533cc4458f.s[&#x27;338&#x27;]++;\
+Object.keys(dbRow).forEach(function(key){__cov_2d3533cc4458f.f[&#x27;64 ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    options.onNext();
+};
+
+local.nedb.dbTableFindOne = function (dbTable, options, onError) {
+/**
+ * this function will find one dbRow in dbTable with the given options
+ */
+    local.nedb.<span class="docApiCodeKeywordSpan">dbTableFindMany</span>(dbTable, {
+        limit: 1,
+        query: options.query
+    }, function (error, data) {
+        onError(error, data[0] || null);
+    });
+};
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableFindOne" id="element.nedb-lite.dbTableFindOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableFindOne
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableFindOne = function (dbTable,options,onError){__cov_2d3533cc4458f.f[&#x27;65&#x27;]++;__cov_2d3533cc4458f.s[&#x27;348&#x27;]++;local.nedb.dbTableFindMany(dbTab\
+le,{limit:1,query:options.query},function(error,data){__cov_2d3533cc4458f.f[&#x27;66&#x27;]++;__cov_2d3533cc4458f.s[&#x27;349&#x27;]++;onError(error\
+,(__cov_2d3533cc4458f.b[&#x27;54&#x27;][0]++,data[0])||(__cov_2d3533cc4458f.b[&#x27;54&#x27;][1]++,null));});}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+         */
+options = local.crudOptionsSetDefault(options, {
+    id: &#x27;testCase_dbTableFindOne_default&#x27;
+});
+local.utility2.onNext(options, function (error, data) {
+    switch (options.modeNext) {
+    case 1:
+        local.nedb.<span class="docApiCodeKeywordSpan">dbTableFindOne</span>(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+        break;
+    case 2:
+        // validate data
+        local.utility2.assertJsonEqual(data &amp;&amp; data.id, options.id);
+        options.onNext();
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableRemoveMany" id="element.nedb-lite.dbTableRemoveMany">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveMany
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableRemoveMany = function (dbTable,options,onError){__cov_2d3533cc4458f.f[&#x27;67&#x27;]++;__cov_2d3533cc4458f.s[&#x27;351&#x27;]++;var removedList,result,self;__co\
+v_2d3533cc4458f.s[&#x27;352&#x27;]++;options=local.nedb.objectSetDefault({},options);__cov_2d3533cc4458f.s[&#x27;353&#x27;]++;options=local.nedb.obj\
+ectSetDefault(options,{one:null,query:{}});__cov_2d3533cc4458f.s[&#x27;354&#x27;]++;local.nedb.onNext(options,function(error,data){__cov_2\
+d3533cc4458f.f[&#x27;68&#x27;]++;__cov_2d3533cc4458f.s[&#x27;355&#x27;]++;data=(__cov_2d3533cc4458f.b[&#x27;55&#x27;][0]++,data)||(__cov_2d3533cc4458f.b[&#x27;55&#x27;]\
+[1]++,[]);__cov_2d3533cc4458f.s[&#x27;356&#x27;]++;switch(options.modeNext){case 1:__cov_2d3533cc4458f.b[&#x27;56&#x27;][0]++;__cov_2d3533cc4458f.s[\
+&#x27;357&#x27;]++;removedList=[];__cov_2d3533cc4458f.s[&#x27;358&#x27;]++;result=0;__cov_2d3533cc4458f.s[&#x27;359&#x27;]++;self=local.nedb.dbTableDict[dbTab\
+le.name];__cov_2d3533cc4458f.s[&#x27;360&#x27;]++;self.getCandidates(options.query,options.onNext);__cov_2d3533cc4458f.s[&#x27;361&#x27;]++;break;ca\
+se 2:__cov_2d3533cc4458f.b[&#x27;56&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;362&#x27;]++;data.some(function(dbRow){__cov_2d3533cc4458f.f[&#x27;69&#x27;]++;__c\
+ov_2d3533cc4458f.s[&#x27;363&#x27;]++;if(local.nedb.queryMatch(dbRow,options.query)){__cov_2d3533cc4458f.b[&#x27;57&#x27;][0]++;__cov_2d3533cc4458f.\
+s[&#x27;364&#x27;]++;result+=1;__cov_2d3533cc4458f.s[&#x27;365&#x27;]++;removedList.push({$$deleted:true,_id:dbRow._id});__cov_2d3533cc4458f.s[&#x27;366&#x27;\
+]++;self.removeFromIndexes(dbRow);__cov_2d3533cc4458f.s[&#x27;367&#x27;]++;if(options.one){__cov_2d3533cc4458f.b[&#x27;58&#x27;][0]++;__cov_2d3533cc\
+4458f.s[&#x27;368&#x27;]++;return true;}else{__cov_2d3533cc4458f.b[&#x27;58&#x27;][1]++;}}else{__cov_2d3533cc4458f.b[&#x27;57&#x27;][1]++;}});__cov_2d3533cc44\
+58f.s[&#x27;369&#x27;]++;self.persistence.persistNewState(removedList,options.onNext);__cov_2d3533cc4458f.s[&#x27;370&#x27;]++;break;default:__cov_2\
+d3533cc4458f.b[&#x27;56&#x27;][2]++;__cov_2d3533cc4458f.s[&#x27;371&#x27;]++;onError(error,result);}});__cov_2d3533cc4458f.s[&#x27;372&#x27;]++;options.modeNe\
+xt=0;__cov_2d3533cc4458f.s[&#x27;373&#x27;]++;options.onNext();}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+local.nedb.dbTableRemoveOne = function (dbTable, options, onError) {
+/*
+ * this function will remove one dbRow in dbTable with the given options
+ */
+    options = local.nedb.objectSetDefault({}, options);
+    options = local.nedb.objectSetDefault(options, { one: true });
+    local.nedb.<span class="docApiCodeKeywordSpan">dbTableRemoveMany</span>(dbTable, options, onError);
+};
+
+local.nedb.jsonCopy = function (arg) {
+/*
+ * this function will return a deep-copy of the JSON-arg
+ */
+    return arg === undefined
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.dbTableRemoveOne" id="element.nedb-lite.dbTableRemoveOne">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>dbTableRemoveOne
+            <span class="docApiSignatureSpan">(dbTable,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">dbTableRemoveOne = function (dbTable,options,onError){__cov_2d3533cc4458f.f[&#x27;70&#x27;]++;__cov_2d3533cc4458f.s[&#x27;375&#x27;]++;options=local.nedb.objectSetDefa\
+ult({},options);__cov_2d3533cc4458f.s[&#x27;376&#x27;]++;options=local.nedb.objectSetDefault(options,{one:true});__cov_2d3533cc4458f.s[&#x27;37\
+7&#x27;]++;local.nedb.dbTableRemoveMany(dbTable,options,onError);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+});
+local.utility2.onNext(options, function (error, data) {
+    switch (options.modeNext) {
+    case 1:
+        local.testCase_dbTableFindOne_default(options, options.onNext);
+        break;
+    case 2:
+        local.nedb.<span class="docApiCodeKeywordSpan">dbTableRemoveOne</span>(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+        break;
+    case 3:
+        local.nedb.dbTableFindOne(options.dbTable, {
+            query: { id: options.id }
+        }, options.onNext);
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.isRegExp" id="element.nedb-lite.isRegExp">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>isRegExp
+            <span class="docApiSignatureSpan">(obj)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">isRegExp = function (obj){__cov_2d3533cc4458f.f[&#x27;90&#x27;]++;__cov_2d3533cc4458f.s[&#x27;485&#x27;]++;return Object.prototype.toString.call(obj)===&#x27;[objec\
+t RegExp]&#x27;;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+                if (Array.isArray(objValue) &amp;&amp; !treatObjAsValue) {
+// If the queryValue is an array, try to perform an exact match
+if (Array.isArray(queryValue)) {
+    return matchQueryPart(obj, queryKey, queryValue, true);
+}
+
+// Check if we are using an array-specific comparison function
+if (queryValue !== null &amp;&amp; typeof queryValue === &#x27;object&#x27; &amp;&amp; !local.nedb.<span class="docApiCodeKeywor\
+dSpan">isRegExp</span>(queryValue)) {
+    tmp = Object.keys(queryValue).some(function (key) {
+        switch (key) {
+        case &#x27;$elemMatch&#x27;:
+        case &#x27;$size&#x27;:
+            return matchQueryPart(obj, queryKey, queryValue, true);
+        }
+    });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.jsonCopy" id="element.nedb-lite.jsonCopy">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonCopy
+            <span class="docApiSignatureSpan">(arg)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">jsonCopy = function (arg){__cov_2d3533cc4458f.f[&#x27;71&#x27;]++;__cov_2d3533cc4458f.s[&#x27;379&#x27;]++;return arg===undefined?(__cov_2d3533cc4458f.b[&#x27;59&#x27;][\
+0]++,undefined):(__cov_2d3533cc4458f.b[&#x27;59&#x27;][1]++,JSON.parse(JSON.stringify(arg)));}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+if (dollarFirstChars.length !== 0 &amp;&amp; dollarFirstChars.length !== firstChars.length) {
+    throw new Error(&#x27;You cannot mix modifiers and normal fields&#x27;);
+}
+
+if (dollarFirstChars.length === 0) {
+    // Simply replace the object with the update query contents
+    newDoc = local.nedb.<span class="docApiCodeKeywordSpan">jsonCopy</span>(updateQuery);
+    newDoc._id = obj._id;
+} else {
+    // Apply modifiers
+    modifiers = local.nedb.listUnique(keys);
+    newDoc = local.nedb.jsonCopy(obj);
+    modifiers.forEach(function (m) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.jsonStringifyOrdered" id="element.nedb-lite.jsonStringifyOrdered">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>jsonStringifyOrdered
+            <span class="docApiSignatureSpan">(element,replacer,space)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">jsonStringifyOrdered = function (element,replacer,space){__cov_2d3533cc4458f.f[&#x27;72&#x27;]++;__cov_2d3533cc4458f.s[&#x27;381&#x27;]++;var circularList,stringify,tmp;__\
+cov_2d3533cc4458f.s[&#x27;382&#x27;]++;stringify=function(element){__cov_2d3533cc4458f.f[&#x27;73&#x27;]++;__cov_2d3533cc4458f.s[&#x27;383&#x27;]++;if((__cov_\
+2d3533cc4458f.b[&#x27;61&#x27;][0]++,element)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;61&#x27;][1]++,typeof element===&#x27;object&#x27;)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;61&#x27;][\
+2]++,typeof element.toJSON!==&#x27;function&#x27;)){__cov_2d3533cc4458f.b[&#x27;60&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;384&#x27;]++;if(circularList.indexO\
+f(element)&gt;=0){__cov_2d3533cc4458f.b[&#x27;62&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;385&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;62&#x27;][1]++;}__\
+cov_2d3533cc4458f.s[&#x27;386&#x27;]++;circularList.push(element);__cov_2d3533cc4458f.s[&#x27;387&#x27;]++;if(Array.isArray(element)){__cov_2d3533cc\
+4458f.b[&#x27;63&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;388&#x27;]++;return&#x27;[&#x27;+element.map(function(element){__cov_2d3533cc4458f.f[&#x27;74&#x27;]++;__cov_2d\
+3533cc4458f.s[&#x27;389&#x27;]++;tmp=stringify(element);__cov_2d3533cc4458f.s[&#x27;390&#x27;]++;return typeof tmp===&#x27;string&#x27;?(__cov_2d3533cc4458f.b\
+[&#x27;64&#x27;][0]++,tmp):(__cov_2d3533cc4458f.b[&#x27;64&#x27;][1]++,&#x27;null&#x27;);}).join(&#x27;,&#x27;)+&#x27;]&#x27;;}else{__cov_2d3533cc4458f.b[&#x27;63&#x27;][1]++;}__cov_2d3533\
+cc4458f.s[&#x27;391&#x27;]++;return&#x27;{&#x27;+Object.keys(element).sort().map(function(key){__cov_2d3533cc4458f.f[&#x27;75&#x27;]++;__cov_2d3533cc4458f.s[&#x27;\
+392&#x27;]++;tmp=stringify(element[key]);__cov_2d3533cc4458f.s[&#x27;393&#x27;]++;return typeof tmp===&#x27;string&#x27;?(__cov_2d3533cc4458f.b[&#x27;65&#x27;][0]+\
++,JSON.stringify(key)+&#x27;:&#x27;+tmp):(__cov_2d3533cc4458f.b[&#x27;65&#x27;][1]++,undefined);}).filter(function(element){__cov_2d3533cc4458f.f[&#x27;7\
+6&#x27;]++;__cov_2d3533cc4458f.s[&#x27;394&#x27;]++;return typeof element===&#x27;string&#x27;;}).join(&#x27;,&#x27;)+&#x27;}&#x27;;}else{__cov_2d3533cc4458f.b[&#x27;60&#x27;][1]++;}_\
+_cov_2d3533cc4458f.s[&#x27;395&#x27;]++;return JSON.stringify(element);};__cov_2d3533cc4458f.s[&#x27;396&#x27;]++;circularList=[];__cov_2d3533cc4458\
+f.s[&#x27;397&#x27;]++;return JSON.stringify((__cov_2d3533cc4458f.b[&#x27;67&#x27;][0]++,element)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;67&#x27;][1]++,typeof element=\
+==&#x27;object&#x27;)?(__cov_2d3533cc4458f.b[&#x27;66&#x27;][0]++,JSON.parse(stringify(element))):(__cov_2d3533cc4458f.b[&#x27;66&#x27;][1]++,element),replace\
+r,space);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    console[&#x27;_&#x27; + key] = console[key];
+    console[key] = function () {
+        console[&#x27;_&#x27; + key].apply(console, arguments);
+        document.querySelector(&#x27;#outputTextarea1&#x27;).value +=
+            Array.prototype.slice.call(arguments).map(function (arg) {
+                return typeof arg === &#x27;string&#x27;
+                    ? arg
+                    : local.nedb.<span class="docApiCodeKeywordSpan">jsonStringifyOrdered</span>(arg, null, 4);
+            }).join(&#x27; &#x27;) + &#x27;\n&#x27;;
+    };
+});
+/* istanbul ignore next */
+local.testRun = function (event) {
+    var reader, tmp;
+    switch (event &amp;&amp; event.currentTarget.id) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.listUnique" id="element.nedb-lite.listUnique">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>listUnique
+            <span class="docApiSignatureSpan">(list)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">listUnique = function (list){__cov_2d3533cc4458f.f[&#x27;91&#x27;]++;__cov_2d3533cc4458f.s[&#x27;487&#x27;]++;var seen;__cov_2d3533cc4458f.s[&#x27;488&#x27;]++;seen={};__c\
+ov_2d3533cc4458f.s[&#x27;489&#x27;]++;return list.filter(function(element){__cov_2d3533cc4458f.f[&#x27;92&#x27;]++;__cov_2d3533cc4458f.s[&#x27;490&#x27;]++;if\
+(seen.hasOwnProperty(element)){__cov_2d3533cc4458f.b[&#x27;100&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;491&#x27;]++;return;}else{__cov_2d3533cc4458f\
+.b[&#x27;100&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;492&#x27;]++;seen[element]=true;__cov_2d3533cc4458f.s[&#x27;493&#x27;]++;return true;});}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+            if (dollarFirstChars.length === 0) {
+                // Simply replace the object with the update query contents
+                newDoc = local.nedb.jsonCopy(updateQuery);
+                newDoc._id = obj._id;
+            } else {
+                // Apply modifiers
+                modifiers = local.nedb.<span class="docApiCodeKeywordSpan">listUnique</span>(keys);
+                newDoc = local.nedb.jsonCopy(obj);
+                modifiers.forEach(function (m) {
+
+if (!modifierFunctions[m]) {
+    throw new Error(&#x27;Unknown modifier &#x27; + m);
+}
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.nop" id="element.nedb-lite.nop">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>nop
+            <span class="docApiSignatureSpan">()</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">nop = function (){__cov_2d3533cc4458f.f[&#x27;77&#x27;]++;__cov_2d3533cc4458f.s[&#x27;399&#x27;]++;return;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+};
+
+local.testCase_dbImport_default = function (options, onError) {
+/*
+ * this function will test dbImport&#x27;s default handling-behavior
+ */
+    // jslint-hack
+    local.utility2.<span class="docApiCodeKeywordSpan">nop</span>(options);
+    local.nedb.dbImport(&#x27;&quot;testCase_dbImport_default&quot;\n{&quot;id&quot;:0}&#x27;, onError);
+};
+
+local.testCase_dbStorageXxx_misc = function (options, onError) {
+/*
+ * this function will test dbStorageXxx&#x27;s misc handling-behavior
+ */
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.objectSetDefault" id="element.nedb-lite.objectSetDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>objectSetDefault
+            <span class="docApiSignatureSpan">(arg,defaults)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">objectSetDefault = function (arg,defaults){__cov_2d3533cc4458f.f[&#x27;78&#x27;]++;__cov_2d3533cc4458f.s[&#x27;401&#x27;]++;arg=(__cov_2d3533cc4458f.b[&#x27;68&#x27;][0]++,arg)|\
+|(__cov_2d3533cc4458f.b[&#x27;68&#x27;][1]++,{});__cov_2d3533cc4458f.s[&#x27;402&#x27;]++;defaults=(__cov_2d3533cc4458f.b[&#x27;69&#x27;][0]++,defaults)||(__c\
+ov_2d3533cc4458f.b[&#x27;69&#x27;][1]++,{});__cov_2d3533cc4458f.s[&#x27;403&#x27;]++;Object.keys(defaults).forEach(function(key){__cov_2d3533cc4458f\
+.f[&#x27;79&#x27;]++;__cov_2d3533cc4458f.s[&#x27;404&#x27;]++;if(defaults[key]!==undefined){__cov_2d3533cc4458f.b[&#x27;70&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;\
+405&#x27;]++;arg[key]=(__cov_2d3533cc4458f.b[&#x27;71&#x27;][0]++,arg[key])||(__cov_2d3533cc4458f.b[&#x27;71&#x27;][1]++,defaults[key]);}else{__cov_2d353\
+3cc4458f.b[&#x27;70&#x27;][1]++;}});__cov_2d3533cc4458f.s[&#x27;406&#x27;]++;return arg;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+
+    // run shared js-env code - function
+    (function () {
+local.crudOptionsSetDefault = function (options, defaults) {
+/*
+ * this function will set default-values for options
+ */
+    options = local.utility2.<span class="docApiCodeKeywordSpan">objectSetDefault</span>(options, defaults);
+    options.dbTable = local.nedb.dbTableDict.TestCrud;
+    // shallow-copy options
+    return local.utility2.objectSetDefault({}, options);
+};
+
+local.testCase_consoleLog_default = function (options, onError) {
+/*
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.onErrorDefault" id="element.nedb-lite.onErrorDefault">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onErrorDefault
+            <span class="docApiSignatureSpan">(error)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">onErrorDefault = function (error){__cov_2d3533cc4458f.f[&#x27;80&#x27;]++;__cov_2d3533cc4458f.s[&#x27;408&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;73&#x27;][0]++,error)&amp;&amp;(__co\
+v_2d3533cc4458f.b[&#x27;73&#x27;][1]++,!local.global.__coverage__)){__cov_2d3533cc4458f.b[&#x27;72&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;409&#x27;]++;consol\
+e.error(&#x27;\nonErrorDefault - error\n&#x27;+error.message+&#x27;\n&#x27;+error.stack+&#x27;\n&#x27;);}else{__cov_2d3533cc4458f.b[&#x27;72&#x27;][1]++;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            return bb.test(aa);
+        case &#x27;$size&#x27;:
+            return (Array.isArray(aa) &amp;&amp; aa.length === bb);
+        default:
+            return false;
+        }
+    } catch (errorCaught) {
+        local.nedb.<span class="docApiCodeKeywordSpan">onErrorDefault</span>(errorCaught);
+        return false;
+    }
+};
+
+local.nedb.sortCompare = function (aa, bb) {
+/*
+ * this function will sort-compare aa vs bb
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.onNext" id="element.nedb-lite.onNext">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onNext
+            <span class="docApiSignatureSpan">(options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">onNext = function (options,onError){__cov_2d3533cc4458f.f[&#x27;81&#x27;]++;__cov_2d3533cc4458f.s[&#x27;411&#x27;]++;options.onNext=function(error,data,meta)\
+{__cov_2d3533cc4458f.f[&#x27;82&#x27;]++;__cov_2d3533cc4458f.s[&#x27;412&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;413&#x27;]++;options.modeNext=error?(__cov_2\
+d3533cc4458f.b[&#x27;74&#x27;][0]++,Infinity):(__cov_2d3533cc4458f.b[&#x27;74&#x27;][1]++,options.modeNext+1);__cov_2d3533cc4458f.s[&#x27;414&#x27;]++;onError\
+(error,data,meta);}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;415&#x27;]++;if(options.errorCaught){__cov_2d3533cc4458f.b[&#x27;75&#x27;][0]++;__\
+cov_2d3533cc4458f.s[&#x27;416&#x27;]++;throw options.errorCaught;}else{__cov_2d3533cc4458f.b[&#x27;75&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;417&#x27;]++;op\
+tions.errorCaught=errorCaught;__cov_2d3533cc4458f.s[&#x27;418&#x27;]++;options.onNext(errorCaught,data,meta);}};__cov_2d3533cc4458f.s[&#x27;419\
+&#x27;]++;return options;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+local.testCase_dbTableCountMany_default = function (options, onError) {
+/*
+ * this function will test dbTableCountMany&#x27;s default handling-behavior
+ */
+    options = local.crudOptionsSetDefault(options, {
+        id: &#x27;testCase_dbTableCountMany_default&#x27;
+    });
+    local.utility2.<span class="docApiCodeKeywordSpan">onNext</span>(options, function (error, data) {
+        switch (options.modeNext) {
+        case 1:
+            local.nedb.dbTableCountMany(options.dbTable, {
+                query: { id: options.id }
+            }, options.onNext);
+            break;
+        case 2:
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.onParallel" id="element.nedb-lite.onParallel">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>onParallel
+            <span class="docApiSignatureSpan">(onError,onDebug)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">onParallel = function (onError,onDebug){__cov_2d3533cc4458f.f[&#x27;83&#x27;]++;__cov_2d3533cc4458f.s[&#x27;421&#x27;]++;var self;__cov_2d3533cc4458f.s[&#x27;422&#x27;]++;\
+onDebug=(__cov_2d3533cc4458f.b[&#x27;76&#x27;][0]++,onDebug)||(__cov_2d3533cc4458f.b[&#x27;76&#x27;][1]++,local.nedb.nop);__cov_2d3533cc4458f.s[&#x27;423\
+&#x27;]++;self=function(error){__cov_2d3533cc4458f.f[&#x27;84&#x27;]++;__cov_2d3533cc4458f.s[&#x27;424&#x27;]++;onDebug(error,self);__cov_2d3533cc4458f.s\
+[&#x27;425&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;78&#x27;][0]++,self.counter===0)||(__cov_2d3533cc4458f.b[&#x27;78&#x27;][1]++,self.error)){__cov_2d3533cc4\
+458f.b[&#x27;77&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;426&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;77&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;427&#x27;]++;i\
+f(error){__cov_2d3533cc4458f.b[&#x27;79&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;428&#x27;]++;self.error=error;__cov_2d3533cc4458f.s[&#x27;429&#x27;]++;self.co\
+unter=1;}else{__cov_2d3533cc4458f.b[&#x27;79&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;430&#x27;]++;self.counter-=1;__cov_2d3533cc4458f.s[&#x27;431&#x27;]++;if\
+(self.counter===0){__cov_2d3533cc4458f.b[&#x27;80&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;432&#x27;]++;onError(error);}else{__cov_2d3533cc4458f.b[&#x27;8\
+0&#x27;][1]++;}};__cov_2d3533cc4458f.s[&#x27;433&#x27;]++;self.counter=0;__cov_2d3533cc4458f.s[&#x27;434&#x27;]++;return self;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+};
+
+local.testCase_dbExport_default = function (options, onError) {
+/*
+ * this function will test dbExport&#x27;s default handling-behavior
+ */
+    var onParallel;
+    onParallel = local.utility2.<span class="docApiCodeKeywordSpan">onParallel</span>(onError);
+    onParallel.counter += 1;
+    options = {};
+    options.name = &#x27;testCase_dbExport_default&#x27;;
+    options.dbTable = local.nedb.dbTableCreate(options);
+    onParallel.counter += 1;
+    local.nedb.dbIndexCreate(options, {
+        fieldName: &#x27;id&#x27;,
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.queryCompare" id="element.nedb-lite.queryCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryCompare
+            <span class="docApiSignatureSpan">(operator,aa,bb)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">queryCompare = function (operator,aa,bb){__cov_2d3533cc4458f.f[&#x27;85&#x27;]++;__cov_2d3533cc4458f.s[&#x27;436&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;437&#x27;]++;switch\
+(operator){case&#x27;$elemMatch&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;438&#x27;]++;return(Array.isArray(aa)?(__cov_2d35\
+33cc4458f.b[&#x27;82&#x27;][0]++,aa):(__cov_2d3533cc4458f.b[&#x27;82&#x27;][1]++,[])).some(function(element){__cov_2d3533cc4458f.f[&#x27;86&#x27;]++;__cov_2d3\
+533cc4458f.s[&#x27;439&#x27;]++;return local.nedb.queryMatch(element,bb);});case&#x27;$eq&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][1]++;__cov_2d3533cc4458f\
+.s[&#x27;440&#x27;]++;return local.nedb.sortCompare(aa,bb)===0;case&#x27;$exists&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][2]++;__cov_2d3533cc4458f.s[&#x27;441&#x27;]\
+++;return!(!aa^!bb);case&#x27;$gt&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][3]++;__cov_2d3533cc4458f.s[&#x27;442&#x27;]++;return local.nedb.sortCompare(aa,b\
+b)&gt;0;case&#x27;$gte&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][4]++;__cov_2d3533cc4458f.s[&#x27;443&#x27;]++;return local.nedb.sortCompare(aa,bb)&gt;=0;case&#x27;$in\
+&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][5]++;__cov_2d3533cc4458f.s[&#x27;444&#x27;]++;return(__cov_2d3533cc4458f.b[&#x27;83&#x27;][0]++,Array.isArray(bb))&amp;&amp;(_\
+_cov_2d3533cc4458f.b[&#x27;83&#x27;][1]++,bb.some(function(cc){__cov_2d3533cc4458f.f[&#x27;87&#x27;]++;__cov_2d3533cc4458f.s[&#x27;445&#x27;]++;return local.n\
+edb.sortCompare(aa,cc)===0;}));case&#x27;$lt&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][6]++;__cov_2d3533cc4458f.s[&#x27;446&#x27;]++;return local.nedb.sortC\
+ompare(aa,bb)&lt;0;case&#x27;$lte&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][7]++;__cov_2d3533cc4458f.s[&#x27;447&#x27;]++;return local.nedb.sortCompare(aa,bb)&lt;\
+=0;case&#x27;$ne&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][8]++;__cov_2d3533cc4458f.s[&#x27;448&#x27;]++;return local.nedb.sortCompare(aa,bb)!==0;case&#x27;$nin&#x27;\
+:__cov_2d3533cc4458f.b[&#x27;81&#x27;][9]++;__cov_2d3533cc4458f.s[&#x27;449&#x27;]++;return(__cov_2d3533cc4458f.b[&#x27;84&#x27;][0]++,Array.isArray(bb))&amp;&amp;(__\
+cov_2d3533cc4458f.b[&#x27;84&#x27;][1]++,bb.every(function(cc){__cov_2d3533cc4458f.f[&#x27;88&#x27;]++;__cov_2d3533cc4458f.s[&#x27;450&#x27;]++;return local.n\
+edb.sortCompare(aa,cc)!==0;}));case&#x27;$regex&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][10]++;__cov_2d3533cc4458f.s[&#x27;451&#x27;]++;return bb.test(aa);\
+case&#x27;$size&#x27;:__cov_2d3533cc4458f.b[&#x27;81&#x27;][11]++;__cov_2d3533cc4458f.s[&#x27;452&#x27;]++;return(__cov_2d3533cc4458f.b[&#x27;85&#x27;][0]++,Array.isArr\
+ay(aa))&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;85&#x27;][1]++,aa.length===bb);default:__cov_2d3533cc4458f.b[&#x27;81&#x27;][12]++;__cov_2d3533cc4458f.s[&#x27;453&#x27;\
+]++;return false;}}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;454&#x27;]++;local.nedb.onErrorDefault(errorCaught);__cov_2d3533cc4458f.\
+s[&#x27;455&#x27;]++;return false;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    ];
+    options.forEach(function (element) {
+        local.utility2.assertJsonEqual(
+            [
+                element[0],
+                element[1],
+                element[2],
+                local.nedb.<span class="docApiCodeKeywordSpan">queryCompare</span>(element[0], element[1], element[2])
+            ],
+            element
+        );
+    });
+    onError();
+};
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.queryGetDotValue" id="element.nedb-lite.queryGetDotValue">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryGetDotValue
+            <span class="docApiSignatureSpan">(obj,field)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">queryGetDotValue = function (obj,field){__cov_2d3533cc4458f.f[&#x27;122&#x27;]++;__cov_2d3533cc4458f.s[&#x27;654&#x27;]++;var fieldParts,ii,objs;__cov_2d3533cc4458f.s[\
+&#x27;655&#x27;]++;fieldParts=typeof field===&#x27;string&#x27;?(__cov_2d3533cc4458f.b[&#x27;164&#x27;][0]++,field.split(&#x27;.&#x27;)):(__cov_2d3533cc4458f.b[&#x27;164&#x27;][1\
+]++,field);__cov_2d3533cc4458f.s[&#x27;656&#x27;]++;if(!obj){__cov_2d3533cc4458f.b[&#x27;165&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;657&#x27;]++;return undef\
+ined;}else{__cov_2d3533cc4458f.b[&#x27;165&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;658&#x27;]++;if(fieldParts.length===0){__cov_2d3533cc4458f.b[&#x27;16\
+6&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;659&#x27;]++;return obj;}else{__cov_2d3533cc4458f.b[&#x27;166&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;660&#x27;]++;if(fi\
+eldParts.length===1){__cov_2d3533cc4458f.b[&#x27;167&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;661&#x27;]++;return obj[fieldParts[0]];}else{__cov_2d35\
+33cc4458f.b[&#x27;167&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;662&#x27;]++;if(Array.isArray(obj[fieldParts[0]])){__cov_2d3533cc4458f.b[&#x27;168&#x27;][0]++;\
+__cov_2d3533cc4458f.s[&#x27;663&#x27;]++;ii=parseInt(fieldParts[1],10);__cov_2d3533cc4458f.s[&#x27;664&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;170&#x27;][0]+\
++,typeof ii===&#x27;number&#x27;)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;170&#x27;][1]++,!isNaN(ii))){__cov_2d3533cc4458f.b[&#x27;169&#x27;][0]++;__cov_2d3533cc4458f.s\
+[&#x27;665&#x27;]++;return local.nedb.queryGetDotValue(obj[fieldParts[0]][ii],fieldParts.slice(2));}else{__cov_2d3533cc4458f.b[&#x27;169&#x27;][1]++\
+;}__cov_2d3533cc4458f.s[&#x27;666&#x27;]++;objs=[];__cov_2d3533cc4458f.s[&#x27;667&#x27;]++;for(ii=0;ii&lt;obj[fieldParts[0]].length;ii+=1){__cov_2d353\
+3cc4458f.s[&#x27;668&#x27;]++;objs.push(local.nedb.queryGetDotValue(obj[fieldParts[0]][ii],fieldParts.slice(1)));}__cov_2d3533cc4458f.s[&#x27;6\
+69&#x27;]++;return objs;}else{__cov_2d3533cc4458f.b[&#x27;168&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;670&#x27;]++;return local.nedb.queryGetDotValue(ob\
+j[fieldParts[0]],fieldParts.slice(1));}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+result = data;
+result = result.filter(function (dbRow) {
+    return local.nedb.queryMatch(dbRow, options.query);
+});
+result = result.sort(function (aa, bb) {
+    sort.some(function (element) {
+        tmp = element.direction * local.nedb.sortCompare(
+            local.nedb.<span class="docApiCodeKeywordSpan">queryGetDotValue</span>(aa, element.key),
+            local.nedb.queryGetDotValue(bb, element.key)
+        );
+        return tmp;
+    });
+    return tmp;
+});
+// limit and skip
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.queryMatch" id="element.nedb-lite.queryMatch">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>queryMatch
+            <span class="docApiSignatureSpan">(obj,query)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">queryMatch = function (obj,query){__cov_2d3533cc4458f.f[&#x27;128&#x27;]++;function matchQueryPart(obj,queryKey,queryValue,treatObjAsValue){__cov_2d353\
+3cc4458f.f[&#x27;129&#x27;]++;__cov_2d3533cc4458f.s[&#x27;717&#x27;]++;var objValue,ii,keys,firstChars,dollarFirstChars,tmp;__cov_2d3533cc4458f.s[&#x27;7\
+18&#x27;]++;objValue=local.nedb.queryGetDotValue(obj,queryKey);__cov_2d3533cc4458f.s[&#x27;719&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;186&#x27;][0]++,A\
+rray.isArray(objValue))&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;186&#x27;][1]++,!treatObjAsValue)){__cov_2d3533cc4458f.b[&#x27;185&#x27;][0]++;__cov_2d3533cc4\
+458f.s[&#x27;720&#x27;]++;if(Array.isArray(queryValue)){__cov_2d3533cc4458f.b[&#x27;187&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;721&#x27;]++;return matchQuery\
+Part(obj,queryKey,queryValue,true);}else{__cov_2d3533cc4458f.b[&#x27;187&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;722&#x27;]++;if((__cov_2d3533cc445\
+8f.b[&#x27;189&#x27;][0]++,queryValue!==null)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;189&#x27;][1]++,typeof queryValue===&#x27;object&#x27;)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;1\
+89&#x27;][2]++,!local.nedb.isRegExp(queryValue))){__cov_2d3533cc4458f.b[&#x27;188&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;723&#x27;]++;tmp=Object.keys(qu\
+eryValue).some(function(key){__cov_2d3533cc4458f.f[&#x27;130&#x27;]++;__cov_2d3533cc4458f.s[&#x27;724&#x27;]++;switch(key){case&#x27;$elemMatch&#x27;:__cov_2d\
+3533cc4458f.b[&#x27;190&#x27;][0]++;case&#x27;$size&#x27;:__cov_2d3533cc4458f.b[&#x27;190&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;725&#x27;]++;return matchQueryPart(obj\
+,queryKey,queryValue,true);}});__cov_2d3533cc4458f.s[&#x27;726&#x27;]++;if(tmp){__cov_2d3533cc4458f.b[&#x27;191&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;7\
+27&#x27;]++;return tmp;}else{__cov_2d3533cc4458f.b[&#x27;191&#x27;][1]++;}}else{__cov_2d3533cc4458f.b[&#x27;188&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;728&#x27;]\
+++;for(ii=0;ii&lt;objValue.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;729&#x27;]++;if(matchQueryPart({k:objValue[ii]},&#x27;k&#x27;,queryValue)){__cov_2\
+d3533cc4458f.b[&#x27;192&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;730&#x27;]++;return true;}else{__cov_2d3533cc4458f.b[&#x27;192&#x27;][1]++;}}__cov_2d3533cc44\
+58f.s[&#x27;731&#x27;]++;return false;}else{__cov_2d3533cc4458f.b[&#x27;185&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;732&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;1\
+94&#x27;][0]++,queryValue!==null)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;194&#x27;][1]++,typeof queryValue===&#x27;object&#x27;)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;194&#x27;][2]\
+++,!local.nedb.isRegExp(queryValue))&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;194&#x27;][3]++,!Array.isArray(queryValue))){__cov_2d3533cc4458f.b[&#x27;193\
+&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;733&#x27;]++;keys=Object.keys(queryValue);__cov_2d3533cc4458f.s[&#x27;734&#x27;]++;firstChars=keys.map(function(\
+item){__cov_2d3533cc4458f.f[&#x27;131&#x27;]++;__cov_2d3533cc4458f.s[&#x27;735&#x27;]++;return item[0];});__cov_2d3533cc4458f.s[&#x27;736&#x27;]++;dollarFirst\
+Chars=firstChars.filter(function(cc){__cov_2d3533cc4458f.f[&#x27;132&#x27;]++;__cov_2d3533cc4458f.s[&#x27;737&#x27;]++;return cc===&#x27;$&#x27;;});__cov_2d35\
+33cc4458f.s[&#x27;738&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;196&#x27;][0]++,dollarFirstChars.length!==0)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;196&#x27;][1]++,doll\
+arFirstChars.length!==firstChars.length)){__cov_2d3533cc4458f.b[&#x27;195&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;739&#x27;]++;throw new Error(&#x27;You \
+cannot mix operators and normal fields&#x27;);}else{__cov_2d3533cc4458f.b[&#x27;195&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;740&#x27;]++;if(dollarFirstC\
+hars.length&gt;0){__cov_2d3533cc4458f.b[&#x27;197&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;741&#x27;]++;return keys.every(function(key){__cov_2d3533cc44\
+58f.f[&#x27;133&#x27;]++;__cov_2d3533cc4458f.s[&#x27;742&#x27;]++;return local.nedb.queryCompare(key,objValue,queryValue[key]);});}else{__cov_2d3533\
+cc4458f.b[&#x27;197&#x27;][1]++;}}else{__cov_2d3533cc4458f.b[&#x27;193&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;743&#x27;]++;if(local.nedb.isRegExp(queryValue\
+)){__cov_2d3533cc4458f.b[&#x27;198&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;744&#x27;]++;return local.nedb.queryCompare(&#x27;$regex&#x27;,objValue,queryValue)\
+;}else{__cov_2d3533cc4458f.b[&#x27;198&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;745&#x27;]++;if(!areThingsEqual(objValue,queryValue)){__cov_2d3533cc\
+4458f.b[&#x27;199&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;746&#x27;]++;return false;}else{__cov_2d3533cc4458f.b[&#x27;199&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;\
+747&#x27;]++;return true;}__cov_2d3533cc4458f.s[&#x27;748&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;201&#x27;][0]++,isPrimitiveType(obj))||(__cov_2d3533cc\
+4458f.b[&#x27;201&#x27;][1]++,isPrimitiveType(query))){__cov_2d3533cc4458f.b[&#x27;200&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;749&#x27;]++;return matchQueryP\
+art({needAKey:obj},&#x27;needAKey&#x27;,query);}else{__cov_2d3533cc4458f.b[&#x27; ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+case 1:
+    result = 0;
+    self = local.nedb.dbTableDict[dbTable.name];
+    self.getCandidates(options.query, options.onNext);
+    break;
+case 2:
+    data.forEach(function (dbRow) {
+        if (local.nedb.<span class="docApiCodeKeywordSpan">queryMatch</span>(dbRow, options.query)) {
+            result += 1;
+        }
+    });
+    options.onNext();
+    break;
+default:
+    onError(error, result);
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.sortCompare" id="element.nedb-lite.sortCompare">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>sortCompare
+            <span class="docApiSignatureSpan">(aa,bb)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">sortCompare = function (aa,bb){__cov_2d3533cc4458f.f[&#x27;89&#x27;]++;__cov_2d3533cc4458f.s[&#x27;457&#x27;]++;var type1,type2;__cov_2d3533cc4458f.s[&#x27;458&#x27;]++;if(\
+aa===undefined){__cov_2d3533cc4458f.b[&#x27;86&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;459&#x27;]++;aa=null;}else{__cov_2d3533cc4458f.b[&#x27;86&#x27;][1]++;}\
+__cov_2d3533cc4458f.s[&#x27;460&#x27;]++;if(bb===undefined){__cov_2d3533cc4458f.b[&#x27;87&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;461&#x27;]++;bb=null;}else{\
+__cov_2d3533cc4458f.b[&#x27;87&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;462&#x27;]++;if(aa===bb){__cov_2d3533cc4458f.b[&#x27;88&#x27;][0]++;__cov_2d3533cc4458\
+f.s[&#x27;463&#x27;]++;return 0;}else{__cov_2d3533cc4458f.b[&#x27;88&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;464&#x27;]++;if(aa===null){__cov_2d3533cc4458f.b\
+[&#x27;89&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;465&#x27;]++;return-1;}else{__cov_2d3533cc4458f.b[&#x27;89&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;466&#x27;]++;if(bb\
+===null){__cov_2d3533cc4458f.b[&#x27;90&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;467&#x27;]++;return 1;}else{__cov_2d3533cc4458f.b[&#x27;90&#x27;][1]++;}__cov_\
+2d3533cc4458f.s[&#x27;468&#x27;]++;type1=typeof aa;__cov_2d3533cc4458f.s[&#x27;469&#x27;]++;type2=typeof bb;__cov_2d3533cc4458f.s[&#x27;470&#x27;]++;if(type1!\
+==type2){__cov_2d3533cc4458f.b[&#x27;91&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;471&#x27;]++;if(type1===&#x27;boolean&#x27;){__cov_2d3533cc4458f.b[&#x27;92&#x27;][0]++;\
+__cov_2d3533cc4458f.s[&#x27;472&#x27;]++;return-1;}else{__cov_2d3533cc4458f.b[&#x27;92&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;473&#x27;]++;if(type2===&#x27;boole\
+an&#x27;){__cov_2d3533cc4458f.b[&#x27;93&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;474&#x27;]++;return 1;}else{__cov_2d3533cc4458f.b[&#x27;93&#x27;][1]++;}__cov_2d35\
+33cc4458f.s[&#x27;475&#x27;]++;if(type1===&#x27;number&#x27;){__cov_2d3533cc4458f.b[&#x27;94&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;476&#x27;]++;return-1;}else{__cov_2\
+d3533cc4458f.b[&#x27;94&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;477&#x27;]++;if(type2===&#x27;number&#x27;){__cov_2d3533cc4458f.b[&#x27;95&#x27;][0]++;__cov_2d3533cc44\
+58f.s[&#x27;478&#x27;]++;return 1;}else{__cov_2d3533cc4458f.b[&#x27;95&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;479&#x27;]++;if(type1===&#x27;string&#x27;){__cov_2d3533\
+cc4458f.b[&#x27;96&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;480&#x27;]++;return-1;}else{__cov_2d3533cc4458f.b[&#x27;96&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;481&#x27;\
+]++;if(type2===&#x27;string&#x27;){__cov_2d3533cc4458f.b[&#x27;97&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;482&#x27;]++;return 1;}else{__cov_2d3533cc4458f.b[&#x27;9\
+7&#x27;][1]++;}}else{__cov_2d3533cc4458f.b[&#x27;91&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;483&#x27;]++;return aa&lt;bb?(__cov_2d3533cc4458f.b[&#x27;98&#x27;][0]++,\
+-1):(__cov_2d3533cc4458f.b[&#x27;98&#x27;][1]++,aa&gt;bb?(__cov_2d3533cc4458f.b[&#x27;99&#x27;][0]++,1):(__cov_2d3533cc4458f.b[&#x27;99&#x27;][1]++,0));}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+// sort
+result = data;
+result = result.filter(function (dbRow) {
+    return local.nedb.queryMatch(dbRow, options.query);
+});
+result = result.sort(function (aa, bb) {
+    sort.some(function (element) {
+        tmp = element.direction * local.nedb.<span class="docApiCodeKeywordSpan">sortCompare</span>(
+            local.nedb.queryGetDotValue(aa, element.key),
+            local.nedb.queryGetDotValue(bb, element.key)
+        );
+        return tmp;
+    });
+    return tmp;
+});
+...</pre></li>
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Index" id="module.nedb-lite.Index">module nedb-lite.Index</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.Index" id="element.nedb-lite.Index.Index">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Index
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Index = function (options){__cov_2d3533cc4458f.f[&#x27;173&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1137&#x27;]++;this.fieldName=options.fieldName;__cov_2d3533c\
+c4458f.s[&#x27;1138&#x27;]++;this.isInteger=options.isInteger;__cov_2d3533cc4458f.s[&#x27;1139&#x27;]++;this.unique=(__cov_2d3533cc4458f.b[&#x27;338&#x27;][0]\
+++,options.unique)||(__cov_2d3533cc4458f.b[&#x27;338&#x27;][1]++,false);__cov_2d3533cc4458f.s[&#x27;1140&#x27;]++;this.sparse=(__cov_2d3533cc4458f.b\
+[&#x27;339&#x27;][0]++,options.sparse)||(__cov_2d3533cc4458f.b[&#x27;339&#x27;][1]++,false);__cov_2d3533cc4458f.s[&#x27;1141&#x27;]++;this.reset();}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+*     becomes a TTL index (only works on Date fields, not arrays of Date)
+* @param {Function} onError - callback, signature: error
+*/
+   var self;
+   // require options.fieldName
+   local.nedb.assert(options.fieldName, options.fieldName);
+   self = local.nedb.dbTableDict[dbTable.name];
+   self.indexes[options.fieldName] = new local.nedb.<span class="docApiCodeKeywordSpan">Index</span>(options);
+   // With this implementation index creation is not necessary to ensure TTL
+   // but we stick with MongoDB&#x27;s API here
+   if (options.expireAfterSeconds !== undefined) {
+       self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+   }
+   self.indexes[options.fieldName].insert(local.nedb.dbTableFindAll(self));
+   // We may want to force all options to be persisted including defaults,
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Index.prototype" id="module.nedb-lite.Index.prototype">module nedb-lite.Index.prototype</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.getBetweenBounds" id="element.nedb-lite.Index.prototype.getBetweenBounds">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getBetweenBounds
+            <span class="docApiSignatureSpan">(query)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">getBetweenBounds = function (query){__cov_2d3533cc4458f.f[&#x27;186&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1234&#x27;]++;return this.tree.betweenBounds(query);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            usableQueryKeys.push(k);
+        }
+    });
+    usableQueryKeys = usableQueryKeys.filter(function (element) {
+        return self.indexes.hasOwnProperty(element);
+    });
+    if (usableQueryKeys.length &gt; 0) {
+        return options.onNext(null, self.indexes[usableQueryKeys[0]].<span class="docApiCodeKeywordSpan">getBetweenBounds</span>\
+(query[usableQueryKeys[0]]));
+    }
+
+    // By default, return all the DB data
+    return options.onNext(null, local.nedb.dbTableFindAll(self));
+// STEP 2: remove all expired dbRow&#x27;s
+default:
+    var validDocs = [],
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.getMatching" id="element.nedb-lite.Index.prototype.getMatching">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>getMatching
+            <span class="docApiSignatureSpan">(value)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">getMatching = function (value){__cov_2d3533cc4458f.f[&#x27;182&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1224&#x27;]++;var self=this,_res={},res=[];__cov_2d3533cc4458f\
+.s[&#x27;1225&#x27;]++;if(!Array.isArray(value)){__cov_2d3533cc4458f.b[&#x27;358&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1226&#x27;]++;return self.tree.search\
+(value);}else{__cov_2d3533cc4458f.b[&#x27;358&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1227&#x27;]++;value.forEach(function(v){__cov_2d3533cc4458f.f\
+[&#x27;183&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1228&#x27;]++;self.getMatching(v).forEach(function(dbRow){__cov_2d3533cc4458f.f[&#x27;184&#x27;]++;__cov_2d353\
+3cc4458f.s[&#x27;1229&#x27;]++;_res[dbRow._id]=dbRow;});});__cov_2d3533cc4458f.s[&#x27;1230&#x27;]++;Object.keys(_res).forEach(function(_id){__cov_2\
+d3533cc4458f.f[&#x27;185&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1231&#x27;]++;res.push(_res[_id]);});__cov_2d3533cc4458f.s[&#x27;1232&#x27;]++;return res;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+if (self.unique &amp;&amp; !(key === 0 || key) &amp;&amp; self.fieldName.indexOf(&#x27;.&#x27;) &lt; 0) {
+    while (true) {
+        key = self.isInteger
+            ? Math.floor(Math.random() * 0x20000000000000)
+            : (&#x27;a&#x27; +
+                Math.random().toString(36).slice(2) +
+                Math.random().toString(36).slice(2)).slice(0, 16);
+        if (!self.<span class="docApiCodeKeywordSpan">getMatching</span>(key).length) {
+            break;
+        }
+    }
+    dbRow[self.fieldName] = key;
+}
+
+if (!Array.isArray(key)) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.insert" id="element.nedb-lite.Index.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insert
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">insert = function (dbRow){__cov_2d3533cc4458f.f[&#x27;175&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1147&#x27;]++;var key,keys,ii,failingI,error,self=this;__cov_2\
+d3533cc4458f.s[&#x27;1148&#x27;]++;if(Array.isArray(dbRow)){__cov_2d3533cc4458f.b[&#x27;341&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1149&#x27;]++;self.insertM\
+ultipleDocs(dbRow);__cov_2d3533cc4458f.s[&#x27;1150&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;341&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1151&#x27;]\
+++;key=local.nedb.queryGetDotValue(dbRow,self.fieldName);__cov_2d3533cc4458f.s[&#x27;1152&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;343&#x27;][0]++,k\
+ey===undefined)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;343&#x27;][1]++,self.sparse)){__cov_2d3533cc4458f.b[&#x27;342&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1153&#x27;\
+]++;return;}else{__cov_2d3533cc4458f.b[&#x27;342&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1154&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;345&#x27;][0]++,self.u\
+nique)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;345&#x27;][1]++,!((__cov_2d3533cc4458f.b[&#x27;346&#x27;][0]++,key===0)||(__cov_2d3533cc4458f.b[&#x27;346&#x27;][1]++,key\
+)))&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;345&#x27;][2]++,self.fieldName.indexOf(&#x27;.&#x27;)&lt;0)){__cov_2d3533cc4458f.b[&#x27;344&#x27;][0]++;__cov_2d3533cc4458f.s[\
+&#x27;1155&#x27;]++;while(true){__cov_2d3533cc4458f.s[&#x27;1156&#x27;]++;key=self.isInteger?(__cov_2d3533cc4458f.b[&#x27;347&#x27;][0]++,Math.floor(Math.rand\
+om()*9007199254740992)):(__cov_2d3533cc4458f.b[&#x27;347&#x27;][1]++,(&#x27;a&#x27;+Math.random().toString(36).slice(2)+Math.random().toString(36).s\
+lice(2)).slice(0,16));__cov_2d3533cc4458f.s[&#x27;1157&#x27;]++;if(!self.getMatching(key).length){__cov_2d3533cc4458f.b[&#x27;348&#x27;][0]++;__cov_\
+2d3533cc4458f.s[&#x27;1158&#x27;]++;break;}else{__cov_2d3533cc4458f.b[&#x27;348&#x27;][1]++;}}__cov_2d3533cc4458f.s[&#x27;1159&#x27;]++;dbRow[self.fieldName]=\
+key;}else{__cov_2d3533cc4458f.b[&#x27;344&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1160&#x27;]++;if(!Array.isArray(key)){__cov_2d3533cc4458f.b[&#x27;349&#x27;\
+][0]++;__cov_2d3533cc4458f.s[&#x27;1161&#x27;]++;self.tree=self.tree.insert(key,dbRow);}else{__cov_2d3533cc4458f.b[&#x27;349&#x27;][1]++;__cov_2d353\
+3cc4458f.s[&#x27;1162&#x27;]++;keys=local.nedb.listUnique(key).map(projectForUnique);__cov_2d3533cc4458f.s[&#x27;1163&#x27;]++;for(ii=0;ii&lt;keys.leng\
+th;ii+=1){__cov_2d3533cc4458f.s[&#x27;1164&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;1165&#x27;]++;self.tree=self.tree.insert(keys[ii],dbRow);}catch(\
+errorCaught){__cov_2d3533cc4458f.s[&#x27;1166&#x27;]++;error=errorCaught;__cov_2d3533cc4458f.s[&#x27;1167&#x27;]++;failingI=ii;__cov_2d3533cc4458f.s\
+[&#x27;1168&#x27;]++;break;}}__cov_2d3533cc4458f.s[&#x27;1169&#x27;]++;if(error){__cov_2d3533cc4458f.b[&#x27;350&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1170&#x27;]++;f\
+or(ii=0;ii&lt;failingI;ii+=1){__cov_2d3533cc4458f.s[&#x27;1171&#x27;]++;self.tree=self.tree.delete(keys[ii],dbRow);}__cov_2d3533cc4458f.s[&#x27;11\
+72&#x27;]++;throw error;}else{__cov_2d3533cc4458f.b[&#x27;350&#x27;][1]++;}}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    &lt;a\n\
+        href=&quot;https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html&quot;\n\
+        target=&quot;_blank&quot;\n\
+    &gt;eval&lt;/a&gt;\n\
+&lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.dbTableCreate({ name: &quot;table1&quot; });\n\
+table1.<span class="docApiCodeKeywordSpan">insert</span>({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\\
+n\
+console.log();\n\
+console.log(window.nedb_lite.dbTableExport(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+console.log();\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.insertMultipleDocs" id="element.nedb-lite.Index.prototype.insertMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>insertMultipleDocs
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">insertMultipleDocs = function (dbRowList){__cov_2d3533cc4458f.f[&#x27;176&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1174&#x27;]++;var ii,error,failingI;__cov_2d3533cc4458f.s[\
+&#x27;1175&#x27;]++;for(ii=0;ii&lt;dbRowList.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;1176&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;1177&#x27;]++;this.insert(db\
+RowList[ii]);}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;1178&#x27;]++;error=errorCaught;__cov_2d3533cc4458f.s[&#x27;1179&#x27;]++;failingI=ii;_\
+_cov_2d3533cc4458f.s[&#x27;1180&#x27;]++;break;}}__cov_2d3533cc4458f.s[&#x27;1181&#x27;]++;if(error){__cov_2d3533cc4458f.b[&#x27;351&#x27;][0]++;__cov_2d3533c\
+c4458f.s[&#x27;1182&#x27;]++;for(ii=0;ii&lt;failingI;ii+=1){__cov_2d3533cc4458f.s[&#x27;1183&#x27;]++;this.remove(dbRowList[ii]);}__cov_2d3533cc4458f.s\
+[&#x27;1184&#x27;]++;throw error;}else{__cov_2d3533cc4458f.b[&#x27;351&#x27;][1]++;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+         * Insert a new dbRow in the index
+         * If an array is passed, we insert all its elements (if one insertion fails the index is not modified)
+         * O(log(n))
+         */
+var key, keys, ii, failingI, error, self = this;
+
+if (Array.isArray(dbRow)) {
+    self.<span class="docApiCodeKeywordSpan">insertMultipleDocs</span>(dbRow);
+    return;
+}
+
+key = local.nedb.queryGetDotValue(dbRow, self.fieldName);
+
+// We don&#x27;t index dbRow&#x27;s that don&#x27;t contain the field if the index is sparse
+if (key === undefined &amp;&amp; self.sparse) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.remove" id="element.nedb-lite.Index.prototype.remove">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>remove
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">remove = function (dbRow){__cov_2d3533cc4458f.f[&#x27;177&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1186&#x27;]++;var key,self=this;__cov_2d3533cc4458f.s[&#x27;1187&#x27;]+\
++;if(Array.isArray(dbRow)){__cov_2d3533cc4458f.b[&#x27;352&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1188&#x27;]++;dbRow.forEach(function(d){__cov_2d3\
+533cc4458f.f[&#x27;178&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1189&#x27;]++;self.remove(d);});__cov_2d3533cc4458f.s[&#x27;1190&#x27;]++;return;}else{__cov_2d353\
+3cc4458f.b[&#x27;352&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1191&#x27;]++;key=local.nedb.queryGetDotValue(dbRow,self.fieldName);__cov_2d3533cc4458\
+f.s[&#x27;1192&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;354&#x27;][0]++,key===undefined)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;354&#x27;][1]++,self.sparse)){__cov_2d3\
+533cc4458f.b[&#x27;353&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1193&#x27;]++;return;}else{__cov_2d3533cc4458f.b[&#x27;353&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;\
+1194&#x27;]++;if(!Array.isArray(key)){__cov_2d3533cc4458f.b[&#x27;355&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1195&#x27;]++;self.tree=self.tree.delete(ke\
+y,dbRow);}else{__cov_2d3533cc4458f.b[&#x27;355&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;1196&#x27;]++;local.nedb.listUnique(key).map(projectForUnique\
+).forEach(function(_key){__cov_2d3533cc4458f.f[&#x27;179&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1197&#x27;]++;self.tree=self.tree.delete(_key,dbRow);}\
+);}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+            failingI = ii;
+            break;
+        }
+    }
+
+    if (error) {
+        for (ii = 0; ii &lt; failingI; ii += 1) {
+            this.<span class="docApiCodeKeywordSpan">remove</span>(dbRowList[ii]);
+        }
+
+        throw error;
+    }
+};
+local.nedb.Index.prototype.remove = function (dbRow) {
+/**
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.reset" id="element.nedb-lite.Index.prototype.reset">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>reset
+            <span class="docApiSignatureSpan">(dbRowList)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">reset = function (dbRowList){__cov_2d3533cc4458f.f[&#x27;174&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1143&#x27;]++;this.tree=new local.nedb.AvlTree({unique:thi\
+s.unique});__cov_2d3533cc4458f.s[&#x27;1144&#x27;]++;if(dbRowList){__cov_2d3533cc4458f.b[&#x27;340&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1145&#x27;]++;this.\
+insert(dbRowList);}else{__cov_2d3533cc4458f.b[&#x27;340&#x27;][1]++;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    // Recreate all indexes in the datafile
+    Object.keys(data.indexes).forEach(function (key) {
+        self.indexes[key] = new local.nedb.Index(data.indexes[key]);
+    });
+
+    // Fill cached database (i.e. all indexes) with data
+    Object.keys(self.indexes).forEach(function (key) {
+        self.indexes[key].<span class="docApiCodeKeywordSpan">reset</span>(data.data);
+    });
+    self.persistence.persistCachedDatabase(options.onNext);
+    break;
+default:
+    // validate no error occurred
+    local.nedb.assert(!error, error);
+    if (onError) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.update" id="element.nedb-lite.Index.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>update
+            <span class="docApiSignatureSpan">(oldDoc,newDoc)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">update = function (oldDoc,newDoc){__cov_2d3533cc4458f.f[&#x27;180&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1199&#x27;]++;if(Array.isArray(oldDoc)){__cov_2d3533cc\
+4458f.b[&#x27;356&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1200&#x27;]++;this.updateMultipleDocs(oldDoc);__cov_2d3533cc4458f.s[&#x27;1201&#x27;]++;return;}else\
+{__cov_2d3533cc4458f.b[&#x27;356&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1202&#x27;]++;this.remove(oldDoc);__cov_2d3533cc4458f.s[&#x27;1203&#x27;]++;try{__co\
+v_2d3533cc4458f.s[&#x27;1204&#x27;]++;this.insert(newDoc);}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;1205&#x27;]++;this.insert(oldDoc);__cov_2d\
+3533cc4458f.s[&#x27;1206&#x27;]++;throw errorCaught;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+ * Update one or several dbRow&#x27;s in all indexes
+ * To update multiple dbRow&#x27;s, oldDoc must be an array of { oldDoc, newDoc } pairs
+ * If one update violates a constraint, all changes are rolled back
+ */
+    var ii, keys = Object.keys(this.indexes);
+
+    for (ii = 0; ii &lt; keys.length; ii += 1) {
+        this.indexes[keys[ii]].<span class="docApiCodeKeywordSpan">update</span>(oldDoc, newDoc);
+    }
+};
+
+local.nedb._Table.prototype.getCandidates = function (query, onError) {
+/**
+ * Return the list of candidates for a given query
+ * Crude implementation for now, we return the candidates given by the first usable index if any
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Index.prototype.updateMultipleDocs" id="element.nedb-lite.Index.prototype.updateMultipleDocs">
+            function <span class="docApiSignatureSpan">nedb-lite.Index.prototype.</span>updateMultipleDocs
+            <span class="docApiSignatureSpan">(pairs)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">updateMultipleDocs = function (pairs){__cov_2d3533cc4458f.f[&#x27;181&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1208&#x27;]++;var ii,failingI,error;__cov_2d3533cc4458f.s[&#x27;120\
+9&#x27;]++;for(ii=0;ii&lt;pairs.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;1210&#x27;]++;this.remove(pairs[ii].oldDoc);}__cov_2d3533cc4458f.s[&#x27;1211\
+&#x27;]++;for(ii=0;ii&lt;pairs.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;1212&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;1213&#x27;]++;this.insert(pairs[ii].n\
+ewDoc);}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;1214&#x27;]++;error=errorCaught;__cov_2d3533cc4458f.s[&#x27;1215&#x27;]++;failingI=ii;__cov_2\
+d3533cc4458f.s[&#x27;1216&#x27;]++;break;}}__cov_2d3533cc4458f.s[&#x27;1217&#x27;]++;if(error){__cov_2d3533cc4458f.b[&#x27;357&#x27;][0]++;__cov_2d3533cc4458f\
+.s[&#x27;1218&#x27;]++;for(ii=0;ii&lt;failingI;ii+=1){__cov_2d3533cc4458f.s[&#x27;1219&#x27;]++;this.remove(pairs[ii].newDoc);}__cov_2d3533cc4458f.s[&#x27;1\
+220&#x27;]++;for(ii=0;ii&lt;pairs.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;1221&#x27;]++;this.insert(pairs[ii].oldDoc);}__cov_2d3533cc4458f.s[&#x27;12\
+22&#x27;]++;throw error;}else{__cov_2d3533cc4458f.b[&#x27;357&#x27;][1]++;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        local.nedb.Index.prototype.update = function (oldDoc, newDoc) {
+        /**
+         * Update a dbRow in the index
+         * If a constraint is violated, changes are rolled back and an error thrown
+         * Naive implementation, still in O(log(n))
+         */
+if (Array.isArray(oldDoc)) {
+    this.<span class="docApiCodeKeywordSpan">updateMultipleDocs</span>(oldDoc);
+    return;
+}
+
+this.remove(oldDoc);
+
+try {
+    this.insert(newDoc);
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Persistence" id="module.nedb-lite.Persistence">module nedb-lite.Persistence</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.Persistence" id="element.nedb-lite.Persistence.Persistence">
+            function <span class="docApiSignatureSpan">nedb-lite.</span>Persistence
+            <span class="docApiSignatureSpan">(options)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">Persistence = function (options){__cov_2d3533cc4458f.f[&#x27;187&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1236&#x27;]++;this.db=options.db;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        &#x27;nedb - missing name param, e.g. nedb.dbTableCreate({ name: &quot;table1&quot; })&#x27;
+    );
+}
+self.name = options.name;
+local.nedb.dbTableDrop(self, local.nedb.nop);
+local.nedb.dbTableDict[self.name] = self;
+// Persistence handling
+self.persistence = new local.nedb.<span class="docApiCodeKeywordSpan">Persistence</span>({ db: self });
+// Indexed by field name, dot notation can be used
+// _id is always indexed and since _ids are generated randomly the underlying
+// binary is always well-balanced
+self.indexes = {
+    _id: new local.nedb.Index({ fieldName: &#x27;_id&#x27;, unique: true }),
+    createdAt: new local.nedb.Index({ fieldName: &#x27;createdAt&#x27; }),
+    updatedAt: new local.nedb.Index({ fieldName: &#x27;updatedAt&#x27; })
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite.Persistence.prototype" id="module.nedb-lite.Persistence.prototype">module nedb-lite.Persistence.prototype</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.prototype.persistCachedDatabase" id="element.nedb-lite.Persistence.prototype.persistCachedDatabase">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistCachedDatabase
+            <span class="docApiSignatureSpan">(onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">persistCachedDatabase = function (onError){__cov_2d3533cc4458f.f[&#x27;188&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1238&#x27;]++;var toPersist=&#x27;&#x27;,self=this;__cov_2d3533cc4458f\
+.s[&#x27;1239&#x27;]++;local.nedb.dbTableFindAll(self.db).forEach(function(dbRow){__cov_2d3533cc4458f.f[&#x27;189&#x27;]++;__cov_2d3533cc4458f.s[&#x27;12\
+40&#x27;]++;toPersist+=JSON.stringify(dbRow)+&#x27;\n&#x27;;});__cov_2d3533cc4458f.s[&#x27;1241&#x27;]++;Object.keys(self.db.indexes).forEach(function(fi\
+eldName){__cov_2d3533cc4458f.f[&#x27;190&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1242&#x27;]++;if(fieldName!==&#x27;_id&#x27;){__cov_2d3533cc4458f.b[&#x27;359&#x27;][0]++;\
+__cov_2d3533cc4458f.s[&#x27;1243&#x27;]++;toPersist+=JSON.stringify({$$indexCreated:{fieldName:fieldName,unique:self.db.indexes[fieldName]\
+.unique,sparse:self.db.indexes[fieldName].sparse}})+&#x27;\n&#x27;;}else{__cov_2d3533cc4458f.b[&#x27;359&#x27;][1]++;}});__cov_2d3533cc4458f.s[&#x27;1244\
+&#x27;]++;local.nedb.dbStorageSetItem(self.db.name,toPersist,onError);}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+        self.indexes[key] = new local.nedb.Index(data.indexes[key]);
+    });
+
+    // Fill cached database (i.e. all indexes) with data
+    Object.keys(self.indexes).forEach(function (key) {
+        self.indexes[key].reset(data.data);
+    });
+    self.persistence.<span class="docApiCodeKeywordSpan">persistCachedDatabase</span>(options.onNext);
+    break;
+default:
+    // validate no error occurred
+    local.nedb.assert(!error, error);
+    if (onError) {
+        onError(error, self);
+    }
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.prototype.persistNewState" id="element.nedb-lite.Persistence.prototype.persistNewState">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>persistNewState
+            <span class="docApiSignatureSpan">(newDocs,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">persistNewState = function (newDocs,onError){__cov_2d3533cc4458f.f[&#x27;191&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1246&#x27;]++;var self=this,toPersist=&#x27;&#x27;;__cov_2d353\
+3cc4458f.s[&#x27;1247&#x27;]++;newDocs.forEach(function(dbRow){__cov_2d3533cc4458f.f[&#x27;192&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1248&#x27;]++;toPersist+=J\
+SON.stringify(dbRow)+&#x27;\n&#x27;;});__cov_2d3533cc4458f.s[&#x27;1249&#x27;]++;if(toPersist.length===0){__cov_2d3533cc4458f.b[&#x27;360&#x27;][0]++;__cov_2d\
+3533cc4458f.s[&#x27;1250&#x27;]++;return onError();}else{__cov_2d3533cc4458f.b[&#x27;360&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1251&#x27;]++;local.nedb.dbS\
+torageGetItem(self.db.name,function(error,data){__cov_2d3533cc4458f.f[&#x27;193&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1252&#x27;]++;local.nedb.assert\
+(!error,error);__cov_2d3533cc4458f.s[&#x27;1253&#x27;]++;local.nedb.dbStorageSetItem(self.db.name,((__cov_2d3533cc4458f.b[&#x27;361&#x27;][0]++,data\
+)||(__cov_2d3533cc4458f.b[&#x27;361&#x27;][1]++,&#x27;&#x27;))+toPersist,onError);});}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    // but we stick with MongoDB&#x27;s API here
+    if (options.expireAfterSeconds !== undefined) {
+        self.ttlIndexes[options.fieldName] = options.expireAfterSeconds;
+    }
+    self.indexes[options.fieldName].insert(local.nedb.dbTableFindAll(self));
+    // We may want to force all options to be persisted including defaults,
+    // not just the ones passed the index creation function
+    self.persistence.<span class="docApiCodeKeywordSpan">persistNewState</span>([{ $$indexCreated: options }], onError);
+};
+
+local.nedb.dbIndexRemove = function (dbTable, options, onError) {
+/*
+ * this function will remove the dbIndex from dbTable with the given options
+ */
+    var self;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite.Persistence.prototype.treatRawData" id="element.nedb-lite.Persistence.prototype.treatRawData">
+            function <span class="docApiSignatureSpan">nedb-lite.Persistence.prototype.</span>treatRawData
+            <span class="docApiSignatureSpan">(rawData)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">treatRawData = function (rawData){__cov_2d3533cc4458f.f[&#x27;194&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1255&#x27;]++;var data=rawData.split(&#x27;\n&#x27;),dataById={},dbRow\
+,tdata=[],ii,indexes={},corruptItems=-1;__cov_2d3533cc4458f.s[&#x27;1256&#x27;]++;for(ii=0;ii&lt;data.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;12\
+57&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;1258&#x27;]++;dbRow=JSON.parse(data[ii]);__cov_2d3533cc4458f.s[&#x27;1259&#x27;]++;if(dbRow._id){__cov_2d3533\
+cc4458f.b[&#x27;362&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1260&#x27;]++;if(dbRow.$$deleted===true){__cov_2d3533cc4458f.b[&#x27;363&#x27;][0]++;__cov_2d3533c\
+c4458f.s[&#x27;1261&#x27;]++;delete dataById[dbRow._id];}else{__cov_2d3533cc4458f.b[&#x27;363&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;1262&#x27;]++;dataById[d\
+bRow._id]=dbRow;}}else{__cov_2d3533cc4458f.b[&#x27;362&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;1263&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;365&#x27;][0]++,d\
+bRow.$$indexCreated)&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;365&#x27;][1]++,dbRow.$$indexCreated.fieldName!==undefined)){__cov_2d3533cc4458f.b[&#x27;364\
+&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1264&#x27;]++;indexes[dbRow.$$indexCreated.fieldName]=dbRow.$$indexCreated;}else{__cov_2d3533cc4458f.b\
+[&#x27;364&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;1265&#x27;]++;if(typeof dbRow.$$indexRemoved===&#x27;string&#x27;){__cov_2d3533cc4458f.b[&#x27;366&#x27;][0]++;__cov_\
+2d3533cc4458f.s[&#x27;1266&#x27;]++;delete indexes[dbRow.$$indexRemoved];}else{__cov_2d3533cc4458f.b[&#x27;366&#x27;][1]++;}}}}catch(errorCaught){__\
+cov_2d3533cc4458f.s[&#x27;1267&#x27;]++;corruptItems+=1;__cov_2d3533cc4458f.s[&#x27;1268&#x27;]++;local.nedb.assert(!corruptItems,errorCaught);}}__c\
+ov_2d3533cc4458f.s[&#x27;1269&#x27;]++;Object.keys(dataById).forEach(function(k){__cov_2d3533cc4458f.f[&#x27;195&#x27;]++;__cov_2d3533cc4458f.s[&#x27;127\
+0&#x27;]++;tdata.push(dataById[k]);});__cov_2d3533cc4458f.s[&#x27;1271&#x27;]++;return{data:tdata,indexes:indexes};}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+// which has the effect of compacting the database file.
+// This operation is very quick at startup for a big dbTable
+// (60ms for ~10k docs).
+if (self.dropped) {
+    options.onNext();
+    return;
+}
+data = self.persistence.<span class="docApiCodeKeywordSpan">treatRawData</span>(data || &#x27;&#x27;);
+// Recreate all indexes in the datafile
+Object.keys(data.indexes).forEach(function (key) {
+    self.indexes[key] = new local.nedb.Index(data.indexes[key]);
+});
+
+// Fill cached database (i.e. all indexes) with data
+Object.keys(self.indexes).forEach(function (key) {
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+    <div class="docApiSectionDiv">
+    <h1><a href="#module.nedb-lite._Table.prototype" id="module.nedb-lite._Table.prototype">module nedb-lite._Table.prototype</a></h1>
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.addToIndexes" id="element.nedb-lite._Table.prototype.addToIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>addToIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">addToIndexes = function (dbRow){__cov_2d3533cc4458f.f[&#x27;212&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1367&#x27;]++;var ii,failingIndex,error,keys=Object.keys(this.\
+indexes);__cov_2d3533cc4458f.s[&#x27;1368&#x27;]++;for(ii=0;ii&lt;keys.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;1369&#x27;]++;try{__cov_2d3533cc4458f.\
+s[&#x27;1370&#x27;]++;this.indexes[keys[ii]].insert(dbRow);}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;1371&#x27;]++;failingIndex=ii;__cov_2d353\
+3cc4458f.s[&#x27;1372&#x27;]++;error=errorCaught;__cov_2d3533cc4458f.s[&#x27;1373&#x27;]++;break;}}__cov_2d3533cc4458f.s[&#x27;1374&#x27;]++;if(error){__cov_2\
+d3533cc4458f.b[&#x27;391&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1375&#x27;]++;for(ii=0;ii&lt;failingIndex;ii+=1){__cov_2d3533cc4458f.s[&#x27;1376&#x27;]++;this.\
+indexes[keys[ii]].remove(dbRow);}__cov_2d3533cc4458f.s[&#x27;1377&#x27;]++;throw error;}else{__cov_2d3533cc4458f.b[&#x27;391&#x27;][1]++;}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+/**
+ * If newDoc is an array of dbRow&#x27;s, this will insert all dbRow&#x27;s in the cache
+ * @api private
+ */
+    if (Array.isArray(preparedDoc)) {
+        this._insertMultipleDocsInCache(preparedDoc);
+    } else {
+        this.<span class="docApiCodeKeywordSpan">addToIndexes</span>(preparedDoc);
+    }
+};
+
+local.nedb._Table.prototype._insertMultipleDocsInCache = function (preparedDocs) {
+/**
+ * If one insertion fails (e.g. because of a unique constraint), roll back all previous
+ * inserts and throws the error
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.getCandidates" id="element.nedb-lite._Table.prototype.getCandidates">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>getCandidates
+            <span class="docApiSignatureSpan">(query,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">getCandidates = function (query,onError){__cov_2d3533cc4458f.f[&#x27;216&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1387&#x27;]++;var self=this,onParallel,options,usableQ\
+ueryKeys;__cov_2d3533cc4458f.s[&#x27;1388&#x27;]++;options={};__cov_2d3533cc4458f.s[&#x27;1389&#x27;]++;local.nedb.onNext(options,function(error,dat\
+a){__cov_2d3533cc4458f.f[&#x27;217&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1390&#x27;]++;local.nedb.nop(error);__cov_2d3533cc4458f.s[&#x27;1391&#x27;]++;switch(o\
+ptions.modeNext){case 1:__cov_2d3533cc4458f.b[&#x27;392&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1392&#x27;]++;local.nedb.dbTableDefer(self,options.o\
+nNext);__cov_2d3533cc4458f.s[&#x27;1393&#x27;]++;break;case 2:__cov_2d3533cc4458f.b[&#x27;392&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;1394&#x27;]++;usableQuer\
+yKeys=[];__cov_2d3533cc4458f.s[&#x27;1395&#x27;]++;Object.keys(query).forEach(function(k){__cov_2d3533cc4458f.f[&#x27;218&#x27;]++;__cov_2d3533cc445\
+8f.s[&#x27;1396&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;394&#x27;][0]++,typeof query[k]===&#x27;string&#x27;)||(__cov_2d3533cc4458f.b[&#x27;394&#x27;][1]++,typeof quer\
+y[k]===&#x27;number&#x27;)||(__cov_2d3533cc4458f.b[&#x27;394&#x27;][2]++,typeof query[k]===&#x27;boolean&#x27;)||(__cov_2d3533cc4458f.b[&#x27;394&#x27;][3]++,query[k]==\
+=null)){__cov_2d3533cc4458f.b[&#x27;393&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1397&#x27;]++;usableQueryKeys.push(k);}else{__cov_2d3533cc4458f.b[&#x27;3\
+93&#x27;][1]++;}});__cov_2d3533cc4458f.s[&#x27;1398&#x27;]++;usableQueryKeys=usableQueryKeys.filter(function(element){__cov_2d3533cc4458f.f[&#x27;21\
+9&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1399&#x27;]++;return self.indexes.hasOwnProperty(element);});__cov_2d3533cc4458f.s[&#x27;1400&#x27;]++;if(usableQu\
+eryKeys.length&gt;0){__cov_2d3533cc4458f.b[&#x27;395&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1401&#x27;]++;return options.onNext(null,self.indexes[usab\
+leQueryKeys[0]].getMatching(query[usableQueryKeys[0]]));}else{__cov_2d3533cc4458f.b[&#x27;395&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1402&#x27;]++\
+;usableQueryKeys=[];__cov_2d3533cc4458f.s[&#x27;1403&#x27;]++;Object.keys(query).forEach(function(k){__cov_2d3533cc4458f.f[&#x27;220&#x27;]++;__cov_\
+2d3533cc4458f.s[&#x27;1404&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;397&#x27;][0]++,query[k])&amp;&amp;(__cov_2d3533cc4458f.b[&#x27;397&#x27;][1]++,query[k].hasOwnPro\
+perty(&#x27;$in&#x27;))){__cov_2d3533cc4458f.b[&#x27;396&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1405&#x27;]++;usableQueryKeys.push(k);}else{__cov_2d3533cc445\
+8f.b[&#x27;396&#x27;][1]++;}});__cov_2d3533cc4458f.s[&#x27;1406&#x27;]++;usableQueryKeys=usableQueryKeys.filter(function(element){__cov_2d3533cc4458\
+f.f[&#x27;221&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1407&#x27;]++;return self.indexes.hasOwnProperty(element);});__cov_2d3533cc4458f.s[&#x27;1408&#x27;]++;if(u\
+sableQueryKeys.length&gt;0){__cov_2d3533cc4458f.b[&#x27;398&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1409&#x27;]++;return options.onNext(null,self.index\
+es[usableQueryKeys[0]].getMatching(query[usableQueryKeys[0]].$in));}else{__cov_2d3533cc4458f.b[&#x27;398&#x27;][1]++;}__cov_2d3533cc4458f.\
+s[&#x27;1410&#x27;]++;usableQueryKeys=[];__cov_2d3533cc4458f.s[&#x27;1411&#x27;]++;Object.keys(query).forEach(function(k){__cov_2d3533cc4458f.f[&#x27;222\
+&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1412&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;400&#x27;][0]++,query[k])&amp;&amp;((__cov_2d3533cc4458f.b[&#x27;400&#x27;][1]++,query[\
+k].hasOwnProperty(&#x27;$lt&#x27;))||(__cov_2d3533cc4458f.b[&#x27;400&#x27;][2]++,query[k].hasOwnProperty(&#x27;$lte&#x27;))||(__cov_2d3533cc4458f.b[&#x27;400&#x27;][3]\
+++,query[k].hasOwnProperty(&#x27;$gt&#x27;))||(__cov_2d3533cc4458f.b[&#x27;400&#x27;][4]++,query[k].hasOwnProperty(&#x27;$gte&#x27;)))){__cov_2d3533cc4458f.b[\
+&#x27;399&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1413&#x27;]++;usableQueryKeys.push(k);}else{__cov_2d3533cc4458f.b[&#x27;399&#x27;][1]++;}});__cov_2d3533cc44\
+58f.s[&#x27;1414&#x27;]++;usableQueryKeys=usableQueryKeys.filter(function(element){__cov_2d3533cc4458f.f[&#x27;223&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1\
+415&#x27;]++;return self.indexes.hasOwnProperty(element);});__cov_2d3533cc4458f.s[&#x27;1416&#x27;]++;if(usableQueryKeys.length&gt;0){__cov_2d3533\
+cc4458f.b[&#x27;401&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1417&#x27;]++;return options.onNext(null,self.indexes[usableQueryKeys[0]].getBetweenBoun\
+ds(query[usableQueryKeys[0]]));}else{__cov_2d3533cc4458f.b[&#x27;401&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1418&#x27;]++;return options.onNext(nu\
+ll,local.nedb.dbTableFindAll(self));default:__cov_2d3533cc4458f.b[&#x27;392&#x27;][2]++;__cov_2d3533cc4458f.s[&#x27;1419&#x27;]++;var validDocs=[],t\
+tlIndexesFieldNames=Object.keys(self.ttlIndexes);__cov_2d3533cc4458f.s[&#x27;1420&#x27;]++;onParallel=local.nedb.onParallel(function(error\
+){__cov_2d3533cc4458f.f[&#x27;224&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1421&#x27;]++;o ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+options = local.nedb.objectSetDefault(options, { query: {} });
+local.nedb.onNext(options, function (error, data) {
+    data = data || [];
+    switch (options.modeNext) {
+    case 1:
+        result = 0;
+        self = local.nedb.dbTableDict[dbTable.name];
+        self.<span class="docApiCodeKeywordSpan">getCandidates</span>(options.query, options.onNext);
+        break;
+    case 2:
+        data.forEach(function (dbRow) {
+            if (local.nedb.queryMatch(dbRow, options.query)) {
+                result += 1;
+            }
+        });
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.insert" id="element.nedb-lite._Table.prototype.insert">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>insert
+            <span class="docApiSignatureSpan">(newDoc,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">insert = function (newDoc,onError){__cov_2d3533cc4458f.f[&#x27;227&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1436&#x27;]++;var self,preparedDoc;__cov_2d3533cc4458\
+f.s[&#x27;1437&#x27;]++;self=this;__cov_2d3533cc4458f.s[&#x27;1438&#x27;]++;local.nedb.dbTableDefer(self,function(){__cov_2d3533cc4458f.f[&#x27;228&#x27;]++;_\
+_cov_2d3533cc4458f.s[&#x27;1439&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;1440&#x27;]++;preparedDoc=self.prepareDocumentForInsertion(newDoc);__cov_2d\
+3533cc4458f.s[&#x27;1441&#x27;]++;self._insertInCache(preparedDoc);}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;1442&#x27;]++;return onError(erro\
+rCaught);}__cov_2d3533cc4458f.s[&#x27;1443&#x27;]++;self.persistence.persistNewState(Array.isArray(preparedDoc)?(__cov_2d3533cc4458f.b[&#x27;40\
+5&#x27;][0]++,preparedDoc):(__cov_2d3533cc4458f.b[&#x27;405&#x27;][1]++,[preparedDoc]),function(error){__cov_2d3533cc4458f.f[&#x27;229&#x27;]++;__cov_2d3\
+533cc4458f.s[&#x27;1444&#x27;]++;if(error){__cov_2d3533cc4458f.b[&#x27;406&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1445&#x27;]++;return onError(error);}else{_\
+_cov_2d3533cc4458f.b[&#x27;406&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1446&#x27;]++;return onError(null,local.nedb.jsonCopy(preparedDoc));});});}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    &lt;a\n\
+        href=&quot;https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html&quot;\n\
+        target=&quot;_blank&quot;\n\
+    &gt;eval&lt;/a&gt;\n\
+&lt;/label&gt;\n\
+&lt;textarea id=&quot;inputTextarea1&quot;&gt;\n\
+window.table1 = window.nedb_lite.dbTableCreate({ name: &quot;table1&quot; });\n\
+table1.<span class="docApiCodeKeywordSpan">insert</span>({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\\
+n\
+console.log();\n\
+console.log(window.nedb_lite.dbTableExport(table1));\n\
+});\n\
+\n\
+window.table2 = window.nedb_lite.dbTableCreate({ name: &quot;table2&quot; });\n\
+table2.insert({ field1: &quot;hello&quot;, field2: &quot;world&quot;}, function () {\n\
+console.log();\n\
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.prepareDocumentForInsertion" id="element.nedb-lite._Table.prototype.prepareDocumentForInsertion">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>prepareDocumentForInsertion
+            <span class="docApiSignatureSpan">(newDoc)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">prepareDocumentForInsertion = function (newDoc){__cov_2d3533cc4458f.f[&#x27;230&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1448&#x27;]++;var preparedDoc,now,self=this;__cov_2d3533cc445\
+8f.s[&#x27;1449&#x27;]++;if(Array.isArray(newDoc)){__cov_2d3533cc4458f.b[&#x27;407&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1450&#x27;]++;preparedDoc=[];__cov_\
+2d3533cc4458f.s[&#x27;1451&#x27;]++;newDoc.forEach(function(dbRow){__cov_2d3533cc4458f.f[&#x27;231&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1452&#x27;]++;prepared\
+Doc.push(self.prepareDocumentForInsertion(dbRow));});}else{__cov_2d3533cc4458f.b[&#x27;407&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;1453&#x27;]++;pre\
+paredDoc=local.nedb.jsonCopy(newDoc);__cov_2d3533cc4458f.s[&#x27;1454&#x27;]++;now=new Date().toISOString();__cov_2d3533cc4458f.s[&#x27;1455&#x27;]+\
++;if(preparedDoc.createdAt===undefined){__cov_2d3533cc4458f.b[&#x27;408&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1456&#x27;]++;preparedDoc.createdAt=\
+now;}else{__cov_2d3533cc4458f.b[&#x27;408&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1457&#x27;]++;if(preparedDoc.updatedAt===undefined){__cov_2d3533c\
+c4458f.b[&#x27;409&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1458&#x27;]++;preparedDoc.updatedAt=now;}else{__cov_2d3533cc4458f.b[&#x27;409&#x27;][1]++;}__cov_2d\
+3533cc4458f.s[&#x27;1459&#x27;]++;local.nedb.dbRowCheckObject(preparedDoc);}__cov_2d3533cc4458f.s[&#x27;1460&#x27;]++;return preparedDoc;}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+         *
+         * @api private Use Datastore.insert which has the same signature
+         */
+            var self, preparedDoc;
+            self = this;
+            local.nedb.dbTableDefer(self, function () {
+try {
+    preparedDoc = self.<span class="docApiCodeKeywordSpan">prepareDocumentForInsertion</span>(newDoc);
+    self._insertInCache(preparedDoc);
+} catch (errorCaught) {
+    return onError(errorCaught);
+}
+
+self.persistence.persistNewState(Array.isArray(preparedDoc) ? preparedDoc : [preparedDoc], function (error) {
+    if (error) {
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.removeFromIndexes" id="element.nedb-lite._Table.prototype.removeFromIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>removeFromIndexes
+            <span class="docApiSignatureSpan">(dbRow)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">removeFromIndexes = function (dbRow){__cov_2d3533cc4458f.f[&#x27;213&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1379&#x27;]++;var self=this;__cov_2d3533cc4458f.s[&#x27;1380&#x27;]++;Ob\
+ject.keys(this.indexes).forEach(function(ii){__cov_2d3533cc4458f.f[&#x27;214&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1381&#x27;]++;self.indexes[ii].rem\
+ove(dbRow);});}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+data.some(function (dbRow) {
+    if (local.nedb.queryMatch(dbRow, options.query)) {
+        result += 1;
+        removedList.push({
+            $$deleted: true,
+            _id: dbRow._id
+        });
+        self.<span class="docApiCodeKeywordSpan">removeFromIndexes</span>(dbRow);
+        if (options.one) {
+            return true;
+        }
+    }
+});
+self.persistence.persistNewState(removedList, options.onNext);
+break;
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.update" id="element.nedb-lite._Table.prototype.update">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>update
+            <span class="docApiSignatureSpan">(query,updateQuery,options,onError)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">update = function (query,updateQuery,options,onError){__cov_2d3533cc4458f.f[&#x27;234&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1478&#x27;]++;var self=this,numRep\
+laced=0,multi,upsert,ii;__cov_2d3533cc4458f.s[&#x27;1479&#x27;]++;multi=options.multi!==undefined?(__cov_2d3533cc4458f.b[&#x27;412&#x27;][0]++,optio\
+ns.multi):(__cov_2d3533cc4458f.b[&#x27;412&#x27;][1]++,false);__cov_2d3533cc4458f.s[&#x27;1480&#x27;]++;upsert=options.upsert!==undefined?(__cov_2d3\
+533cc4458f.b[&#x27;413&#x27;][0]++,options.upsert):(__cov_2d3533cc4458f.b[&#x27;413&#x27;][1]++,false);__cov_2d3533cc4458f.s[&#x27;1481&#x27;]++;options={};__\
+cov_2d3533cc4458f.s[&#x27;1482&#x27;]++;local.nedb.onNext(options,function(){__cov_2d3533cc4458f.f[&#x27;235&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1483&#x27;]+\
++;var cursor,modifiedDoc,modifications,createdAt;__cov_2d3533cc4458f.s[&#x27;1484&#x27;]++;switch(options.modeNext){case 1:__cov_2d3533cc4\
+458f.b[&#x27;414&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1485&#x27;]++;local.nedb.dbTableDefer(self,options.onNext);__cov_2d3533cc4458f.s[&#x27;1486&#x27;]++;\
+break;case 2:__cov_2d3533cc4458f.b[&#x27;414&#x27;][1]++;__cov_2d3533cc4458f.s[&#x27;1487&#x27;]++;if(!upsert){__cov_2d3533cc4458f.b[&#x27;415&#x27;][0]++;__c\
+ov_2d3533cc4458f.s[&#x27;1488&#x27;]++;return options.onNext();}else{__cov_2d3533cc4458f.b[&#x27;415&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1489&#x27;]++;cu\
+rsor=new local.nedb.Cursor(self,query);__cov_2d3533cc4458f.s[&#x27;1490&#x27;]++;cursor.limit(1)._exec(function(error,docs){__cov_2d3533cc\
+4458f.f[&#x27;236&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1491&#x27;]++;if(error){__cov_2d3533cc4458f.b[&#x27;416&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1492&#x27;]++;ret\
+urn onError(error);}else{__cov_2d3533cc4458f.b[&#x27;416&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1493&#x27;]++;if(docs.length===1){__cov_2d3533cc44\
+58f.b[&#x27;417&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1494&#x27;]++;return options.onNext();}else{__cov_2d3533cc4458f.b[&#x27;417&#x27;][1]++;}__cov_2d3533c\
+c4458f.s[&#x27;1495&#x27;]++;var toBeInserted;__cov_2d3533cc4458f.s[&#x27;1496&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;1497&#x27;]++;local.nedb.dbRowCheckObj\
+ect(updateQuery);__cov_2d3533cc4458f.s[&#x27;1498&#x27;]++;toBeInserted=updateQuery;}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;1499&#x27;]++;tr\
+y{__cov_2d3533cc4458f.s[&#x27;1500&#x27;]++;toBeInserted=local.nedb.dbRowModify(local.nedb.dbRowDeepCopy(query,true),updateQuery);}catch(e\
+rrorCaught2){__cov_2d3533cc4458f.s[&#x27;1501&#x27;]++;return onError(errorCaught2);}}__cov_2d3533cc4458f.s[&#x27;1502&#x27;]++;return self.insert(t\
+oBeInserted,function(error,newDoc){__cov_2d3533cc4458f.f[&#x27;237&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1503&#x27;]++;if(error){__cov_2d3533cc4458f.\
+b[&#x27;418&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1504&#x27;]++;return onError(error);}else{__cov_2d3533cc4458f.b[&#x27;418&#x27;][1]++;}__cov_2d3533cc4458f\
+.s[&#x27;1505&#x27;]++;return onError(null,1,newDoc,true);});});__cov_2d3533cc4458f.s[&#x27;1506&#x27;]++;break;default:__cov_2d3533cc4458f.b[&#x27;414&#x27;]\
+[2]++;__cov_2d3533cc4458f.s[&#x27;1507&#x27;]++;modifications=[];__cov_2d3533cc4458f.s[&#x27;1508&#x27;]++;self.getCandidates(query,function(error,c\
+andidates){__cov_2d3533cc4458f.f[&#x27;238&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1509&#x27;]++;if(error){__cov_2d3533cc4458f.b[&#x27;419&#x27;][0]++;__cov_2d35\
+33cc4458f.s[&#x27;1510&#x27;]++;return onError(error);}else{__cov_2d3533cc4458f.b[&#x27;419&#x27;][1]++;}__cov_2d3533cc4458f.s[&#x27;1511&#x27;]++;try{__cov_2\
+d3533cc4458f.s[&#x27;1512&#x27;]++;for(ii=0;ii&lt;candidates.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;1513&#x27;]++;if((__cov_2d3533cc4458f.b[&#x27;421&#x27;][0\
+]++,local.nedb.queryMatch(candidates[ii],query))&amp;&amp;((__cov_2d3533cc4458f.b[&#x27;421&#x27;][1]++,multi)||(__cov_2d3533cc4458f.b[&#x27;421&#x27;][2]++\
+,numReplaced===0))){__cov_2d3533cc4458f.b[&#x27;420&#x27;][0]++;__cov_2d3533cc4458f.s[&#x27;1514&#x27;]++;numReplaced+=1;__cov_2d3533cc4458f.s[&#x27;1515\
+&#x27;]++;createdAt=candidates[ii].createdAt;__cov_2d3533cc4458f.s[&#x27;1516&#x27;]++;modifiedDoc=local.nedb.dbRowModify(candidates[ii],update\
+Query);__cov_2d3533cc4458f.s[&#x27;1517&#x27;]++;modifiedDoc.createdAt=createdAt;__cov_2d3533cc4458f.s[&#x27;1518&#x27;]++;modifiedDoc.updatedAt=new\
+ Date().toISOString();__cov_2d3533cc4458f.s[&#x27;1519&#x27;]++;modifications.push({oldDoc:candidates[ii],newDoc:modifiedDoc});}else{__cov\
+_2d3533cc4458f.b[&#x27;420&#x27;][1]++;}}}catch(errorCaught){__cov_2d3533cc4458f.s[&#x27;1520&#x27;]++;return onError(errorCaught);}__cov_2d3533cc44\
+58f.s[&#x27;1521&#x27;]++;try{__cov_2d3533cc4458f.s[&#x27;1522&#x27;]++;self.updateIndexes(modifications);}catch(errorCaught){__cov_2d3533cc4458f.s[\
+&#x27;1523&#x27;]++;return onError(errorCaught);}__cov_2d3533cc4458f.s[&#x27;1524 ...</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+ * Update one or several dbRow&#x27;s in all indexes
+ * To update multiple dbRow&#x27;s, oldDoc must be an array of { oldDoc, newDoc } pairs
+ * If one update violates a constraint, all changes are rolled back
+ */
+    var ii, keys = Object.keys(this.indexes);
+
+    for (ii = 0; ii &lt; keys.length; ii += 1) {
+        this.indexes[keys[ii]].<span class="docApiCodeKeywordSpan">update</span>(oldDoc, newDoc);
+    }
+};
+
+local.nedb._Table.prototype.getCandidates = function (query, onError) {
+/**
+ * Return the list of candidates for a given query
+ * Crude implementation for now, we return the candidates given by the first usable index if any
+...</pre></li>
+        </ul>
+        
+        
+        
+        <h2>
+            <a href="#element.nedb-lite._Table.prototype.updateIndexes" id="element.nedb-lite._Table.prototype.updateIndexes">
+            function <span class="docApiSignatureSpan">nedb-lite._Table.prototype.</span>updateIndexes
+            <span class="docApiSignatureSpan">(oldDoc,newDoc)</span>
+            </a>
+        </h2>
+        <ul>
+        <li>description and source code<pre class="docApiCodePre">updateIndexes = function (oldDoc,newDoc){__cov_2d3533cc4458f.f[&#x27;215&#x27;]++;__cov_2d3533cc4458f.s[&#x27;1383&#x27;]++;var ii,keys=Object.keys(this.indexes);__\
+cov_2d3533cc4458f.s[&#x27;1384&#x27;]++;for(ii=0;ii&lt;keys.length;ii+=1){__cov_2d3533cc4458f.s[&#x27;1385&#x27;]++;this.indexes[keys[ii]].update(oldDo\
+c,newDoc);}}</pre></li>
+        <li>example usage<pre class="docApiCodePre">...
+    }
+} catch (errorCaught) {
+    return onError(errorCaught);
+}
+
+// Change the docs in memory
+try {
+    self.<span class="docApiCodeKeywordSpan">updateIndexes</span>(modifications);
+} catch (errorCaught) {
+    return onError(errorCaught);
+}
+
+// Update the datafile
+var updatedDocs = modifications.map(function (element) {
+    return element.newDoc;
+...</pre></li>
+        </ul>
+        
+        
+    </div>
+    
+</div>
