@@ -167,7 +167,7 @@
                     Object.keys(local.nedb.dbTableDict).forEach(function (key) {
                         // drop dbTable
                         onParallel.counter += 1;
-                        local.nedb.dbTableDrop({ name: key }, onParallel);
+                        local.nedb.dbTableDict[key].drop(onParallel);
                     });
                     onParallel.counter += 1;
                     local.nedb.dbStorageClear(onParallel);
@@ -175,37 +175,6 @@
                     break;
                 default:
                     onError(error);
-                }
-            });
-            options.modeNext = 0;
-            options.onNext();
-        };
-
-        local.nedb.dbTableCountMany = function (dbTable, options, onError) {
-        /*
-         * this function will count the number of dbRow's in dbTable with the given options
-         */
-            var result, self;
-            options = local.nedb.objectSetDefault({}, options);
-            options = local.nedb.objectSetDefault(options, { query: {} });
-            local.nedb.onNext(options, function (error, data) {
-                data = data || [];
-                switch (options.modeNext) {
-                case 1:
-                    result = 0;
-                    self = local.nedb.dbTableDict[dbTable.name];
-                    self.getCandidates(options.query, options.onNext);
-                    break;
-                case 2:
-                    data.forEach(function (dbRow) {
-                        if (local.nedb.queryMatch(dbRow, options.query)) {
-                            result += 1;
-                        }
-                    });
-                    options.onNext();
-                    break;
-                default:
-                    onError(error, result);
                 }
             });
             options.modeNext = 0;
@@ -489,8 +458,6 @@
                         updatedAt: new local.nedb.Index({ fieldName: 'updatedAt' })
                     };
                     self.ttlIndexes = {};
-                    // init deferList
-                    self.deferList = [];
                     options.onNext();
                     break;
                 // import data
@@ -558,30 +525,6 @@
         };
 
         local.nedb.dbTableDict = {};
-
-        local.nedb.dbTableDrop = function (dbTable, onError) {
-        /*
-         * this function will drop the dbTable with the given dbTable.name
-         */
-            var self;
-            self = local.nedb.dbTableDict[dbTable.name];
-            if (!self) {
-                onError();
-                return;
-            }
-            self.dropped = true;
-            Object.keys(self).forEach(function (key) {
-                switch (key) {
-                case 'deferList':
-                case 'dropped':
-                case 'name':
-                    break;
-                default:
-                    delete self[key];
-                }
-            });
-            local.nedb.dbStorageRemoveItem(self.name, onError);
-        };
 
         local.nedb.dbTableExport = function (dbTable) {
         /*
@@ -2974,11 +2917,62 @@
 
         local.nedb._Table = function () {
         /**
-         * Create a new dbTable
-         * @param {String} options.name
-         * with the error object as parameter. If you don't pass it the error will be thrown
+         * this function will create a dbTable
          */
             return;
+        };
+
+        local.nedb._Table.prototype.countMany = function (options, onError) {
+        /*
+         * this function will count the number of dbRow's in dbTable with the given options
+         */
+            var result, self;
+            self = this;
+            options = local.nedb.objectSetDefault({}, options);
+            options = local.nedb.objectSetDefault(options, { query: {} });
+            local.nedb.onNext(options, function (error, data) {
+                data = data || [];
+                switch (options.modeNext) {
+                case 1:
+                    result = 0;
+                    local.nedb.dbTableCreate(self, options.onNext);
+                    break;
+                case 2:
+                    self.getCandidates(options.query, options.onNext);
+                    break;
+                case 3:
+                    data.forEach(function (dbRow) {
+                        if (local.nedb.queryMatch(dbRow, options.query)) {
+                            result += 1;
+                        }
+                    });
+                    options.onNext();
+                    break;
+                default:
+                    onError(error, result);
+                }
+            });
+            options.modeNext = 0;
+            options.onNext();
+        };
+
+        local.nedb._Table.prototype.drop = function (onError) {
+        /*
+         * this function will drop the dbTable
+         */
+            var self;
+            self = this;
+            self.dropped = true;
+            Object.keys(self).forEach(function (key) {
+                switch (key) {
+                case 'dropped':
+                case 'name':
+                    break;
+                default:
+                    delete self[key];
+                }
+            });
+            local.nedb.dbStorageRemoveItem(self.name, onError);
         };
 
         local.nedb._Table.prototype.addToIndexes = function (dbRow) {

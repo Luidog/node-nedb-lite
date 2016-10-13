@@ -172,9 +172,7 @@
             local.utility2.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
-                    local.nedb.dbTableCountMany(options.dbTable, {
-                        query: { id: options.id }
-                    }, options.onNext);
+                    options.dbTable.countMany({ query: { id: options.id } }, options.onNext);
                     break;
                 case 2:
                     // validate data
@@ -208,12 +206,18 @@
         /*
          * this function will test dbTableDrop's default handling-behavior
          */
+            var onParallel;
+            onParallel = local.utility2.onParallel(onError);
+            onParallel.counter += 1;
             options = {};
             options.name = 'testCase_dbTableDrop_default';
             options.dbTable = local.nedb.dbTableCreate(options);
-            local.nedb.dbTableDrop(options.dbTable, onError);
-            // test undefined-dbTable handling-behavior
-            local.nedb.dbTableDrop(options.dbTable, local.utility2.onErrorDefault);
+            onParallel.counter += 1;
+            options.dbTable.drop(onParallel);
+            // test multiple-drop handling-behavior
+            onParallel.counter += 1;
+            options.dbTable.drop(onParallel);
+            onParallel();
         };
 
         local.testCase_dbTableFindOne_default = function (options, onError) {
