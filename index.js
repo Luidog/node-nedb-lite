@@ -471,7 +471,7 @@
                 switch (options.modeNext) {
                 case 1:
                     self = local.nedb.dbTableDict[options.name] = local.nedb.dbTableDict[options.name] ||
-                        new local.nedb.Table(options);
+                        new local.nedb._Table(options);
                     self.lock.counter += 1;
                     data = (options.persistenceData || '').trim();
                     if (options.reset) {
@@ -2970,7 +2970,7 @@
             });
         };
 
-        local.nedb.Table = function (options) {
+        local.nedb._Table = function (options) {
         /**
          * Create a new dbTable
          * @param {String} options.name
@@ -3011,7 +3011,7 @@
             });
         };
 
-        local.nedb.Table.prototype.addToIndexes = function (dbRow) {
+        local.nedb._Table.prototype.addToIndexes = function (dbRow) {
         /**
          * Add one or several dbRow(s) to all indexes
          */
@@ -3036,7 +3036,7 @@
             }
         };
 
-        local.nedb.Table.prototype.removeFromIndexes = function (dbRow) {
+        local.nedb._Table.prototype.removeFromIndexes = function (dbRow) {
         /**
          * Remove one or several dbRow(s) from all indexes
          */
@@ -3047,7 +3047,7 @@
             });
         };
 
-        local.nedb.Table.prototype.updateIndexes = function (oldDoc, newDoc) {
+        local.nedb._Table.prototype.updateIndexes = function (oldDoc, newDoc) {
         /**
          * Update one or several dbRow's in all indexes
          * To update multiple dbRow's, oldDoc must be an array of { oldDoc, newDoc } pairs
@@ -3060,7 +3060,7 @@
             }
         };
 
-        local.nedb.Table.prototype.getCandidates = function (query, onError) {
+        local.nedb._Table.prototype.getCandidates = function (query, onError) {
         /**
          * Return the list of candidates for a given query
          * Crude implementation for now, we return the candidates given by the first usable index if any
@@ -3160,7 +3160,7 @@
             options.onNext();
         };
 
-        local.nedb.Table.prototype.insert = function (newDoc, onError) {
+        local.nedb._Table.prototype.insert = function (newDoc, onError) {
         /**
          * Insert a new dbRow
          * @param {Function} onError - callback, signature: error, insertedDoc
@@ -3186,7 +3186,7 @@
             });
         };
 
-        local.nedb.Table.prototype.prepareDocumentForInsertion = function (newDoc) {
+        local.nedb._Table.prototype.prepareDocumentForInsertion = function (newDoc) {
         /**
          * Prepare a dbRow (or array of dbRow's) to be inserted in a database
          * Meaning adds _id and timestamps if necessary on a copy of newDoc to avoid any side effect on user input
@@ -3214,7 +3214,7 @@
             return preparedDoc;
         };
 
-        local.nedb.Table.prototype._insertInCache = function (preparedDoc) {
+        local.nedb._Table.prototype._insertInCache = function (preparedDoc) {
         /**
          * If newDoc is an array of dbRow's, this will insert all dbRow's in the cache
          * @api private
@@ -3226,7 +3226,7 @@
             }
         };
 
-        local.nedb.Table.prototype._insertMultipleDocsInCache = function (preparedDocs) {
+        local.nedb._Table.prototype._insertMultipleDocsInCache = function (preparedDocs) {
         /**
          * If one insertion fails (e.g. because of a unique constraint), roll back all previous
          * inserts and throws the error
@@ -3253,7 +3253,7 @@
             }
         };
 
-        local.nedb.Table.prototype.update = function (query, updateQuery, options, onError) {
+        local.nedb._Table.prototype.update = function (query, updateQuery, options, onError) {
         /**
          * Update all docs matching query
          * @param {Object} query

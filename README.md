@@ -195,15 +195,14 @@ instruction
                 });
                 break;
             case 'testRunButton1':
-                document.querySelector('#testRunButton1').innerText =
-                    document.querySelector('.testReportDiv').style.display === 'none'
-                    ? 'hide internal test'
-                    : 'run internal test';
                 if (document.querySelector('.testReportDiv').style.display === 'none') {
+                    document.querySelector('.testReportDiv').style.display = 'block';
+                    document.querySelector('#testRunButton1').innerText = 'hide internal test';
                     local.modeTest = true;
                     local.utility2.testRun(local);
                 } else {
                     document.querySelector('.testReportDiv').style.display = 'none';
+                    document.querySelector('#testRunButton1').innerText = 'run internal test';
                 }
                 break;
             default:
@@ -216,10 +215,6 @@ instruction
                 }
             }
         };
-        document.querySelector('#testRunButton1').innerText =
-            document.querySelector('.testReportDiv').style.display === 'none'
-            ? 'hide internal test'
-            : 'run internal test';
         // init event-handling
         ['change', 'click'].forEach(function (event) {
             Array.prototype.slice.call(

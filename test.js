@@ -458,9 +458,9 @@
                             exampleList: [],
                             exports: local.nedb.Persistence.prototype
                         },
-                        'nedb-lite.Table.prototype': {
+                        'nedb-lite._Table.prototype': {
                             exampleList: [],
-                            exports: local.nedb.Table.prototype
+                            exports: local.nedb._Table.prototype
                         }
                     };
                     Object.keys(options.moduleDict).forEach(function (key) {
@@ -540,7 +540,9 @@
     // run browser js-env code - post-init
     case 'browser':
         // run tests
-        local.utility2.testRun(local);
+        local.utility2.nop(
+            local.utility2.modeTest && document.querySelector('#testRunButton1').click()
+        );
         break;
 
 
