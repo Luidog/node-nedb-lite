@@ -1,14 +1,14 @@
-<svg height="926" width="720" xmlns="http://www.w3.org/2000/svg">
-<rect height="926" fill="#555" width="720"></rect>
+<svg height="958" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="958" fill="#555" width="720"></rect>
 <text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
 <tspan x="10" y="26"></tspan>
-<tspan x="10" y="42">[MODE_BUILD=testExampleJs] - 2016-10-13T14:45:46Z - testing example.js</tspan>
+<tspan x="10" y="42">[MODE_BUILD=testExampleJs] - 2016-10-13T14:58:50Z - testing example.js</tspan>
 <tspan x="10" y="58"></tspan>
 <tspan x="10" y="74">npm install "kaizhu256/node-nedb-lite#alpha" &amp;&amp; export PORT=8081 &amp;&amp; node example.js</tspan>
 <tspan x="10" y="90"></tspan>
 <tspan x="10" y="106">/tmp/app</tspan>
-<tspan x="10" y="122">└── nedb-lite@2016.9.2  (git://github.com/kaizhu256/node-nedb-lite.git#6f9ea3714da2f67f9393703df\</tspan>
-<tspan x="10" y="138">c173eb5f19b93d8)</tspan>
+<tspan x="10" y="122">└── nedb-lite@2016.9.2  (git://github.com/kaizhu256/node-nedb-lite.git#a8b5fc268c9cf35ba804a82b7\</tspan>
+<tspan x="10" y="138">562ca3a49d14349)</tspan>
 <tspan x="10" y="154"></tspan>
 <tspan x="10" y="170">npm WARN enoent ENOENT: no such file or directory, open '/tmp/app/package.json'</tspan>
 <tspan x="10" y="186">npm WARN app No description</tspan>
@@ -17,45 +17,47 @@
 <tspan x="10" y="234">npm WARN app No license field.</tspan>
 <tspan x="10" y="250">server starting on port 8081</tspan>
 <tspan x="10" y="266"></tspan>
-<tspan x="10" y="282">[MODE_BUILD=testExampleJs] - 2016-10-13T14:45:56Z - electron.screenCapture - http://localhost:80\</tspan>
+<tspan x="10" y="282">[MODE_BUILD=testExampleJs] - 2016-10-13T14:59:00Z - electron.screenCapture - http://localhost:80\</tspan>
 <tspan x="10" y="298">81</tspan>
 <tspan x="10" y="314"></tspan>
 <tspan x="10" y="330"></tspan>
 <tspan x="10" y="346">browserTest - created electron entry-page /home/travis/build/kaizhu256/node-nedb-lite/tmp/electr\</tspan>
-<tspan x="10" y="362">on.157be81b-f35e-4332-9309-eec9236783d8.html</tspan>
+<tspan x="10" y="362">on.157be8db-6ce1-4596-91ee-fa9dc0d78d49.html</tspan>
 <tspan x="10" y="378"></tspan>
-<tspan x="10" y="394">[3364:1013/144556:ERROR:browser_main_loop.cc(231)] Running without the SUID sandbox! See https:/\</tspan>
+<tspan x="10" y="394">[3358:1013/145901:ERROR:browser_main_loop.cc(231)] Running without the SUID sandbox! See https:/\</tspan>
 <tspan x="10" y="410">/chromium.googlesource.com/chromium/src/+/master/docs/linux_suid_sandbox_development.md for more\</tspan>
 <tspan x="10" y="426"> information on developing with the sandbox on.</tspan>
 <tspan x="10" y="442">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
-<tspan x="10" y="458">[3364:1013/144557:WARNING:host_discardable_shared_memory_manager.cc(132)] Less than 64MB of free\</tspan>
-<tspan x="10" y="474"> space in temporary directory for shared memory files: 53</tspan>
-<tspan x="10" y="490">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
-<tspan x="10" y="506">[3364:1013/144557:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
+<tspan x="10" y="458">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="474">[3358:1013/145901:WARNING:audio_manager.cc(314)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="490">[3358:1013/145901:WARNING:audio_manager.cc(275)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="506">[3358:1013/145901:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
 <tspan x="10" y="522">var/run/dbus/system_bus_socket: Connection refused</tspan>
-<tspan x="10" y="538">[3364:1013/144557:WARNING:audio_manager.cc(314)] Multiple instances of AudioManager detected</tspan>
-<tspan x="10" y="554">[3364:1013/144557:WARNING:audio_manager.cc(275)] Multiple instances of AudioManager detected</tspan>
-<tspan x="10" y="570">[3437:1013/144557:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads \</tspan>
-<tspan x="10" y="586">in process gpu-process. </tspan>
-<tspan x="10" y="602">[3364:1013/144557:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
+<tspan x="10" y="538">[3423:1013/145901:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads \</tspan>
+<tspan x="10" y="554">in process gpu-process. </tspan>
+<tspan x="10" y="570">[3358:1013/145901:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
+<tspan x="10" y="586"></tspan>
+<tspan x="10" y="602">browserTest - opened url http://localhost:8081</tspan>
 <tspan x="10" y="618"></tspan>
-<tspan x="10" y="634">browserTest - opened url http://localhost:8081</tspan>
-<tspan x="10" y="650"></tspan>
-<tspan x="10" y="666">[3364:1013/144559:ERROR:leveldb_database.cc(306)] Failed to open LevelDB database from /home/tra\</tspan>
-<tspan x="10" y="682">vis/.config/Electron/IndexedDB/http_localhost_8081.indexeddb.leveldb,IO error: /home/travis/.con\</tspan>
-<tspan x="10" y="698">fig/Electron/IndexedDB/http_localhost_8081.indexeddb.leveldb/LOCK: No further details. (ChromeMe\</tspan>
-<tspan x="10" y="714">thodBFE: 15::LockFile::1)</tspan>
-<tspan x="10" y="730">[3364:1013/144559:ERROR:indexed_db_backing_store.cc(1058)] Unable to open backing store, not try\</tspan>
-<tspan x="10" y="746">ing to recover - IO error: /home/travis/.config/Electron/IndexedDB/http_localhost_8081.indexeddb\</tspan>
-<tspan x="10" y="762">.leveldb/LOCK: No further details. (ChromeMethodBFE: 15::LockFile::1)</tspan>
-<tspan x="10" y="778">[3364:1013/144559:INFO:CONSOLE(205)] "Uncaught Error: {"isTrusted":true}", source: file:///home/\</tspan>
-<tspan x="10" y="794">travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be81b-f35e-4332-9309-eec9236783d8.html (20\</tspan>
-<tspan x="10" y="810">5)</tspan>
-<tspan x="10" y="826"></tspan>
-<tspan x="10" y="842">browserTest - created screen-capture file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/buil\</tspan>
-<tspan x="10" y="858">d/screen-capture.testExampleJs.browser..png</tspan>
-<tspan x="10" y="874"></tspan>
-<tspan x="10" y="890"></tspan>
-<tspan x="10" y="906">browserTest - exit-code 0 - http://localhost:8081</tspan>
+<tspan x="10" y="634">[3358:1013/145902:ERROR:backend_impl.cc(1032)] Critical error found -8</tspan>
+<tspan x="10" y="650">[3358:1013/145902:WARNING:storage_block-inl.h(131)] Failed data load.</tspan>
+<tspan x="10" y="666">[3358:1013/145902:ERROR:entry_impl.cc(1035)] No file for a0010009</tspan>
+<tspan x="10" y="682">[3358:1013/145902:WARNING:storage_block-inl.h(131)] Failed data load.</tspan>
+<tspan x="10" y="698">[3358:1013/145903:ERROR:leveldb_database.cc(306)] Failed to open LevelDB database from /home/tra\</tspan>
+<tspan x="10" y="714">vis/.config/Electron/IndexedDB/http_localhost_8081.indexeddb.leveldb,IO error: /home/travis/.con\</tspan>
+<tspan x="10" y="730">fig/Electron/IndexedDB/http_localhost_8081.indexeddb.leveldb/LOCK: No further details. (ChromeMe\</tspan>
+<tspan x="10" y="746">thodBFE: 15::LockFile::1)</tspan>
+<tspan x="10" y="762">[3358:1013/145903:ERROR:indexed_db_backing_store.cc(1058)] Unable to open backing store, not try\</tspan>
+<tspan x="10" y="778">ing to recover - IO error: /home/travis/.config/Electron/IndexedDB/http_localhost_8081.indexeddb\</tspan>
+<tspan x="10" y="794">.leveldb/LOCK: No further details. (ChromeMethodBFE: 15::LockFile::1)</tspan>
+<tspan x="10" y="810">[3358:1013/145903:INFO:CONSOLE(205)] "Uncaught Error: {"isTrusted":true}", source: file:///home/\</tspan>
+<tspan x="10" y="826">travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be8db-6ce1-4596-91ee-fa9dc0d78d49.html (20\</tspan>
+<tspan x="10" y="842">5)</tspan>
+<tspan x="10" y="858"></tspan>
+<tspan x="10" y="874">browserTest - created screen-capture file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/buil\</tspan>
+<tspan x="10" y="890">d/screen-capture.testExampleJs.browser..png</tspan>
+<tspan x="10" y="906"></tspan>
+<tspan x="10" y="922"></tspan>
+<tspan x="10" y="938">browserTest - exit-code 0 - http://localhost:8081</tspan>
 </text>
 </svg>
