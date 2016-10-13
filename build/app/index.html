@@ -77,15 +77,15 @@ textarea[readonly] {
     </label>
 <textarea id="inputTextarea1">
 window.table1 = window.nedb_lite.dbTableCreate({ name: "table1" });
-table1.insert({ field1: "hello", field2: "world"}, function () {
+table1.crudInsert({ field1: "hello", field2: "world"}, function () {
     console.log();
-    console.log(window.nedb_lite.dbTableExport(table1));
+    console.log(table1.export());
 });
 
 window.table2 = window.nedb_lite.dbTableCreate({ name: "table2" });
-table2.insert({ field1: "hello", field2: "world"}, function () {
+table2.crudInsert({ field1: "hello", field2: "world"}, function () {
     console.log();
-    console.log(window.nedb_lite.dbTableExport(table2));
+    console.log(table2.export());
 });
 </textarea>
     <button class="onclick" id="nedbEvalButton1">eval script</button><br>
