@@ -495,6 +495,12 @@
                     break;
                 // import data
                 case 2:
+                    if (self.initialized !== 1) {
+                        options.modeNext += 2;
+                        options.onNext();
+                        return;
+                    }
+                    self.initialized += 1;
                     data = (options.persistenceData || '').trim();
                     if (options.reset) {
                         data = 'undefined';
@@ -503,19 +509,12 @@
                         options.onNext();
                         return;
                     }
-                    self.isLoaded = null;
                     data += '\n';
                     data = data.slice(data.indexOf('\n') + 1);
                     local.nedb.dbStorageSetItem(self.name, data, options.onNext);
                     break;
                 // load persistence
                 case 3:
-                    if (self.isLoaded) {
-                        options.modeNext += 2;
-                        options.onNext();
-                        return;
-                    }
-                    self.isLoaded = true;
                     local.nedb.dbStorageGetItem(self.name, options.onNext);
                     break;
                 case 4:

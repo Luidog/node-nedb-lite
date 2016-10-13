@@ -2384,8 +2384,6 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                     onParallel.counter = 0;
                     onParallel.counter += 1;
                     Object.keys(local.nedb.dbTableDict).forEach(function (key) {
-                        // lock dbTable
-                        local.nedb.dbTableDict[key].lock.counter += 1;
                         // drop dbTable
                         onParallel.counter += 1;
                         local.nedb.dbTableDrop({ name: key }, onParallel);
@@ -2395,10 +2393,6 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                     onParallel();
                     break;
                 default:
-                    Object.keys(local.nedb.dbTableDict).forEach(function (key) {
-                        // unlock dbTable
-                        local.nedb.dbTableDict[key].lock(error);
-                    });
                     onError(error);
                 }
             });
@@ -2696,14 +2690,13 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                         return;
                     }
                     self.initialized = 1;
+                    self.dropped = null;
                     // validate name
                     local.nedb.assert(
                         options && options.name && typeof options.name === 'string',
                         options && options.name
                     );
                     self.name = self.name || options.name;
-                    //!! local.nedb.dbTableDrop(self, local.nedb.nop);
-                    //!! local.nedb.dbTableDict[self.name] = self;
                     // Persistence handling
                     self.persistence = new local.nedb.Persistence({ db: self });
                     // Indexed by field name, dot notation can be used
@@ -2717,20 +2710,16 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                     self.ttlIndexes = {};
                     // init deferList
                     self.deferList = [];
-                    // init lock
-                    self.lock = local.nedb.onParallel(function (error) {
-                        // validate no error occurred
-                        local.nedb.assert(!error, error);
-                        // run deferred actions
-                        while (self.deferList.length) {
-                            self.deferList.shift()();
-                        }
-                    });
                     options.onNext();
                     break;
                 // import data
                 case 2:
-                    self.lock.counter += 1;
+                    if (self.initialized !== 1) {
+                        options.modeNext += 2;
+                        options.onNext();
+                        return;
+                    }
+                    self.initialized += 1;
                     data = (options.persistenceData || '').trim();
                     if (options.reset) {
                         data = 'undefined';
@@ -2739,19 +2728,12 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                         options.onNext();
                         return;
                     }
-                    self.isLoaded = null;
                     data += '\n';
                     data = data.slice(data.indexOf('\n') + 1);
                     local.nedb.dbStorageSetItem(self.name, data, options.onNext);
                     break;
                 // load persistence
                 case 3:
-                    if (self.isLoaded) {
-                        options.modeNext += 2;
-                        options.onNext();
-                        return;
-                    }
-                    self.isLoaded = true;
                     local.nedb.dbStorageGetItem(self.name, options.onNext);
                     break;
                 case 4:
@@ -2787,25 +2769,11 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                     if (onError) {
                         onError(error, self);
                     }
-                    self.lock();
                 }
             });
             options.modeNext = 0;
             options.onNext();
             return self;
-        };
-
-        local.nedb.dbTableDefer = function (dbTable, task) {
-        /**
-         * this function will defer the task until dbTable is not locked
-         */
-            var self;
-            self = local.nedb.dbTableDict[dbTable.name];
-            if (self.lock.counter) {
-                self.deferList.push(task);
-                return;
-            }
-            task();
         };
 
         local.nedb.dbTableDict = {};
@@ -2820,24 +2788,18 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                 onError();
                 return;
             }
-            delete local.nedb.dbTableDict[dbTable.name];
             self.dropped = true;
-            self.lock.counter += 1;
             Object.keys(self).forEach(function (key) {
                 switch (key) {
                 case 'deferList':
                 case 'dropped':
-                case 'lock':
                 case 'name':
                     break;
                 default:
                     delete self[key];
                 }
             });
-            local.nedb.dbStorageRemoveItem(self.name, function (error) {
-                onError(error);
-                self.lock();
-            });
+            local.nedb.dbStorageRemoveItem(self.name, onError);
         };
 
         local.nedb.dbTableExport = function (dbTable) {
@@ -5311,9 +5273,6 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                 switch (options.modeNext) {
                 // STEP 1: get candidates list by checking indexes from most to least frequent usecase
                 case 1:
-                    local.nedb.dbTableDefer(self, options.onNext);
-                    break;
-                case 2:
                     // For a basic match
                     usableQueryKeys = [];
                     Object.keys(query).forEach(function (k) {
@@ -5396,20 +5355,13 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
          */
             var self, preparedDoc;
             self = this;
-            local.nedb.dbTableDefer(self, function () {
-                try {
-                    preparedDoc = self.prepareDocumentForInsertion(newDoc);
-                    self._insertInCache(preparedDoc);
-                } catch (errorCaught) {
-                    return onError(errorCaught);
+            preparedDoc = self.prepareDocumentForInsertion(newDoc);
+            self._insertInCache(preparedDoc);
+            self.persistence.persistNewState(Array.isArray(preparedDoc) ? preparedDoc : [preparedDoc], function (error) {
+                if (error) {
+                    return onError(error);
                 }
-
-                self.persistence.persistNewState(Array.isArray(preparedDoc) ? preparedDoc : [preparedDoc], function (error) {
-                    if (error) {
-                        return onError(error);
-                    }
-                    return onError(null, local.nedb.jsonCopy(preparedDoc));
-                });
+                return onError(null, local.nedb.jsonCopy(preparedDoc));
             });
         };
 
@@ -5513,9 +5465,6 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT; }());
                 var cursor, modifiedDoc, modifications, createdAt;
                 switch (options.modeNext) {
                 case 1:
-                    local.nedb.dbTableDefer(self, options.onNext);
-                    break;
-                case 2:
                     // If upsert option is set, check whether we need to insert the dbRow
                     if (!upsert) {
                         return options.onNext();
@@ -11269,6 +11218,12 @@ local.utility2.stateInit({"utility2":{"envDict":{"NODE_ENV":"production","npm_pa
                     break;
                 // import data
                 case 2:
+                    if (self.initialized !== 1) {
+                        options.modeNext += 2;
+                        options.onNext();
+                        return;
+                    }
+                    self.initialized += 1;
                     data = (options.persistenceData || '').trim();
                     if (options.reset) {
                         data = 'undefined';
@@ -11277,19 +11232,12 @@ local.utility2.stateInit({"utility2":{"envDict":{"NODE_ENV":"production","npm_pa
                         options.onNext();
                         return;
                     }
-                    self.isLoaded = null;
                     data += '\n';
                     data = data.slice(data.indexOf('\n') + 1);
                     local.nedb.dbStorageSetItem(self.name, data, options.onNext);
                     break;
                 // load persistence
                 case 3:
-                    if (self.isLoaded) {
-                        options.modeNext += 2;
-                        options.onNext();
-                        return;
-                    }
-                    self.isLoaded = true;
                     local.nedb.dbStorageGetItem(self.name, options.onNext);
                     break;
                 case 4:
