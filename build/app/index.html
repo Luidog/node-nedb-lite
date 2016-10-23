@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>
-nedb-lite v2016.9.2
+nedb-lite v2016.9.1
 </title>
 <style>
 /*csslint
@@ -52,12 +52,17 @@ textarea[readonly] {
             target="_blank"
         >
 
-            nedb-lite v2016.9.2
+            nedb-lite v2016.9.1
 
         </a>
 
+
+        
+        (NODE_ENV=production)
+        
+
     </h1>
-    <h3>this package will run a standalone, modified version of the nedb database with zero npm-dependencies</h3>
+    <h3>this package will run a standalone, browser-compatible version of the nedb v1.8.0 database with zero npm-dependencies</h3>
 
     <h4><a download href="assets.app.js">download standalone app</a></h4>
     <button class="onclick" id="testRunButton1">run internal test</button><br>
@@ -75,20 +80,19 @@ textarea[readonly] {
             target="_blank"
         >eval</a>
     </label>
-<textarea id="inputTextarea1">
-window.table1 = window.nedb_lite.dbTableCreate({ name: "table1" });
-table1.crudInsertMany([{ field1: "hello", field2: "world"}], function () {
+<textarea class="onkeyup" id="inputTextarea1">
+window.table1 = window.Nedb.dbTableCreate({ name: "table1" });
+table1.insert({ field1: "hello", field2: "world"}, function () {
     console.log();
-    console.log(table1.dbTableExport());
+    console.log(table1.export());
 });
 
-window.table2 = window.nedb_lite.dbTableCreate({ name: "table2" });
-table2.crudInsertMany([{ field1: "hello", field2: "world"}], function () {
+window.table2 = window.Nedb.dbTableCreate({ name: "table2" });
+table2.insert({ field1: "hello", field2: "world"}, function () {
     console.log();
-    console.log(table2.dbTableExport());
+    console.log(table2.export());
 });
 </textarea>
-    <button class="onclick" id="nedbEvalButton1">eval script</button><br>
     <label>stderr and stdout</label>
     <textarea id="outputTextarea1" readonly></textarea>
 

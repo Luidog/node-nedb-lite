@@ -81,6 +81,10 @@
 
 
 
+
+
+
+
 /*
 example.js
 
@@ -89,7 +93,7 @@ this script will will demo the browser-version of nedb
 instruction
     1. save this script as example.js
     2. run the shell command:
-        $ npm install "kaizhu256/node-nedb-lite#alpha" && export PORT=8081 && node example.js
+        $ npm install nedb-lite && export PORT=8081 && node example.js
     3. open a browser to http://localhost:8081
     4. edit or paste script in browser to eval
 */
@@ -132,10 +136,14 @@ instruction
         /* istanbul ignore next */
         // re-init local
         local = local.modeJs === 'browser'
-            ? window.nedb_lite.local
+            ? window.Nedb.local
             : module.isRollup
             ? module
             : require('nedb-lite').local;
+        // init global
+        local.global = local.modeJs === 'browser'
+            ? window
+            : global;
         // export local
         local.global.local = local;
     }());
@@ -153,7 +161,7 @@ instruction
                     Array.prototype.slice.call(arguments).map(function (arg) {
                         return typeof arg === 'string'
                             ? arg
-                            : local.nedb.jsonStringifyOrdered(arg, null, 4);
+                            : local.Nedb.jsonStringifyOrdered(arg, null, 4);
                     }).join(' ') + '\n';
             };
         });
@@ -162,7 +170,7 @@ instruction
             var reader, tmp;
             switch (event && event.currentTarget.id) {
             case 'nedbExportButton1':
-                tmp = window.URL.createObjectURL(new window.Blob([local.nedb.dbExport()]));
+                tmp = window.URL.createObjectURL(new window.Blob([local.Nedb.dbExport()]));
                 document.querySelector('#nedbExportA1').href = tmp;
                 document.querySelector('#nedbExportA1').click();
                 setTimeout(function () {
@@ -181,7 +189,7 @@ instruction
                     return;
                 }
                 reader.addEventListener('load', function () {
-                    local.nedb.dbImport(reader.result, function () {
+                    local.Nedb.dbImport(reader.result, function () {
                         console.log('... imported nedb-database');
                     });
                 });
@@ -190,20 +198,13 @@ instruction
             case 'nedbResetButton1':
                 document.querySelector('#outputTextarea1').value = '';
                 console.log('resetting nedb-database ...');
-                local.nedb.dbReset(function () {
+                local.Nedb.dbReset(function () {
                     console.log('... resetted nedb-database');
                 });
                 break;
             case 'testRunButton1':
-                if (document.querySelector('.testReportDiv').style.display === 'none') {
-                    document.querySelector('.testReportDiv').style.display = 'block';
-                    document.querySelector('#testRunButton1').innerText = 'hide internal test';
-                    local.modeTest = true;
-                    local.utility2.testRun(local);
-                } else {
-                    document.querySelector('.testReportDiv').style.display = 'none';
-                    document.querySelector('#testRunButton1').innerText = 'run internal test';
-                }
+                local.modeTest = true;
+                local.utility2.testRun(local);
                 break;
             default:
                 document.querySelector('#outputTextarea1').value = '';
@@ -216,13 +217,15 @@ instruction
             }
         };
         // init event-handling
-        ['change', 'click'].forEach(function (event) {
+        ['change', 'click', 'keyup'].forEach(function (event) {
             Array.prototype.slice.call(
                 document.querySelectorAll('.on' + event)
             ).forEach(function (element) {
                 element.addEventListener(event, local.testRun);
             });
         });
+        // run tests
+        local.testRun();
         break;
 
 
@@ -239,7 +242,11 @@ instruction
         local.url = require('url');
         // init assets
         /* jslint-ignore-begin */
-        local.templateIndexHtml = '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>\n{{envDict.npm_package_name}} v{{envDict.npm_package_version}}\n</title>\n<style>\n/*csslint\n    box-sizing: false,\n    ids: false,\n    universal-selector: false\n*/\n* {\n    box-sizing: border-box;\n}\nbody {\n    background-color: #fff;\n    font-family: Arial, Helvetica, sans-serif;\n}\nbody > * {\n    margin-bottom: 1rem;\n}\nbody > button {\n    width: 15rem;\n}\ntextarea {\n    font-family: monospace;\n    height: 16rem;\n    width: 100%;\n}\ntextarea[readonly] {\n    background-color: #ddd;\n}\n.zeroPixel {\n    border: 0;\n    height: 0;\n    margin: 0;\n    padding: 0;\n    width: 0;\n}\n</style>\n</head>\n<body>\n    <h1>\n<!-- utility2-comment\n        <a\n            {{#if envDict.npm_package_homepage}}\n            href="{{envDict.npm_package_homepage}}"\n            {{/if envDict.npm_package_homepage}}\n            target="_blank"\n        >\nutility2-comment -->\n            {{envDict.npm_package_name}} v{{envDict.npm_package_version}}\n<!-- utility2-comment\n        </a>\nutility2-comment -->\n    </h1>\n    <h3>{{envDict.npm_package_description}}</h3>\n<!-- utility2-comment\n    <h4><a download href="assets.app.js">download standalone app</a></h4>\n    <button class="onclick" id="testRunButton1">run internal test</button><br>\n    <div class="testReportDiv" style="display: none;"></div>\nutility2-comment -->\n\n    <button class="onclick" id="nedbResetButton1">reset nedb-database</button><br>\n    <button class="onclick" id="nedbExportButton1">save nedb-database to file</button><br>\n    <a download="nedb.persistence.json" href="" id="nedbExportA1"></a>\n    <button class="onclick" id="nedbImportButton1">load nedb-database from file</button><br>\n    <input class="onchange zeroPixel" type="file" id="nedbImportInput1">\n    <label>edit or paste script below to\n        <a\n            href="https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html"\n            target="_blank"\n        >eval</a>\n    </label>\n<textarea id="inputTextarea1">\nwindow.table1 = window.nedb_lite.dbTableCreate({ name: "table1" });\ntable1.crudInsertMany([{ field1: "hello", field2: "world"}], function () {\n    console.log();\n    console.log(table1.dbTableExport());\n});\n\nwindow.table2 = window.nedb_lite.dbTableCreate({ name: "table2" });\ntable2.crudInsertMany([{ field1: "hello", field2: "world"}], function () {\n    console.log();\n    console.log(table2.dbTableExport());\n});\n</textarea>\n    <button class="onclick" id="nedbEvalButton1">eval script</button><br>\n    <label>stderr and stdout</label>\n    <textarea id="outputTextarea1" readonly></textarea>\n<!-- utility2-comment\n    {{#if isRollup}}\n    <script src="assets.app.min.js"></script>\n    {{#unless isRollup}}\nutility2-comment -->\n    <script src="assets.utility2.rollup.js"></script>\n    <script src="jsonp.utility2.stateInit?callback=window.utility2.stateInit"></script>\n    <script src="assets.nedb-lite.js"></script>\n    <script src="assets.example.js"></script>\n    <script src="assets.test.js"></script>\n<!-- utility2-comment\n    {{/if isRollup}}\nutility2-comment -->\n</body>\n</html>\n';
+        local.templateIndexHtml = '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>\n{{envDict.npm_package_name}} v{{envDict.npm_package_version}}\n</title>\n<style>\n/*csslint\n    box-sizing: false,\n    ids: false,\n    universal-selector: false\n*/\n* {\n    box-sizing: border-box;\n}\nbody {\n    background-color: #fff;\n    font-family: Arial, Helvetica, sans-serif;\n}\nbody > * {\n    margin-bottom: 1rem;\n}\nbody > button {\n    width: 15rem;\n}\ntextarea {\n    font-family: monospace;\n    height: 16rem;\n    width: 100%;\n}\ntextarea[readonly] {\n    background-color: #ddd;\n}\n.zeroPixel {\n    border: 0;\n    height: 0;\n    margin: 0;\n    padding: 0;\n    width: 0;\n}\n</style>\n</head>\n<body>\n    <h1>\n<!-- utility2-comment\n        <a\n            {{#if envDict.npm_package_homepage}}\n            href="{{envDict.npm_package_homepage}}"\n            {{/if envDict.npm_package_homepage}}\n            target="_blank"\n        >\nutility2-comment -->\n            {{envDict.npm_package_name}} v{{envDict.npm_package_version}}\n<!-- utility2-comment\n        </a>\nutility2-comment -->\n<!-- utility2-comment\n        {{#if envDict.NODE_ENV}}\n        (NODE_ENV={{envDict.NODE_ENV}})\n        {{/if envDict.NODE_ENV}}\nutility2-comment -->\n    </h1>\n    <h3>{{envDict.npm_package_description}}</h3>\n<!-- utility2-comment\n    <h4><a download href="assets.app.js">download standalone app</a></h4>\n    <button class="onclick" id="testRunButton1">run internal test</button><br>\n    <div class="testReportDiv" style="display: none;"></div>\nutility2-comment -->\n\n    <button class="onclick" id="nedbResetButton1">reset nedb-database</button><br>\n    <button class="onclick" id="nedbExportButton1">save nedb-database to file</button><br>\n    <a download="nedb.persistence.json" href="" id="nedbExportA1"></a>\n    <button class="onclick" id="nedbImportButton1">load nedb-database from file</button><br>\n    <input class="onchange zeroPixel" type="file" id="nedbImportInput1">\n    <label>edit or paste script below to\n        <a\n            href="https://kaizhu256.github.io/node-nedb-lite/build/doc.api.html"\n            target="_blank"\n        >eval</a>\n    </label>\n<textarea class="onkeyup" id="inputTextarea1">\nwindow.table1 = window.Nedb.dbTableCreate({ name: "table1" });\ntable1.insert({ field1: "hello", field2: "world"}, function () {\n    console.log();\n    console.log(table1.export());\n});\n\nwindow.table2 = window.Nedb.dbTableCreate({ name: "table2" });\ntable2.insert({ field1: "hello", field2: "world"}, function () {\n    console.log();\n    console.log(table2.export());\n});\n</textarea>\n    <label>stderr and stdout</label>\n    <textarea id="outputTextarea1" readonly></textarea>\n<!-- utility2-comment\n    {{#if isRollup}}\n    <script src="assets.app.min.js"></script>\n    {{#unless isRollup}}\nutility2-comment -->\n    <script src="assets.utility2.rollup.js"></script>\n    <script src="jsonp.utility2.stateInit?callback=window.utility2.stateInit"></script>\n    <script src="assets.nedb-lite.js"></script>\n    <script src="assets.example.js"></script>\n    <script src="assets.test.js"></script>\n<!-- utility2-comment\n    {{/if isRollup}}\nutility2-comment -->\n</body>\n</html>\n';
+
+
+
+
 
 
 
@@ -371,7 +378,7 @@ instruction
         } catch (ignore) {
         }
         local['/assets.nedb-lite.js'] = local.fs.readFileSync(
-            local.nedb.__dirname + '/index.js',
+            local.Nedb.__dirname + '/index.js',
             'utf8'
         );
         // run the cli

@@ -1,173 +1,172 @@
-<svg height="2718" width="720" xmlns="http://www.w3.org/2000/svg">
-<rect height="2718" fill="#555" width="720"></rect>
+<svg height="2702" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="2702" fill="#555" width="720"></rect>
 <text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
 <tspan x="10" y="26"></tspan>
-<tspan x="10" y="42">&gt; nedb-lite@2016.9.2 test /home/travis/build/kaizhu256/node-nedb-lite</tspan>
+<tspan x="10" y="42">&gt; nedb-lite@2016.9.1 test /home/travis/build/kaizhu256/node-nedb-lite</tspan>
 <tspan x="10" y="58">&gt; export PORT=$(utility2 shServerPortRandom) &amp;&amp; utility2 test test.js</tspan>
 <tspan x="10" y="74"></tspan>
 <tspan x="10" y="90"></tspan>
-<tspan x="10" y="106">[MODE_BUILD=npmTest] - 2016-10-13T15:16:35Z - npm-testing /home/travis/build/kaizhu256/node-nedb\</tspan>
+<tspan x="10" y="106">[MODE_BUILD=npmTest] - 2016-10-02T04:22:59Z - npm-testing /home/travis/build/kaizhu256/node-nedb\</tspan>
 <tspan x="10" y="122">-lite</tspan>
 <tspan x="10" y="138"></tspan>
 <tspan x="10" y="154"></tspan>
-<tspan x="10" y="170">covering $ /home/travis/.nvm/versions/node/v6.8.0/bin/node /home/travis/build/kaizhu256/node-ned\</tspan>
+<tspan x="10" y="170">covering $ /home/travis/.nvm/versions/node/v6.7.0/bin/node /home/travis/build/kaizhu256/node-ned\</tspan>
 <tspan x="10" y="186">b-lite/test.js</tspan>
-<tspan x="10" y="202">server listening on http-port 50658</tspan>
-<tspan x="10" y="218">&gt; [node test-case 1 of 21 passed] - testCase_assertXxx_default</tspan>
-<tspan x="10" y="234">null</tspan>
-<tspan x="10" y="250"></tspan>
-<tspan x="10" y="266"></tspan>
-<tspan x="10" y="282">[node test-case 2 of 21 passed] - testCase_consoleLog_default</tspan>
-<tspan x="10" y="298">[node test-case 3 of 21 passed] - testCase_dbExport_default</tspan>
-<tspan x="10" y="314">[node test-case 4 of 21 passed] - testCase_dbTableCountMany_default</tspan>
-<tspan x="10" y="330">[node test-case 5 of 21 passed] - testCase_dbTableCreate_default</tspan>
-<tspan x="10" y="346">[node test-case 6 of 21 passed] - testCase_dbTableFindOne_default</tspan>
-<tspan x="10" y="362">[node test-case 7 of 21 passed] - testCase_dbTableRemoveOne_default</tspan>
-<tspan x="10" y="378">[node test-case 8 of 21 passed] - testCase_jsonCopy_default</tspan>
-<tspan x="10" y="394">[node test-case 9 of 21 passed] - testCase_jsonStringifyOrdered_default</tspan>
-<tspan x="10" y="410">[node test-case 10 of 21 passed] - testCase_objectSetDefault_default</tspan>
-<tspan x="10" y="426">[node test-case 11 of 21 passed] - testCase_onErrorDefault_default</tspan>
-<tspan x="10" y="442">[node test-case 12 of 21 passed] - testCase_onNext_error</tspan>
-<tspan x="10" y="458">[node test-case 13 of 21 passed] - testCase_queryCompare_default</tspan>
-<tspan x="10" y="474">[node test-case 14 of 21 passed] - testCase_sortCompare_default</tspan>
-<tspan x="10" y="490"></tspan>
-<tspan x="10" y="506">browserTest - created electron entry-page /home/travis/build/kaizhu256/node-nedb-lite/tmp/electr\</tspan>
-<tspan x="10" y="522">on.157be9dd-9663-4c2f-aaf0-4fc7b22bff29.html</tspan>
-<tspan x="10" y="538"></tspan>
-<tspan x="10" y="554">[node test-case 15 of 21 passed] - testCase_onParallel_default</tspan>
-<tspan x="10" y="570">[node test-case 16 of 21 passed] - testCase_dbStorageXxx_misc</tspan>
-<tspan x="10" y="586">[node test-case 17 of 21 passed] - testCase_dbTableDrop_default</tspan>
-<tspan x="10" y="602"></tspan>
-<tspan x="10" y="618">browserTest - created electron entry-page /home/travis/build/kaizhu256/node-nedb-lite/tmp/electr\</tspan>
-<tspan x="10" y="634">on.157be9dd-9a2e-4ad5-88aa-a7a7e8b86159.html</tspan>
-<tspan x="10" y="650"></tspan>
-<tspan x="10" y="666">[3620:1013/151638:ERROR:browser_main_loop.cc(231)] Running without the SUID sandbox! See https:/\</tspan>
-<tspan x="10" y="682">/chromium.googlesource.com/chromium/src/+/master/docs/linux_suid_sandbox_development.md for more\</tspan>
-<tspan x="10" y="698"> information on developing with the sandbox on.</tspan>
-<tspan x="10" y="714">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
-<tspan x="10" y="730">[3624:1013/151638:ERROR:browser_main_loop.cc(231)] Running without the SUID sandbox! See https:/\</tspan>
-<tspan x="10" y="746">/chromium.googlesource.com/chromium/src/+/master/docs/linux_suid_sandbox_development.md for more\</tspan>
-<tspan x="10" y="762"> information on developing with the sandbox on.</tspan>
-<tspan x="10" y="778">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
-<tspan x="10" y="794">[node test-case 18 of 21 passed] - testCase_dbImport_default</tspan>
-<tspan x="10" y="810">[node test-case 19 of 21 passed] - testCase_build_app</tspan>
-<tspan x="10" y="826">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
-<tspan x="10" y="842">[3620:1013/151639:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
-<tspan x="10" y="858">var/run/dbus/system_bus_socket: Connection refused</tspan>
-<tspan x="10" y="874">[3620:1013/151639:WARNING:audio_manager.cc(314)] Multiple instances of AudioManager detected</tspan>
-<tspan x="10" y="890">[3620:1013/151639:WARNING:audio_manager.cc(275)] Multiple instances of AudioManager detected</tspan>
-<tspan x="10" y="906">[3677:1013/151639:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads \</tspan>
-<tspan x="10" y="922">in process gpu-process. </tspan>
-<tspan x="10" y="938">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
-<tspan x="10" y="954">[3624:1013/151639:WARNING:audio_manager.cc(314)] Multiple instances of AudioManager detected</tspan>
-<tspan x="10" y="970">[3624:1013/151639:WARNING:audio_manager.cc(275)] Multiple instances of AudioManager detected</tspan>
-<tspan x="10" y="986">[3620:1013/151639:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
-<tspan x="10" y="1002">[3624:1013/151639:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
-<tspan x="10" y="1018">var/run/dbus/system_bus_socket: Connection refused</tspan>
-<tspan x="10" y="1034">[3709:1013/151639:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads \</tspan>
-<tspan x="10" y="1050">in process gpu-process. </tspan>
-<tspan x="10" y="1066">[3624:1013/151639:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
-<tspan x="10" y="1082"></tspan>
-<tspan x="10" y="1098">browserTest - opened url http://localhost:50658?modeTest=1</tspan>
-<tspan x="10" y="1114"></tspan>
-<tspan x="10" y="1130"></tspan>
-<tspan x="10" y="1146">browserTest - opened url file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/doc.api.ht\</tspan>
-<tspan x="10" y="1162">ml</tspan>
-<tspan x="10" y="1178"></tspan>
-<tspan x="10" y="1194">[3620:1013/151643:INFO:CONSOLE(205)] "null", source: file:///home/travis/build/kaizhu256/node-ne\</tspan>
-<tspan x="10" y="1210">db-lite/tmp/electron.157be9dd-9663-4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1226">[3620:1013/151643:INFO:CONSOLE(205)] "</tspan>
-<tspan x="10" y="1242">", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-4c2f-aa\</tspan>
-<tspan x="10" y="1258">f0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1274">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 1 of 11 passed] - testCase_consoleLog_d\</tspan>
-<tspan x="10" y="1290">efault", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-4\</tspan>
-<tspan x="10" y="1306">c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1322">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 2 of 11 passed] - testCase_dbExport_def\</tspan>
-<tspan x="10" y="1338">ault", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-4c2\</tspan>
-<tspan x="10" y="1354">f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1370">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 3 of 11 passed] - testCase_dbTableCount\</tspan>
-<tspan x="10" y="1386">Many_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-\</tspan>
-<tspan x="10" y="1402">9663-4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1418">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 4 of 11 passed] - testCase_dbTableCreat\</tspan>
-<tspan x="10" y="1434">e_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-966\</tspan>
-<tspan x="10" y="1450">3-4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1466">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 5 of 11 passed] - testCase_dbTableFindO\</tspan>
-<tspan x="10" y="1482">ne_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-96\</tspan>
-<tspan x="10" y="1498">63-4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1514">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 6 of 11 passed] - testCase_dbTableRemov\</tspan>
-<tspan x="10" y="1530">eOne_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-\</tspan>
-<tspan x="10" y="1546">9663-4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1562">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 7 of 11 passed] - testCase_queryCompare\</tspan>
-<tspan x="10" y="1578">_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663\</tspan>
-<tspan x="10" y="1594">-4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1610">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 8 of 11 passed] - testCase_sortCompare_\</tspan>
-<tspan x="10" y="1626">default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-\</tspan>
-<tspan x="10" y="1642">4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1658">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 9 of 11 passed] - testCase_dbTableDrop_\</tspan>
-<tspan x="10" y="1674">default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-\</tspan>
-<tspan x="10" y="1690">4c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1706">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 10 of 11 passed] - testCase_dbImport_de\</tspan>
-<tspan x="10" y="1722">fault", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-4c\</tspan>
-<tspan x="10" y="1738">2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1754">[3620:1013/151643:INFO:CONSOLE(205)] "[browser test-case 11 of 11 passed] - testCase_dbStorageXx\</tspan>
-<tspan x="10" y="1770">x_misc", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-4\</tspan>
-<tspan x="10" y="1786">c2f-aaf0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1802">[3620:1013/151644:INFO:CONSOLE(205)] "created coverage file:///tmp/build/coverage.html/index.htm\</tspan>
-<tspan x="10" y="1818">l", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.157be9dd-9663-4c2f-a\</tspan>
-<tspan x="10" y="1834">af0-4fc7b22bff29.html (205)</tspan>
-<tspan x="10" y="1850"></tspan>
-<tspan x="10" y="1866">browserTest - created screen-capture file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/buil\</tspan>
-<tspan x="10" y="1882">d/screen-capture.npmTest.browser..png</tspan>
-<tspan x="10" y="1898"></tspan>
+<tspan x="10" y="202">server listening on http-port 36704</tspan>
+<tspan x="10" y="218">&gt; [node test-case 1 of 12 passed] - testCase_assertXxx_default</tspan>
+<tspan x="10" y="234">[node test-case 2 of 12 passed] - testCase_dbExport_default</tspan>
+<tspan x="10" y="250">[node test-case 3 of 12 passed] - testCase_dbTableCreate_default</tspan>
+<tspan x="10" y="266">[node test-case 4 of 12 passed] - testCase_dbTableCreate_error</tspan>
+<tspan x="10" y="282">[node test-case 5 of 12 passed] - testCase_jsonStringifyOrdered_default</tspan>
+<tspan x="10" y="298"></tspan>
+<tspan x="10" y="314">browserTest - created electron entry-page /home/travis/build/kaizhu256/node-nedb-lite/tmp/electr\</tspan>
+<tspan x="10" y="330">on.15783a17-f6e1-4c70-b904-6b49c98742fa.html</tspan>
+<tspan x="10" y="346"></tspan>
+<tspan x="10" y="362">[node test-case 6 of 12 passed] - testCase_dbTableFindOneById_default</tspan>
+<tspan x="10" y="378">[node test-case 7 of 12 passed] - testCase_dbTableDrop_default</tspan>
+<tspan x="10" y="394"></tspan>
+<tspan x="10" y="410">browserTest - created electron entry-page /home/travis/build/kaizhu256/node-nedb-lite/tmp/electr\</tspan>
+<tspan x="10" y="426">on.15783a17-f956-48c9-b1cf-137c5c55f159.html</tspan>
+<tspan x="10" y="442"></tspan>
+<tspan x="10" y="458">[3933:1002/042301:ERROR:browser_main_loop.cc(231)] Running without the SUID sandbox! See https:/\</tspan>
+<tspan x="10" y="474">/chromium.googlesource.com/chromium/src/+/master/docs/linux_suid_sandbox_development.md for more\</tspan>
+<tspan x="10" y="490"> information on developing with the sandbox on.</tspan>
+<tspan x="10" y="506">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="522">[3936:1002/042301:ERROR:browser_main_loop.cc(231)] Running without the SUID sandbox! See https:/\</tspan>
+<tspan x="10" y="538">/chromium.googlesource.com/chromium/src/+/master/docs/linux_suid_sandbox_development.md for more\</tspan>
+<tspan x="10" y="554"> information on developing with the sandbox on.</tspan>
+<tspan x="10" y="570">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="586">[node test-case 8 of 12 passed] - testCase_build_app</tspan>
+<tspan x="10" y="602">[node test-case 9 of 12 passed] - testCase_dbTableRemoveOneById_default</tspan>
+<tspan x="10" y="618">[node test-case 10 of 12 passed] - testCase_dbImport_default</tspan>
+<tspan x="10" y="634">[3933:1002/042302:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
+<tspan x="10" y="650">var/run/dbus/system_bus_socket: Connection refused</tspan>
+<tspan x="10" y="666">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="682">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="698">[3936:1002/042302:ERROR:bus.cc(432)] Failed to connect to the bus: Failed to connect to socket /\</tspan>
+<tspan x="10" y="714">var/run/dbus/system_bus_socket: Connection refused</tspan>
+<tspan x="10" y="730">[3936:1002/042302:WARNING:audio_manager.cc(314)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="746">[3936:1002/042302:WARNING:audio_manager.cc(275)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="762">[3933:1002/042302:WARNING:audio_manager.cc(314)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="778">[3933:1002/042302:WARNING:audio_manager.cc(275)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="794">[4002:1002/042302:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads \</tspan>
+<tspan x="10" y="810">in process gpu-process. </tspan>
+<tspan x="10" y="826">[3936:1002/042302:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
+<tspan x="10" y="842">[4005:1002/042302:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads \</tspan>
+<tspan x="10" y="858">in process gpu-process. </tspan>
+<tspan x="10" y="874">[3933:1002/042302:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
+<tspan x="10" y="890"></tspan>
+<tspan x="10" y="906">browserTest - opened url file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/doc.api.ht\</tspan>
+<tspan x="10" y="922">ml</tspan>
+<tspan x="10" y="938"></tspan>
+<tspan x="10" y="954"></tspan>
+<tspan x="10" y="970">browserTest - opened url http://localhost:36704?modeTest=1</tspan>
+<tspan x="10" y="986"></tspan>
+<tspan x="10" y="1002">[3933:1002/042303:INFO:CONSOLE(205)] ""table1"</tspan>
+<tspan x="10" y="1018">{"field1":"hello","field2":"world","_id":"30o1Yeimfa6Ak9hf","createdAt":"2016-10-02T04:23:03.822\</tspan>
+<tspan x="10" y="1034">Z","updatedAt":"2016-10-02T04:23:03.822Z"}</tspan>
+<tspan x="10" y="1050">{"$$indexCreated":{"fieldName":"createdAt","unique":false,"sparse":false}}</tspan>
+<tspan x="10" y="1066">{"$$indexCreated":{"fieldName":"updatedAt","unique":false,"sparse":false}}", source: file:///hom\</tspan>
+<tspan x="10" y="1082">e/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4c70-b904-6b49c98742fa.html (\</tspan>
+<tspan x="10" y="1098">205)</tspan>
+<tspan x="10" y="1114">[3933:1002/042303:INFO:CONSOLE(205)] ""table2"</tspan>
+<tspan x="10" y="1130">{"field1":"hello","field2":"world","_id":"tWXs2tuJhZSJf2Yj","createdAt":"2016-10-02T04:23:03.828\</tspan>
+<tspan x="10" y="1146">Z","updatedAt":"2016-10-02T04:23:03.828Z"}</tspan>
+<tspan x="10" y="1162">{"$$indexCreated":{"fieldName":"createdAt","unique":false,"sparse":false}}</tspan>
+<tspan x="10" y="1178">{"$$indexCreated":{"fieldName":"updatedAt","unique":false,"sparse":false}}", source: file:///hom\</tspan>
+<tspan x="10" y="1194">e/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4c70-b904-6b49c98742fa.html (\</tspan>
+<tspan x="10" y="1210">205)</tspan>
+<tspan x="10" y="1226">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 1 of 9 passed] - testCase_assertXxx_def\</tspan>
+<tspan x="10" y="1242">ault", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4c7\</tspan>
+<tspan x="10" y="1258">0-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1274">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 2 of 9 passed] - testCase_dbExport_defa\</tspan>
+<tspan x="10" y="1290">ult", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4c70\</tspan>
+<tspan x="10" y="1306">-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1322">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 3 of 9 passed] - testCase_dbTableCreate\</tspan>
+<tspan x="10" y="1338">_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1\</tspan>
+<tspan x="10" y="1354">-4c70-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1370">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 4 of 9 passed] - testCase_dbTableCreate\</tspan>
+<tspan x="10" y="1386">_error", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4\</tspan>
+<tspan x="10" y="1402">c70-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1418">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 5 of 9 passed] - testCase_jsonStringify\</tspan>
+<tspan x="10" y="1434">Ordered_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a\</tspan>
+<tspan x="10" y="1450">17-f6e1-4c70-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1466">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 6 of 9 passed] - testCase_dbTableFindOn\</tspan>
+<tspan x="10" y="1482">eById_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17\</tspan>
+<tspan x="10" y="1498">-f6e1-4c70-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1514">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 7 of 9 passed] - testCase_dbTableDrop_d\</tspan>
+<tspan x="10" y="1530">efault", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4\</tspan>
+<tspan x="10" y="1546">c70-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1562">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 8 of 9 passed] - testCase_dbTableRemove\</tspan>
+<tspan x="10" y="1578">OneById_default", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a\</tspan>
+<tspan x="10" y="1594">17-f6e1-4c70-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1610">[3933:1002/042303:INFO:CONSOLE(205)] "[browser test-case 9 of 9 passed] - testCase_dbImport_defa\</tspan>
+<tspan x="10" y="1626">ult", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4c70\</tspan>
+<tspan x="10" y="1642">-b904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1658">[3933:1002/042305:INFO:CONSOLE(205)] "created coverage file:///tmp/build/coverage.html/index.htm\</tspan>
+<tspan x="10" y="1674">l", source: file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/electron.15783a17-f6e1-4c70-b\</tspan>
+<tspan x="10" y="1690">904-6b49c98742fa.html (205)</tspan>
+<tspan x="10" y="1706"></tspan>
+<tspan x="10" y="1722">browserTest - created screen-capture file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/buil\</tspan>
+<tspan x="10" y="1738">d/screen-capture.npmTest.browser._2Fhome_2Ftravis_2Fbuild_2Fkaizhu256_2Fnode-nedb-lite_2Ftmp_2Fb\</tspan>
+<tspan x="10" y="1754">uild_2Fdoc.api.html.png</tspan>
+<tspan x="10" y="1770"></tspan>
+<tspan x="10" y="1786"></tspan>
+<tspan x="10" y="1802">browserTest - exit-code 0 - file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/doc.api\</tspan>
+<tspan x="10" y="1818">.html</tspan>
+<tspan x="10" y="1834"></tspan>
+<tspan x="10" y="1850">[node test-case 11 of 12 passed] - testCase_build_doc</tspan>
+<tspan x="10" y="1866"></tspan>
+<tspan x="10" y="1882">browserTest - created screen-capture file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/buil\</tspan>
+<tspan x="10" y="1898">d/screen-capture.npmTest.browser..png</tspan>
 <tspan x="10" y="1914"></tspan>
-<tspan x="10" y="1930">browserTest - exit-code 0 - http://localhost:50658?modeTest=1</tspan>
-<tspan x="10" y="1946"></tspan>
+<tspan x="10" y="1930"></tspan>
+<tspan x="10" y="1946">browserTest - exit-code 0 - http://localhost:36704?modeTest=1</tspan>
 <tspan x="10" y="1962"></tspan>
-<tspan x="10" y="1978">browserTest - merged coverage from /home/travis/build/kaizhu256/node-nedb-lite/tmp/coverage.npmT\</tspan>
-<tspan x="10" y="1994">est.browser.%2F.json</tspan>
-<tspan x="10" y="2010"></tspan>
+<tspan x="10" y="1978"></tspan>
+<tspan x="10" y="1994">browserTest - merged coverage from /home/travis/build/kaizhu256/node-nedb-lite/tmp/coverage.npmT\</tspan>
+<tspan x="10" y="2010">est.browser.%2F.json</tspan>
 <tspan x="10" y="2026"></tspan>
-<tspan x="10" y="2042">browserTest - merging test-report from /home/travis/build/kaizhu256/node-nedb-lite/tmp/test-repo\</tspan>
-<tspan x="10" y="2058">rt.npmTest.browser.%2F.json</tspan>
-<tspan x="10" y="2074"></tspan>
-<tspan x="10" y="2090">[node test-case 20 of 21 passed] - testCase_webpage_default</tspan>
-<tspan x="10" y="2106"></tspan>
-<tspan x="10" y="2122">browserTest - created screen-capture file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/buil\</tspan>
-<tspan x="10" y="2138">d/screen-capture.npmTest.browser._2Fhome_2Ftravis_2Fbuild_2Fkaizhu256_2Fnode-nedb-lite_2Ftmp_2Fb\</tspan>
-<tspan x="10" y="2154">uild_2Fdoc.api.html.png</tspan>
-<tspan x="10" y="2170"></tspan>
-<tspan x="10" y="2186"></tspan>
-<tspan x="10" y="2202">browserTest - exit-code 0 - file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/doc.api\</tspan>
-<tspan x="10" y="2218">.html</tspan>
-<tspan x="10" y="2234"></tspan>
-<tspan x="10" y="2250">[node test-case 21 of 21 passed] - testCase_build_doc</tspan>
+<tspan x="10" y="2042"></tspan>
+<tspan x="10" y="2058">browserTest - merging test-report from /home/travis/build/kaizhu256/node-nedb-lite/tmp/test-repo\</tspan>
+<tspan x="10" y="2074">rt.npmTest.browser.%2F.json</tspan>
+<tspan x="10" y="2090"></tspan>
+<tspan x="10" y="2106">[node test-case 12 of 12 passed] - testCase_webpage_default</tspan>
+<tspan x="10" y="2122">-------------------|-----------|-----------|-----------|-----------|</tspan>
+<tspan x="10" y="2138">File               |   % Stmts |% Branches |   % Funcs |   % Lines |</tspan>
+<tspan x="10" y="2154">-------------------|-----------|-----------|-----------|-----------|</tspan>
+<tspan x="10" y="2170">   node-nedb-lite/ |      54.6 |     36.99 |     63.14 |     54.66 |</tspan>
+<tspan x="10" y="2186">      example.js   |       100 |     97.62 |       100 |       100 |</tspan>
+<tspan x="10" y="2202">      index.js     |      48.2 |     32.31 |     56.83 |     48.24 |</tspan>
+<tspan x="10" y="2218">      test.js      |       100 |       100 |       100 |       100 |</tspan>
+<tspan x="10" y="2234">-------------------|-----------|-----------|-----------|-----------|</tspan>
+<tspan x="10" y="2250">All files          |      54.6 |     36.99 |     63.14 |     54.66 |</tspan>
 <tspan x="10" y="2266">-------------------|-----------|-----------|-----------|-----------|</tspan>
-<tspan x="10" y="2282">File               |   % Stmts |% Branches |   % Funcs |   % Lines |</tspan>
-<tspan x="10" y="2298">-------------------|-----------|-----------|-----------|-----------|</tspan>
-<tspan x="10" y="2314">   node-nedb-lite/ |     63.53 |     50.25 |        68 |     63.53 |</tspan>
-<tspan x="10" y="2330">      example.js   |       100 |       100 |       100 |       100 |</tspan>
-<tspan x="10" y="2346">      index.js     |     56.51 |     45.22 |     60.89 |     56.51 |</tspan>
-<tspan x="10" y="2362">      test.js      |       100 |       100 |       100 |       100 |</tspan>
-<tspan x="10" y="2378">-------------------|-----------|-----------|-----------|-----------|</tspan>
-<tspan x="10" y="2394">All files          |     63.53 |     50.25 |        68 |     63.53 |</tspan>
-<tspan x="10" y="2410">-------------------|-----------|-----------|-----------|-----------|</tspan>
-<tspan x="10" y="2426"></tspan>
-<tspan x="10" y="2442">created coverage file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/coverage.html/inde\</tspan>
-<tspan x="10" y="2458">x.html</tspan>
-<tspan x="10" y="2474"></tspan>
-<tspan x="10" y="2490">-------------------------------------------------------</tspan>
-<tspan x="10" y="2506">| test-report - npmTest - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTM\</tspan>
-<tspan x="10" y="2522">L, like Gecko) Chrome/52.0.2743.82 Electron/1.3.7 Safari/537.36 - 2016-10-13T15:16:42.511Z</tspan>
-<tspan x="10" y="2538">|     129 ms            0 failed       11 passed      |</tspan>
-<tspan x="10" y="2554">-------------------------------------------------------</tspan>
-<tspan x="10" y="2570">| test-report - npmTest - node - linux v6.8.0 - 2016-10-13T15:16:36.364Z</tspan>
-<tspan x="10" y="2586">|    7827 ms            0 failed       21 passed      |</tspan>
-<tspan x="10" y="2602">-------------------------------------------------------</tspan>
-<tspan x="10" y="2618"></tspan>
-<tspan x="10" y="2634">created test-report file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/test-report.htm\</tspan>
-<tspan x="10" y="2650">l</tspan>
+<tspan x="10" y="2282"></tspan>
+<tspan x="10" y="2298">created coverage file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/coverage.html/inde\</tspan>
+<tspan x="10" y="2314">x.html</tspan>
+<tspan x="10" y="2330"></tspan>
+<tspan x="10" y="2346">-------------------------------------------------------</tspan>
+<tspan x="10" y="2362">| test-report - npmTest - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTM\</tspan>
+<tspan x="10" y="2378">L, like Gecko) Chrome/52.0.2743.82 Electron/1.3.7 Safari/537.36 - 2016-10-02T04:23:03.679Z</tspan>
+<tspan x="10" y="2394">|     109 ms            0 failed        9 passed      |</tspan>
+<tspan x="10" y="2410">-------------------------------------------------------</tspan>
+<tspan x="10" y="2426">| test-report - npmTest - node - linux v6.7.0 - 2016-10-02T04:22:59.930Z</tspan>
+<tspan x="10" y="2442">|    7442 ms            0 failed       12 passed      |</tspan>
+<tspan x="10" y="2458">-------------------------------------------------------</tspan>
+<tspan x="10" y="2474">| test-report - npmTestPublished - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537\</tspan>
+<tspan x="10" y="2490">.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Electron/1.3.7 Safari/537.36 - 2016-10-02T04:22:52.7\</tspan>
+<tspan x="10" y="2506">17Z</tspan>
+<tspan x="10" y="2522">|      71 ms            0 failed        9 passed      |</tspan>
+<tspan x="10" y="2538">-------------------------------------------------------</tspan>
+<tspan x="10" y="2554">| test-report - npmTestPublished - node - linux v6.7.0 - 2016-10-02T04:22:49.152Z</tspan>
+<tspan x="10" y="2570">|    7303 ms            0 failed       12 passed      |</tspan>
+<tspan x="10" y="2586">-------------------------------------------------------</tspan>
+<tspan x="10" y="2602"></tspan>
+<tspan x="10" y="2618">created test-report file:///home/travis/build/kaizhu256/node-nedb-lite/tmp/build/test-report.htm\</tspan>
+<tspan x="10" y="2634">l</tspan>
+<tspan x="10" y="2650"></tspan>
 <tspan x="10" y="2666"></tspan>
-<tspan x="10" y="2682"></tspan>
-<tspan x="10" y="2698">npmTest - 0 failed tests</tspan>
+<tspan x="10" y="2682">npmTest - 0 failed tests</tspan>
 </text>
 </svg>

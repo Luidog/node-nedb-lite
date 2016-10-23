@@ -81,6 +81,10 @@
 
 
 
+
+
+
+
 /*
 example.js
 
@@ -89,7 +93,7 @@ this script will will demo the browser-version of nedb
 instruction
     1. save this script as example.js
     2. run the shell command:
-        $ npm install "kaizhu256/node-nedb-lite#alpha" && export PORT=8081 && node example.js
+        $ npm install nedb-lite && export PORT=8081 && node example.js
     3. open a browser to http://localhost:8081
     4. edit or paste script in browser to eval
 */
@@ -132,10 +136,14 @@ instruction
         /* istanbul ignore next */
         // re-init local
         local = local.modeJs === 'browser'
-            ? window.nedb_lite.local
+            ? window.Nedb.local
             : module.isRollup
             ? module
             : module.moduleExports.local;
+        // init global
+        local.global = local.modeJs === 'browser'
+            ? window
+            : global;
         // export local
         local.global.local = local;
     }());
@@ -153,7 +161,7 @@ instruction
                     Array.prototype.slice.call(arguments).map(function (arg) {
                         return typeof arg === 'string'
                             ? arg
-                            : local.nedb.jsonStringifyOrdered(arg, null, 4);
+                            : local.Nedb.jsonStringifyOrdered(arg, null, 4);
                     }).join(' ') + '\n';
             };
         });
@@ -162,7 +170,7 @@ instruction
             var reader, tmp;
             switch (event && event.currentTarget.id) {
             case 'nedbExportButton1':
-                tmp = window.URL.createObjectURL(new window.Blob([local.nedb.dbExport()]));
+                tmp = window.URL.createObjectURL(new window.Blob([local.Nedb.dbExport()]));
                 document.querySelector('#nedbExportA1').href = tmp;
                 document.querySelector('#nedbExportA1').click();
                 setTimeout(function () {
@@ -181,7 +189,7 @@ instruction
                     return;
                 }
                 reader.addEventListener('load', function () {
-                    local.nedb.dbImport(reader.result, function () {
+                    local.Nedb.dbImport(reader.result, function () {
                         console.log('... imported nedb-database');
                     });
                 });
@@ -190,20 +198,13 @@ instruction
             case 'nedbResetButton1':
                 document.querySelector('#outputTextarea1').value = '';
                 console.log('resetting nedb-database ...');
-                local.nedb.dbReset(function () {
+                local.Nedb.dbReset(function () {
                     console.log('... resetted nedb-database');
                 });
                 break;
             case 'testRunButton1':
-                if (document.querySelector('.testReportDiv').style.display === 'none') {
-                    document.querySelector('.testReportDiv').style.display = 'block';
-                    document.querySelector('#testRunButton1').innerText = 'hide internal test';
-                    local.modeTest = true;
-                    local.utility2.testRun(local);
-                } else {
-                    document.querySelector('.testReportDiv').style.display = 'none';
-                    document.querySelector('#testRunButton1').innerText = 'run internal test';
-                }
+                local.modeTest = true;
+                local.utility2.testRun(local);
                 break;
             default:
                 document.querySelector('#outputTextarea1').value = '';
@@ -216,13 +217,15 @@ instruction
             }
         };
         // init event-handling
-        ['change', 'click'].forEach(function (event) {
+        ['change', 'click', 'keyup'].forEach(function (event) {
             Array.prototype.slice.call(
                 document.querySelectorAll('.on' + event)
             ).forEach(function (element) {
                 element.addEventListener(event, local.testRun);
             });
         });
+        // run tests
+        local.testRun();
         break;
 
 
@@ -298,6 +301,11 @@ textarea[readonly] {\n\
 \n\
         </a>\n\
 \n\
+\n\
+        {{#if envDict.NODE_ENV}}\n\
+        (NODE_ENV={{envDict.NODE_ENV}})\n\
+        {{/if envDict.NODE_ENV}}\n\
+\n\
     </h1>\n\
     <h3>{{envDict.npm_package_description}}</h3>\n\
 \n\
@@ -317,20 +325,19 @@ textarea[readonly] {\n\
             target="_blank"\n\
         >eval</a>\n\
     </label>\n\
-<textarea id="inputTextarea1">\n\
-window.table1 = window.nedb_lite.dbTableCreate({ name: "table1" });\n\
-table1.crudInsertMany([{ field1: "hello", field2: "world"}], function () {\n\
+<textarea class="onkeyup" id="inputTextarea1">\n\
+window.table1 = window.Nedb.dbTableCreate({ name: "table1" });\n\
+table1.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log();\n\
-    console.log(table1.dbTableExport());\n\
+    console.log(table1.export());\n\
 });\n\
 \n\
-window.table2 = window.nedb_lite.dbTableCreate({ name: "table2" });\n\
-table2.crudInsertMany([{ field1: "hello", field2: "world"}], function () {\n\
+window.table2 = window.Nedb.dbTableCreate({ name: "table2" });\n\
+table2.insert({ field1: "hello", field2: "world"}, function () {\n\
     console.log();\n\
-    console.log(table2.dbTableExport());\n\
+    console.log(table2.export());\n\
 });\n\
 </textarea>\n\
-    <button class="onclick" id="nedbEvalButton1">eval script</button><br>\n\
     <label>stderr and stdout</label>\n\
     <textarea id="outputTextarea1" readonly></textarea>\n\
 \n\
@@ -371,7 +378,7 @@ table2.crudInsertMany([{ field1: "hello", field2: "world"}], function () {\n\
         } catch (ignore) {
         }
         local['/assets.nedb-lite.js'] = local.fs.readFileSync(
-            local.nedb.__dirname + '/index.js',
+            local.Nedb.__dirname + '/index.js',
             'utf8'
         );
         // run the cli
